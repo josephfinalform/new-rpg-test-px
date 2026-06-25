@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b005cosx20ebk"
+path="res://.godot/imported/locked_door (1).wav-bc58dc777f13c51ba48f1aaa52e6cb37.sample"
+
+[deps]
+
+source_file="res://locked_door (1).wav"
+dest_files=["res://.godot/imported/locked_door (1).wav-bc58dc777f13c51ba48f1aaa52e6cb37.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
