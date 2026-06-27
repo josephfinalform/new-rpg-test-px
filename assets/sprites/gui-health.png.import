@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cm244ipvwmrmq"
-path="res://.godot/imported/gui-health.png-cc3f95d9b9ed8b870ec337fc3cfb8717.ctex"
+path="res://.godot/imported/gui-health.png-3fdd6b430a24e24b4a5d4a64530c8b54.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gui-health.png"
-dest_files=["res://.godot/imported/gui-health.png-cc3f95d9b9ed8b870ec337fc3cfb8717.ctex"]
+source_file="res://assets/sprites/gui-health.png"
+dest_files=["res://.godot/imported/gui-health.png-3fdd6b430a24e24b4a5d4a64530c8b54.ctex"]
 
 [params]
 

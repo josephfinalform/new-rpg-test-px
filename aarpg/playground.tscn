@@ -5,4 +5,4 @@
 [node name="Playground" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_tsv16")]
-position = Vector2(161, 129)
+position = Vector2(49, 38)
