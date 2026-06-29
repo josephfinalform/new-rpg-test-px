@@ -11,6 +11,7 @@ A top-down pixel-art action RPG prototype built with **Godot 4.4**.
 ## Current Features
 
 - Player movement with 4-directional animated sprites (idle/walk)
+- State machine architecture for player states (Idle, Walk)
 - Pixel-art 480x270 viewport, stretched to 1600x900
 - 15+ sound effects (sword, hits, items, doors, levers, etc.)
 - Enemy sprites ready (Goblin, Slime, Wizard Boss)
@@ -31,15 +32,20 @@ A top-down pixel-art action RPG prototype built with **Godot 4.4**.
 ## Project Structure
 
 ```
-aarpg/                      # Main game directory
-  playground.tscn           # Main scene (entry point)
-  Player/                   # Player character
+aarpg/                                # Main game directory
+  playground.tscn                     # Main scene (entry point)
+  Player/                             # Player character
     player.tscn
-    Scripts/player.gd       # Movement & animation
-assets/                     # Game assets
-  sprites/                  # Textures and spritesheets
-  audio/                    # Sound effects (15 WAVs)
-  archives/                 # Zipped assets for future features
+    Scripts/
+      player.gd                       # Player movement & animation
+      player_state_machine.gd         # Finite state machine
+      state.gd                        # Base state class
+      idle_state.gd                   # Idle state
+      walk_state.gd                   # Walk state
+assets/                               # Game assets
+  sprites/                            # Textures and spritesheets
+  audio/                              # Sound effects (15 WAVs)
+  archives/                           # Zipped assets for future features
 ```
 
 ## Development

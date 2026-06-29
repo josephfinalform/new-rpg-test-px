@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://bfn66lxdr1rgc" path="res://aarpg/Player/Scripts/player.gd" id="1_4ntmi"]
 [ext_resource type="Texture2D" uid="uid://kg4a0anlddq7" path="res://assets/sprites/ExamplePlayerSprite.png" id="1_l8h54"]
 [ext_resource type="Script" uid="uid://cjuxx2y580wab" path="res://aarpg/Player/Scripts/player_state_machine.gd" id="3_j5gll"]
+[ext_resource type="Script" path="res://aarpg/Player/Scripts/idle_state.gd" id="4_v3y2x"]
+[ext_resource type="Script" path="res://aarpg/Player/Scripts/walk_state.gd" id="5_h8p7q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_edjgo"]
 
@@ -155,5 +157,7 @@ libraries = {
 script = ExtResource("3_j5gll")
 
 [node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_v3y2x")
 
 [node name="Walk" type="Node" parent="StateMachine"]
+script = ExtResource("5_h8p7q")
