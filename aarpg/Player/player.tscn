@@ -161,3 +161,8 @@ script = ExtResource("4_v3y2x")
 
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("5_h8p7q")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 0)
+anchor_mode = 0
+remote_path = NodePath("..")

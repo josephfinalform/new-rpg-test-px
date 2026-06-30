@@ -3,6 +3,7 @@ class_name Player extends CharacterBody2D
 var cardinal_direction: Vector2 = Vector2.DOWN
 var direction: Vector2 = Vector2.ZERO
 var move_speed: float = 100.0
+var coins: int = 0
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $Sprite2D
@@ -31,6 +32,9 @@ func SetDirection() -> void:
 
 func UpdateAnimation(state: String) -> void:
 	animation_player.play(state + "_" + AnimDirection())
+
+func collect_coin(amount: int) -> void:
+	coins += amount
 
 func AnimDirection() -> String:
 	match cardinal_direction:

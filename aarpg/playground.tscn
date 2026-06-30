@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://g3o1jjdgica6"]
+[gd_scene load_steps=3 format=3 uid="uid://g3o1jjdgica6"]
 
 [ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="1_tsv16"]
+[ext_resource type="PackedScene" uid="uid://dqo3l4j7x2g8f" path="res://aarpg/Pickups/coin.tscn" id="2_p8x3k"]
 
 [node name="Playground" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_tsv16")]
 position = Vector2(49, 38)
+
+[node name="Coin" parent="." instance=ExtResource("2_p8x3k")]
+position = Vector2(120, 70)
