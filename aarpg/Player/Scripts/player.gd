@@ -11,26 +11,23 @@ var move_speed: float = 100.0
 func _ready() -> void:
 	state_machine.Initialize(self)
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	direction.y = Input.get_action_strength("down") - Input.get_action_strength("up")
-
-func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
-func SetDirection() -> bool:
+func SetDirection() -> void:
 	var new_dir: Vector2 = cardinal_direction
 	if direction == Vector2.ZERO:
-		return false
+		return
 	if direction.y == 0:
 		new_dir = Vector2.LEFT if direction.x < 0 else Vector2.RIGHT
 	elif direction.x == 0:
 		new_dir = Vector2.UP if direction.y < 0 else Vector2.DOWN
 	if new_dir == cardinal_direction:
-		return false
+		return
 	cardinal_direction = new_dir
 	sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
-	return true
 
 func UpdateAnimation(state: String) -> void:
 	animation_player.play(state + "_" + AnimDirection())
