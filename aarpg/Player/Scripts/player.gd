@@ -4,6 +4,8 @@ var cardinal_direction: Vector2 = Vector2.DOWN
 var direction: Vector2 = Vector2.ZERO
 var move_speed: float = 100.0
 var coins: int = 0
+var health: int = 100
+var max_health: int = 100
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $Sprite2D
@@ -35,6 +37,12 @@ func UpdateAnimation(state: String) -> void:
 
 func collect_coin(amount: int) -> void:
 	coins += amount
+
+func take_damage(amount: int) -> void:
+	health = clampi(health - amount, 0, max_health)
+
+func heal(amount: int) -> void:
+	health = clampi(health + amount, 0, max_health)
 
 func AnimDirection() -> String:
 	match cardinal_direction:

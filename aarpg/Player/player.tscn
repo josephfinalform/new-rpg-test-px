@@ -136,7 +136,8 @@ _data = {
 &"walk_up": SubResource("Animation_v4u8u")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D"
+groups=["player"]]
 script = ExtResource("1_4ntmi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
