@@ -53,3 +53,7 @@ assets/                               # Game assets
 Built with Godot 4.4 using the Forward Plus renderer.
 
 Viewport resolution: **480x270**, window: **1600x900** (stretch).
+
+---
+
+*Last updated: 2026-07-02*
