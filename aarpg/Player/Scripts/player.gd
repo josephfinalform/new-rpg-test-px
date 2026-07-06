@@ -1,54 +1,56 @@
-class_name Player extends CharacterBody2D
+class_name Player
+extends CharacterBody2D
 
-var cardinal_direction: Vector2 = Vector2.DOWN
+@export var move_speed: float = 100.0
+
 var direction: Vector2 = Vector2.ZERO
-var move_speed: float = 100.0
-var coins: int = 0
-var health: int = 100
-var max_health: int = 100
+var facing: Vector2 = Vector2.DOWN
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var state_machine: PlayerStateMachine = $StateMachine
 
 func _ready() -> void:
 	state_machine.Initialize(self)
 
 func _physics_process(_delta: float) -> void:
-	direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
-	direction.y = Input.get_action_strength("down") - Input.get_action_strength("up")
+	get_input()
+	update_movement()
+	update_animation()
 	move_and_slide()
 
-func SetDirection() -> void:
-	var new_dir: Vector2 = cardinal_direction
+# 🎮 INPUT
+func get_input() -> void:
+	direction = Vector2(
+		Input.get_action_strength("right") - Input.get_action_strength("left"),
+		Input.get_action_strength("down") - Input.get_action_strength("up")
+	)
+
+	if direction != Vector2.ZERO:
+		direction = direction.normalized()
+		facing = direction
+
+# 🚶 MOVEMENT
+func update_movement() -> void:
+	velocity = direction * move_speed
+
+# 🎬 ANIMATION + DIRECTION
+func update_animation() -> void:
 	if direction == Vector2.ZERO:
-		return
-	if direction.y == 0:
-		new_dir = Vector2.LEFT if direction.x < 0 else Vector2.RIGHT
-	elif direction.x == 0:
-		new_dir = Vector2.UP if direction.y < 0 else Vector2.DOWN
-	if new_dir == cardinal_direction:
-		return
-	cardinal_direction = new_dir
-	sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
-
-func UpdateAnimation(state: String) -> void:
-	animation_player.play(state + "_" + AnimDirection())
-
-func collect_coin(amount: int) -> void:
-	coins += amount
-
-func take_damage(amount: int) -> void:
-	health = clampi(health - amount, 0, max_health)
-
-func heal(amount: int) -> void:
-	health = clampi(health + amount, 0, max_health)
-
-func AnimDirection() -> String:
-	match cardinal_direction:
-		Vector2.DOWN:
-			return "down"
-		Vector2.UP:
-			return "up"
-		_:
-			return "side"
+		# IDLE
+		if abs(facing.x) > abs(facing.y):
+			animation_player.play("idle_side")
+			sprite.flip_h = facing.x < 0
+		elif facing.y > 0:
+			animation_player.play("idle_down")
+		else:
+			animation_player.play("idle_up")
+	else:
+		# WALK
+		if abs(direction.x) > abs(direction.y):
+			animation_player.play("walk_side")
+			sprite.flip_h = direction.x < 0
+		elif direction.y > 0:
+			animation_player.play("walk_down")
+		else:
+			animation_player.play("walk_up")

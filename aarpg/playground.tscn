@@ -1,25 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://g3o1jjdgica6"]
+[gd_scene load_steps=2 format=3 uid="uid://dbgob6n720vup"]
 
 [ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="1_tsv16"]
-[ext_resource type="PackedScene" uid="uid://dqo3l4j7x2g8f" path="res://aarpg/Pickups/coin.tscn" id="2_p8x3k"]
-[ext_resource type="PackedScene" uid="uid://bpjq4w3n7m8k2" path="res://aarpg/UI/player_hud.tscn" id="3_m4n7p"]
-[ext_resource type="PackedScene" uid="uid://d4g7m2n9p1k6r" path="res://aarpg/Enemies/goblin.tscn" id="4_l5m8n"]
 
 [node name="Playground" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_tsv16")]
 position = Vector2(49, 38)
-
-[node name="Coin1" parent="." instance=ExtResource("2_p8x3k")]
-position = Vector2(120, 70)
-
-[node name="Coin2" parent="." instance=ExtResource("2_p8x3k")]
-position = Vector2(180, 70)
-
-[node name="Coin3" parent="." instance=ExtResource("2_p8x3k")]
-position = Vector2(120, 130)
-
-[node name="HUD" parent="." instance=ExtResource("3_m4n7p")]
-
-[node name="Goblin" parent="." instance=ExtResource("4_l5m8n")]
-position = Vector2(200, 100)
