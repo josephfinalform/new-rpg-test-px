@@ -161,3 +161,7 @@ script = ExtResource("4_v3y2x")
 
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("5_h8p7q")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0

@@ -12,6 +12,4 @@ func Process(_delta: float) -> State:
 
 	return null
 
-func Physics(_delta: float) -> State:
-	player.velocity = player.direction * player.move_speed
-	return null
+

@@ -8,9 +8,11 @@ func Initialize(player: Player) -> void:
 		if c is State:
 			c.player = player
 
-	if get_child_count() > 0:
-		current_state = get_child(0)
-		current_state.Enter()
+	for c in get_children():
+		if c is State:
+			current_state = c
+			current_state.Enter()
+			return
 
 func _process(delta: float) -> void:
 	if current_state:
