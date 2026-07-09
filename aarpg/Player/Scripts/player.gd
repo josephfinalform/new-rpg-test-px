@@ -2,9 +2,11 @@ class_name Player
 extends CharacterBody2D
 
 @export var move_speed: float = 100.0
+@export var sprint_speed: float = 180.0
 
 var direction: Vector2 = Vector2.ZERO
 var facing: Vector2 = Vector2.DOWN
+var is_sprinting: bool = false
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -32,7 +34,9 @@ func get_input() -> void:
 
 # 🚶 MOVEMENT
 func update_movement() -> void:
-	velocity = direction * move_speed
+	is_sprinting = Input.is_action_pressed("sprint") and direction != Vector2.ZERO
+	var speed = sprint_speed if is_sprinting else move_speed
+	velocity = direction * speed
 
 # 🎬 ANIMATION + DIRECTION
 func update_animation() -> void:
