@@ -48,6 +48,11 @@ assets/                               # Game assets
   archives/                           # Zipped assets for future features
 ```
 
+## Contributors
+
+- [turut](https://github.com/turut) — project creator
+- kanka — katkıda bulundu :)
+
 ## Development
 
 Built with Godot 4.4 using the Forward Plus renderer.
