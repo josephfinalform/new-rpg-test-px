@@ -6,24 +6,28 @@ A top-down pixel-art action RPG prototype built with **Godot 4.4**.
 
 1. Open the project in **Godot 4.4+**
 2. Run the main scene: `aarpg/playground.tscn`
-3. Controls: **WASD** / **Arrow Keys** to move, **Shift** to sprint
+3. Controls: **WASD** / **Arrow Keys** to move, **Shift** to sprint, **Space/X** to attack
 
 ## Current Features
 
-- Player movement with 4-directional animated sprites (idle/walk)
+- Player movement with 4-directional animated sprites (idle/walk/attack)
 - Sprint mechanic (hold **Shift** to run faster — 180 vs 100 speed)
-- Finite state machine architecture for player states (Idle, Walk)
+- Melee attack system (**Space** or **X** to swing sword)
+- Functional finite state machine (Idle, Walk, Attack, Hurt states)
+- Health system with invincibility frames and hit flash feedback
+- Slime enemy with chase AI and detection range
+- Health bar UI (top-left corner)
+- Knockback on hit
 - Input action mapping via `project.godot` (rebindable controls)
 - Pixel-art 480x270 viewport, stretched to 1600x900
 - 15+ sound effects (sword, hits, items, doors, levers, etc.)
-- Enemy sprites ready (Goblin, Slime, Wizard Boss)
-- Tile map scenes for grass environments
 
 ## Planned Features
 
 | Feature | Status |
 |---|---|
-| Combat (melee, boomerang, bow, bombs) | Assets ready |
+| Combat (boomerang, bow, bombs) | Assets ready |
+| More enemy types (Goblin, Wizard Boss) | Assets ready |
 | NPC & Dialogue system | Assets ready |
 | Quest system | Assets ready |
 | Shop system | Assets ready |
@@ -42,11 +46,19 @@ new-rpg-test-px/                      # Repository root
     Player/                           # Player character
       player.tscn
       Scripts/
-        player.gd                     # Player movement, sprint & animation
+        player.gd                     # Player movement, combat & health
         player_state_machine.gd       # Finite state machine
         state.gd                      # Base state class
         idle_state.gd                 # Idle state
         walk_state.gd                 # Walk state
+        attack_state.gd               # Melee attack state
+        hurt_state.gd                 # Hurt/knockback state
+    Enemies/                          # Enemy system
+      enemy.gd                        # Base enemy class
+      slime.gd                        # Slime with chase AI
+      slime.tscn                      # Slime scene
+    UI/                               # User interface
+      health_bar.gd                   # Health bar display
   assets/                             # Game assets
     sprites/                          # Textures and spritesheets (14 sprites)
     audio/                            # Sound effects (15 WAVs)
@@ -77,4 +89,4 @@ Physics gravity set to **0** (pure top-down, no gravity).
 
 ---
 
-*Last updated: 2026-07-11*
+*Last updated: 2026-07-12*

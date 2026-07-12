@@ -1,12 +1,18 @@
-[gd_scene load_steps=15 format=3 uid="uid://c5yawo6ekq6s2"]
+[gd_scene load_steps=22 format=3 uid="uid://c5yawo6ekq6s2"]
 
 [ext_resource type="Script" uid="uid://bfn66lxdr1rgc" path="res://aarpg/Player/Scripts/player.gd" id="1_4ntmi"]
 [ext_resource type="Texture2D" uid="uid://kg4a0anlddq7" path="res://assets/sprites/ExamplePlayerSprite.png" id="1_l8h54"]
 [ext_resource type="Script" uid="uid://cjuxx2y580wab" path="res://aarpg/Player/Scripts/player_state_machine.gd" id="3_j5gll"]
 [ext_resource type="Script" uid="uid://cx63ij2of3r30" path="res://aarpg/Player/Scripts/idle_state.gd" id="4_v3y2x"]
 [ext_resource type="Script" uid="uid://c4ghuoeieiweq" path="res://aarpg/Player/Scripts/walk_state.gd" id="5_h8p7q"]
+[ext_resource type="Script" path="res://aarpg/Player/Scripts/attack_state.gd" id="6_atk01"]
+[ext_resource type="Script" path="res://aarpg/Player/Scripts/hurt_state.gd" id="7_hrt01"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_edjgo"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
+size = Vector2(10, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(16, 16)
 
 [sub_resource type="Animation" id="Animation_qwg1p"]
 length = 0.001
@@ -105,7 +111,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [18, 18, 19, 20]
+"values": [17, 18, 19, 20]
 }
 
 [sub_resource type="Animation" id="Animation_v4u8u"]
@@ -125,9 +131,60 @@ tracks/0/keys = {
 "values": [10, 11, 12, 13]
 }
 
+[sub_resource type="Animation" id="Animation_atk_down"]
+resource_name = "attack_down"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_atk_side"]
+resource_name = "attack_side"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [17, 18, 19]
+}
+
+[sub_resource type="Animation" id="Animation_atk_up"]
+resource_name = "attack_up"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [10, 11, 12]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m8ltu"]
 _data = {
 &"RESET": SubResource("Animation_qwg1p"),
+&"attack_down": SubResource("Animation_atk_down"),
+&"attack_side": SubResource("Animation_atk_side"),
+&"attack_up": SubResource("Animation_atk_up"),
 &"idle_down": SubResource("Animation_j5gll"),
 &"idle_side": SubResource("Animation_n5no4"),
 &"idle_up": SubResource("Animation_jyr6w"),
@@ -140,10 +197,10 @@ _data = {
 script = ExtResource("1_4ntmi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_edjgo")
+shape = SubResource("RectangleShape2D_col")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(173, 91)
+position = Vector2(0, -8)
 texture = ExtResource("1_l8h54")
 centered = false
 hframes = 21
@@ -161,6 +218,30 @@ script = ExtResource("4_v3y2x")
 
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("5_h8p7q")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("6_atk01")
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("7_hrt01")
+
+[node name="AttackPivot" type="Node2D" parent="."]
+visible = false
+
+[node name="HitboxArea" type="Area2D" parent="AttackPivot"]
+position = Vector2(14, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/HitboxArea"]
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HitFlashTimer" type="Timer" parent="."]
+wait_time = 0.1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

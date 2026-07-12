@@ -3,14 +3,14 @@ extends Node
 
 var player: Player
 
-func Enter() -> void:
+func enter() -> void:
 	pass
 
-func Exit() -> void:
+func exit() -> void:
 	pass
 
-func Process(_delta: float) -> State:
+func process(_delta: float) -> State:
 	return null
 
-func Physics(_delta: float) -> State:
+func physics(_delta: float) -> State:
 	return null
