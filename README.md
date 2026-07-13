@@ -89,4 +89,4 @@ Physics gravity set to **0** (pure top-down, no gravity).
 
 ---
 
-*Last updated: 2026-07-12*
+*Last updated: 2026-07-13*
