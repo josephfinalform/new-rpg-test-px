@@ -87,6 +87,11 @@ Viewport resolution: **480x270**, window: **1600x900** (stretch mode: viewport).
 
 Physics gravity set to **0** (pure top-down, no gravity).
 
+## Changelog
+
+- **2026-07-14**: Updated README, added changelog section
+- **2026-07-13**: Combat system, enemy AI, health system & state machine overhaul
+
 ---
 
-*Last updated: 2026-07-13*
+*Last updated: 2026-07-14*
