@@ -73,7 +73,7 @@ new-rpg-test-px/                      # Repository root
 ## Contributors
 
 - [turut](https://github.com/turut) — project creator
-- kanka — katkıda bulundu :)
+- kanka — bug fixes, combat system, knockback, enemy movement, state machine fixes
 
 ## Contributing
 
