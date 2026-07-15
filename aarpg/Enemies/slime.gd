@@ -40,7 +40,7 @@ func _process_idle(delta: float) -> void:
 		if idle_direction.length() < 0.1:
 			idle_direction = Vector2.ZERO
 	velocity = idle_direction * move_speed * 0.3
-	move_and_slide()
+	base_velocity = velocity
 	_update_idle_animation()
 	if chase_target and is_instance_valid(chase_target):
 		current_state = State.CHASE
@@ -51,14 +51,13 @@ func _process_chase(_delta: float) -> void:
 		return
 	var dir = (chase_target.global_position - global_position).normalized()
 	velocity = dir * move_speed
-	move_and_slide()
+	base_velocity = velocity
 	_update_chase_animation(dir)
 	if global_position.distance_to(chase_target.global_position) < attack_range:
 		current_state = State.ATTACK
 		attack_cooldown = 0.5
 
 func _process_hurt(_delta: float) -> void:
-	move_and_slide()
 	if hurt_timer.is_stopped():
 		if chase_target and is_instance_valid(chase_target):
 			current_state = State.CHASE
@@ -67,7 +66,7 @@ func _process_hurt(_delta: float) -> void:
 
 func _process_attack(delta: float) -> void:
 	velocity = Vector2.ZERO
-	move_and_slide()
+	base_velocity = Vector2.ZERO
 	attack_cooldown -= delta
 	if attack_cooldown <= 0:
 		if chase_target and is_instance_valid(chase_target):

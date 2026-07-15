@@ -11,7 +11,6 @@ func enter() -> void:
 	player.velocity = Vector2.ZERO
 	knockback_timer = knockback_duration
 	_play_hurt_animation()
-	player.hit_flash_timer.start()
 
 func exit() -> void:
 	player.hit_flash_timer.stop()

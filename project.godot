@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="AARPG"
-run/main_scene="uid://c5yawo6ekq6s2"
+run/main_scene="uid://dbgob6n720vup"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [display]

@@ -11,7 +11,7 @@ signal died
 var health: int = 3
 var is_invincible: bool = false
 var knockback_velocity: Vector2 = Vector2.ZERO
-var player_ref: Player = null
+var base_velocity: Vector2 = Vector2.ZERO
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -26,12 +26,10 @@ func _ready() -> void:
 	invincibility_timer.wait_time = 0.5
 	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
 
-func _physics_process(_delta: float) -> void:
-	if is_invincible:
-		return
-	velocity = knockback_velocity
+func _physics_process(delta: float) -> void:
+	velocity = base_velocity + knockback_velocity
+	knockback_velocity = knockback_velocity.lerp(Vector2.ZERO, 1.0 - exp(-5.0 * delta))
 	move_and_slide()
-	knockback_velocity = knockback_velocity.lerp(Vector2.ZERO, 0.2)
 
 func take_damage(amount: int, from_position: Vector2) -> void:
 	if is_invincible:
@@ -49,7 +47,7 @@ func take_damage(amount: int, from_position: Vector2) -> void:
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Player:
-		body.take_damage(damage)
+		body.take_damage(damage, global_position)
 
 func _on_hurt_timer_timeout() -> void:
 	sprite.modulate = Color.WHITE

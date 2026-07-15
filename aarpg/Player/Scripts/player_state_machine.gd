@@ -4,7 +4,7 @@ extends Node
 @onready var current_state: State = null
 var states: Dictionary = {}
 
-func Initialize(player: Player) -> void:
+func initialize(player: Player) -> void:
 	for child in get_children():
 		if child is State:
 			child.player = player

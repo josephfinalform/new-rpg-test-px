@@ -7,6 +7,7 @@ extends State
 func enter() -> void:
 	player.can_attack = false
 	player.velocity = Vector2.ZERO
+	player.hit_enemies_this_attack.clear()
 	player.attack_timer.start()
 	player.update_attack_pivot()
 	player.attack_pivot.visible = true

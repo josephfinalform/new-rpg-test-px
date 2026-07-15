@@ -17,6 +17,7 @@ var is_sprinting: bool = false
 var health: int = 6
 var is_invincible: bool = false
 var can_attack: bool = true
+var hit_enemies_this_attack: Array[Node2D] = []
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -26,14 +27,16 @@ var can_attack: bool = true
 @onready var hit_flash_timer: Timer = $HitFlashTimer
 @onready var hitbox_area: Area2D = $AttackPivot/HitboxArea
 @onready var attack_pivot: Node2D = $AttackPivot
+@onready var hurt_state: HurtState = $StateMachine/Hurt
 
 func _ready() -> void:
-	state_machine.Initialize(self)
+	state_machine.initialize(self)
 	health = max_health
 	health_changed.emit(health)
 	attack_timer.wait_time = attack_cooldown
 	invincibility_timer.wait_time = invincibility_time
 	hitbox_area.monitoring = false
+	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
 	attack_pivot.rotation = 0
 
 func get_input() -> void:
@@ -67,7 +70,7 @@ func update_facing_sprite() -> void:
 	if abs(facing.x) > abs(facing.y):
 		sprite.flip_h = facing.x < 0
 
-func take_damage(amount: int) -> void:
+func take_damage(amount: int, from_position: Vector2 = global_position) -> void:
 	if is_invincible or health <= 0:
 		return
 	health = max(health - amount, 0)
@@ -75,6 +78,9 @@ func take_damage(amount: int) -> void:
 	is_invincible = true
 	invincibility_timer.start()
 	hit_flash_timer.start()
+	var knockback_dir = (global_position - from_position).normalized()
+	hurt_state.setup_knockback(knockback_dir)
+	state_machine.change_state(hurt_state)
 	if health <= 0:
 		died.emit()
 
@@ -93,3 +99,8 @@ func _on_hit_flash_timer_timeout() -> void:
 	if is_invincible:
 		sprite.modulate = Color(1, 1, 1, 0.5) if sprite.modulate.a > 0.5 else Color(1, 1, 1, 1)
 		hit_flash_timer.start()
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	if body is Enemy and not body in hit_enemies_this_attack:
+		hit_enemies_this_attack.append(body)
+		body.take_damage(attack_damage, global_position)
