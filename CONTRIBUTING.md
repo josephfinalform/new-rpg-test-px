@@ -16,8 +16,36 @@ Thank you for considering contributing to this project!
 - Test your changes in the main scene (`aarpg/playground.tscn`)
 - Ensure no errors appear in the Godot console
 
+## Code Style
+
+- Use snake_case for variables and functions
+- Use PascalCase for class names
+- Keep functions short and focused
+- Add comments for complex logic
+
+## Project Structure
+
+- `aarpg/` - Main game scenes and scripts
+- `assets/` - Art, audio, and other resources
+- `Tile Maps/` - Tilemap scenes and configurations
+
+## Bug Reports
+
+- Use GitHub Issues to report bugs
+- Include steps to reproduce the issue
+- Mention your Godot version and OS
+
+## Feature Requests
+
+- Open an issue with the `enhancement` label
+- Describe the feature and why it would be useful
+
 ## Pull Request Process
 
 1. Update the `README.md` if your change affects the project structure or features
 2. Make sure your branch is up to date with `main`
 3. Submit a pull request with a clear description of your changes
+
+## Questions?
+
+Feel free to open an issue for any questions about contributing!
