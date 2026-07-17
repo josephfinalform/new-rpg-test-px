@@ -1,51 +1,63 @@
 # Contributing to AARPG
 
-Thank you for considering contributing to this project!
+Thanks for considering a contribution!
 
-## Getting Started
+## Quick Start
 
-1. Fork the repository
-2. Clone your fork: `git clone https://github.com/your-username/new-rpg-test-px.git`
-3. Open the project in **Godot 4.4+**
-4. Create a new branch for your feature: `git checkout -b feature/your-feature-name`
+```bash
+git clone https://github.com/your-username/new-rpg-test-px.git
+cd new-rpg-test-px
+git checkout -b feature/your-feature-name
+```
 
-## Development Guidelines
+Open the project in **Godot 4.4+** and start developing.
 
-- Keep scripts organized in the appropriate `Scripts/` directories
-- Follow Godot 4.4 GDScript conventions
-- Test your changes in the main scene (`aarpg/playground.tscn`)
-- Ensure no errors appear in the Godot console
+## Guidelines
 
-## Code Style
+### Code Style
 
-- Use snake_case for variables and functions
-- Use PascalCase for class names
-- Keep functions short and focused
-- Add comments for complex logic
+| Convention | Example |
+|---|---|
+| Variables / Functions | `snake_case` |
+| Classes | `PascalCase` |
+| Signals | `snake_case` with past tense (e.g. `health_changed`) |
 
-## Project Structure
+- Keep functions short and focused on a single responsibility
+- Comment non-obvious logic; avoid obvious comments
 
-- `aarpg/` - Main game scenes and scripts
-- `assets/` - Art, audio, and other resources
-- `Tile Maps/` - Tilemap scenes and configurations
+### Project Structure
 
-## Bug Reports
+| Directory | Description |
+|---|---|
+| `aarpg/` | Main game scenes and scripts |
+| `assets/` | Art, audio, and other resources |
+| `Tile Maps/` | Tilemap scenes and configurations |
 
-- Use GitHub Issues to report bugs
-- Include steps to reproduce the issue
-- Mention your Godot version and OS
+### Development Workflow
 
-## Feature Requests
+1. Scripts go in the appropriate `Scripts/` subdirectories
+2. Test changes in the main scene (`aarpg/playground.tscn`)
+3. Ensure zero errors in the Godot console before submitting
 
-- Open an issue with the `enhancement` label
-- Describe the feature and why it would be useful
+## Reporting Issues
 
-## Pull Request Process
+### Bug Reports
 
-1. Update the `README.md` if your change affects the project structure or features
-2. Make sure your branch is up to date with `main`
-3. Submit a pull request with a clear description of your changes
+Open an issue with:
+- Steps to reproduce
+- Expected vs. actual behavior
+- Godot version and OS
+
+### Feature Requests
+
+Open an issue with the `enhancement` label describing the feature and its use case.
+
+## Pull Requests
+
+1. Keep your branch up to date with `main`
+2. Update `README.md` if you change project structure or features
+3. Submit a PR with a clear description of what changed and why
 
 ## Questions?
 
-Feel free to open an issue for any questions about contributing!
+Open an issue — happy to help!
