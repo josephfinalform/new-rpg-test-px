@@ -1,28 +1,53 @@
 # AARPG
 
-A top-down pixel-art action RPG prototype built with **Godot 4.4**.
+> A top-down pixel-art action RPG prototype built with **Godot 4.4**.
+
+## Overview
+
+AARPG is a classic top-down action RPG featuring animated player combat, enemy AI, and a modular state machine architecture. Designed as a prototype for expanding into a full dungeon-crawling RPG experience.
+
+## Tech Stack
+
+| Technology | Version |
+|---|---|
+| Godot Engine | 4.4+ |
+| Renderer | Forward Plus |
+| Language | GDScript |
 
 ## Getting Started
 
-1. Open the project in **Godot 4.4+**
-2. Run the main scene: `aarpg/playground.tscn`
-3. Controls: **WASD** / **Arrow Keys** to move, **Shift** to sprint, **Space/X** to attack
+```bash
+git clone https://github.com/turut/new-rpg-test-px.git
+cd new-rpg-test-px
+```
 
-## Current Features
+Open the project in **Godot 4.4+** and run the main scene: `aarpg/playground.tscn`
 
-- Player movement with 4-directional animated sprites (idle/walk/attack)
-- Sprint mechanic (hold **Shift** to run faster — 180 vs 100 speed)
-- Melee attack system (**Space** or **X** to swing sword)
-- Functional finite state machine (Idle, Walk, Attack, Hurt states)
-- Health system with invincibility frames and hit flash feedback
+### Controls
+
+| Action | Key |
+|---|---|
+| Move | WASD / Arrow Keys |
+| Sprint | Hold Shift |
+| Attack | Space / X |
+
+## Features
+
+### Implemented
+
+- 4-directional animated player sprites (idle / walk / attack)
+- Sprint mechanic (180 vs 100 speed)
+- Melee combat system with sword swing
+- Finite state machine (Idle, Walk, Attack, Hurt)
+- Health system with invincibility frames and hit flash
 - Slime enemy with chase AI and detection range
-- Health bar UI (top-left corner)
+- Health bar UI overlay
 - Knockback on hit
-- Input action mapping via `project.godot` (rebindable controls)
-- Pixel-art 480x270 viewport, stretched to 1600x900
-- 15+ sound effects (sword, hits, items, doors, levers, etc.)
+- Rebindable input mapping via `project.godot`
+- Pixel-art viewport (480x270 stretched to 1600x900)
+- 15+ sound effects
 
-## Planned Features
+### Planned
 
 | Feature | Status |
 |---|---|
@@ -39,36 +64,45 @@ A top-down pixel-art action RPG prototype built with **Godot 4.4**.
 ## Project Structure
 
 ```
-new-rpg-test-px/                      # Repository root
-  project.godot                       # Godot project config (input maps, display)
-  aarpg/                              # Main game directory
-    playground.tscn                   # Main scene (entry point)
-    Player/                           # Player character
-      player.tscn
-      Scripts/
-        player.gd                     # Player movement, combat & health
-        player_state_machine.gd       # Finite state machine
-        state.gd                      # Base state class
-        idle_state.gd                 # Idle state
-        walk_state.gd                 # Walk state
-        attack_state.gd               # Melee attack state
-        hurt_state.gd                 # Hurt/knockback state
-    Enemies/                          # Enemy system
-      enemy.gd                        # Base enemy class
-      slime.gd                        # Slime with chase AI
-      slime.tscn                      # Slime scene
-    UI/                               # User interface
-      health_bar.gd                   # Health bar display
-  assets/                             # Game assets
-    sprites/                          # Textures and spritesheets (14 sprites)
-    audio/                            # Sound effects (15 WAVs)
-    archives/                         # Zipped assets for future features
-  Tile Maps/                          # Tile map scenes and sprites
-    grass-01.tscn
-    grass-011.tscn
-    Sprites/
-  CONTRIBUTING.md                     # Contribution guidelines
+new-rpg-test-px/
+├── project.godot              # Project config (input maps, display)
+├── CONTRIBUTING.md
+├── aarpg/                     # Main game directory
+│   ├── playground.tscn        # Entry point scene
+│   ├── Player/
+│   │   ├── player.tscn
+│   │   └── Scripts/
+│   │       ├── player.gd
+│   │       ├── player_state_machine.gd
+│   │       ├── state.gd
+│   │       ├── idle_state.gd
+│   │       ├── walk_state.gd
+│   │       ├── attack_state.gd
+│   │       └── hurt_state.gd
+│   ├── Enemies/
+│   │   ├── enemy.gd
+│   │   ├── slime.gd
+│   │   └── slime.tscn
+│   └── UI/
+│       └── health_bar.gd
+├── assets/
+│   ├── sprites/               # Textures & spritesheets (14 sprites)
+│   ├── audio/                 # Sound effects (15 WAVs)
+│   └── archives/              # Zipped assets for future features
+└── Tile Maps/
+    ├── grass-01.tscn
+    ├── grass-011.tscn
+    └── Sprites/
 ```
+
+## Configuration
+
+| Setting | Value |
+|---|---|
+| Viewport | 480x270 |
+| Window | 1600x900 |
+| Stretch mode | Viewport |
+| Physics gravity | 0 (pure top-down) |
 
 ## Contributors
 
@@ -77,21 +111,15 @@ new-rpg-test-px/                      # Repository root
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for fork/clone/PR workflow.
-
-## Development
-
-Built with Godot 4.4 using the Forward Plus renderer.
-
-Viewport resolution: **480x270**, window: **1600x900** (stretch mode: viewport).
-
-Physics gravity set to **0** (pure top-down, no gravity).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ## Changelog
 
-- **2026-07-14**: Updated README, added changelog section
-- **2026-07-13**: Combat system, enemy AI, health system & state machine overhaul
+| Date | Changes |
+|---|---|
+| 2026-07-14 | Updated README, added changelog section |
+| 2026-07-13 | Combat system, enemy AI, health system & state machine overhaul |
 
 ---
 
-*Last updated: 2026-07-14*
+*Last updated: 2026-07-18*
