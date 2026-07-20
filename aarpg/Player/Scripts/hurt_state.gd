@@ -10,7 +10,7 @@ var knockback_timer: float = 0.0
 func enter() -> void:
 	player.velocity = Vector2.ZERO
 	knockback_timer = knockback_duration
-	_play_hurt_animation()
+	player.play_facing_animation("idle")
 
 func exit() -> void:
 	player.hit_flash_timer.stop()
@@ -30,12 +30,3 @@ func physics(_delta: float) -> State:
 
 func setup_knockback(direction: Vector2) -> void:
 	knockback_velocity = direction.normalized() * 200.0
-
-func _play_hurt_animation() -> void:
-	if abs(player.facing.x) > abs(player.facing.y):
-		player.play_animation("idle_side")
-		player.sprite.flip_h = player.facing.x < 0
-	elif player.facing.y > 0:
-		player.play_animation("idle_down")
-	else:
-		player.play_animation("idle_up")

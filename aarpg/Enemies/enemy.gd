@@ -34,7 +34,7 @@ func _physics_process(delta: float) -> void:
 func take_damage(amount: int, from_position: Vector2) -> void:
 	if is_invincible:
 		return
-	health -= amount
+	health = max(health - amount, 0)
 	is_invincible = true
 	invincibility_timer.start()
 	hurt_timer.start()

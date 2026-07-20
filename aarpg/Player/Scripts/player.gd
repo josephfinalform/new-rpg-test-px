@@ -66,9 +66,16 @@ func play_animation(anim_name: String) -> void:
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
 
-func update_facing_sprite() -> void:
-	if abs(facing.x) > abs(facing.y):
-		sprite.flip_h = facing.x < 0
+func play_facing_animation(anim_prefix: String, dir: Vector2 = facing) -> void:
+	var anim_name: String
+	if abs(dir.x) > abs(dir.y):
+		anim_name = anim_prefix + "_side"
+		sprite.flip_h = dir.x < 0
+	elif dir.y > 0:
+		anim_name = anim_prefix + "_down"
+	else:
+		anim_name = anim_prefix + "_up"
+	play_animation(anim_name)
 
 func take_damage(amount: int, from_position: Vector2 = global_position) -> void:
 	if is_invincible or health <= 0:

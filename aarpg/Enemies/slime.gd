@@ -93,15 +93,15 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _update_idle_animation() -> void:
 	if idle_direction == Vector2.ZERO:
-		player_play("idle")
+		play_anim("idle")
 	else:
-		player_play("move")
+		play_anim("move")
 		sprite.flip_h = idle_direction.x < 0
 
 func _update_chase_animation(dir: Vector2) -> void:
-	player_play("move")
+	play_anim("move")
 	sprite.flip_h = dir.x < 0
 
-func player_play(anim_name: String) -> void:
+func play_anim(anim_name: String) -> void:
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)

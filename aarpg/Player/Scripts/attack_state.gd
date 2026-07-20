@@ -12,7 +12,7 @@ func enter() -> void:
 	player.update_attack_pivot()
 	player.attack_pivot.visible = true
 	player.hitbox_area.monitoring = true
-	_play_attack_animation()
+	player.play_facing_animation("attack")
 
 func exit() -> void:
 	player.hitbox_area.monitoring = false
@@ -29,12 +29,3 @@ func process(_delta: float) -> State:
 func physics(_delta: float) -> State:
 	player.move_and_slide()
 	return null
-
-func _play_attack_animation() -> void:
-	if abs(player.facing.x) > abs(player.facing.y):
-		player.play_animation("attack_side")
-		player.sprite.flip_h = player.facing.x < 0
-	elif player.facing.y > 0:
-		player.play_animation("attack_down")
-	else:
-		player.play_animation("attack_up")
