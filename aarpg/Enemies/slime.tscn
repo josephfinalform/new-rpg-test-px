@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3]
 
-[ext_resource type="Texture2D" uid="uid://bogus_slime" path="res://assets/sprites/Slime.png" id="1_slime"]
+[ext_resource type="Texture2D" uid="uid://bogus_slime" path="res://assets/sprites/characters/slime.png" id="1_slime"]
 [ext_resource type="Script" path="res://aarpg/Enemies/slime.gd" id="2_slime"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=3 uid="uid://c5yawo6ekq6s2"]
 
 [ext_resource type="Script" uid="uid://bfn66lxdr1rgc" path="res://aarpg/Player/Scripts/player.gd" id="1_4ntmi"]
-[ext_resource type="Texture2D" uid="uid://kg4a0anlddq7" path="res://assets/sprites/ExamplePlayerSprite.png" id="1_l8h54"]
+[ext_resource type="Texture2D" uid="uid://kg4a0anlddq7" path="res://assets/sprites/characters/example_player_sprite.png" id="1_l8h54"]
 [ext_resource type="Script" uid="uid://cjuxx2y580wab" path="res://aarpg/Player/Scripts/player_state_machine.gd" id="3_j5gll"]
 [ext_resource type="Script" uid="uid://cx63ij2of3r30" path="res://aarpg/Player/Scripts/idle_state.gd" id="4_v3y2x"]
 [ext_resource type="Script" uid="uid://c4ghuoeieiweq" path="res://aarpg/Player/Scripts/walk_state.gd" id="5_h8p7q"]
