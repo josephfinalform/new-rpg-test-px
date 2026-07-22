@@ -7,6 +7,7 @@ signal died
 @export var move_speed: float = 40.0
 @export var damage: int = 1
 @export var knockback_resistance: float = 0.5
+@export var knockback_force: float = 150.0
 
 var health: int = 3
 var is_invincible: bool = false
@@ -40,7 +41,7 @@ func take_damage(amount: int, from_position: Vector2) -> void:
 	hurt_timer.start()
 	sprite.modulate = Color.RED
 	var knockback_dir = (global_position - from_position).normalized()
-	knockback_velocity = knockback_dir * 150.0 * (1.0 - knockback_resistance)
+	knockback_velocity = knockback_dir * knockback_force * (1.0 - knockback_resistance)
 	if health <= 0:
 		died.emit()
 		queue_free()
@@ -54,3 +55,7 @@ func _on_hurt_timer_timeout() -> void:
 
 func _on_invincibility_timer_timeout() -> void:
 	is_invincible = false
+
+func play_animation(anim_name: String) -> void:
+	if animation_player.current_animation != anim_name:
+		animation_player.play(anim_name)

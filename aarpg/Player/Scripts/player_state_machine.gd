@@ -3,8 +3,10 @@ extends Node
 
 @onready var current_state: State = null
 var states: Dictionary = {}
+var player: Player
 
-func initialize(player: Player) -> void:
+func initialize(p: Player) -> void:
+	player = p
 	for child in get_children():
 		if child is State:
 			child.player = player
@@ -24,6 +26,7 @@ func _physics_process(delta: float) -> void:
 		var new_state = current_state.physics(delta)
 		if new_state:
 			change_state(new_state)
+		player.move_and_slide()
 
 func change_state(new_state: State) -> void:
 	if new_state == null or new_state == current_state:

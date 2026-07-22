@@ -1,9 +1,6 @@
 class_name AttackState
 extends State
 
-@onready var idle_state: IdleState = $"../Idle"
-@onready var walk_state: WalkState = $"../Walk"
-
 func enter() -> void:
 	player.can_attack = false
 	player.velocity = Vector2.ZERO
@@ -22,10 +19,6 @@ func process(_delta: float) -> State:
 	if not player.animation_player.is_playing():
 		player.get_input()
 		if player.direction != Vector2.ZERO:
-			return walk_state
-		return idle_state
-	return null
-
-func physics(_delta: float) -> State:
-	player.move_and_slide()
+			return get_state("walk")
+		return get_state("idle")
 	return null

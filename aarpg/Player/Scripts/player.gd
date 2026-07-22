@@ -10,6 +10,7 @@ signal died
 @export var attack_damage: int = 1
 @export var attack_cooldown: float = 0.4
 @export var invincibility_time: float = 1.0
+@export var knockback_force: float = 200.0
 
 var direction: Vector2 = Vector2.ZERO
 var facing: Vector2 = Vector2.DOWN
@@ -27,7 +28,6 @@ var hit_enemies_this_attack: Array[Node2D] = []
 @onready var hit_flash_timer: Timer = $HitFlashTimer
 @onready var hitbox_area: Area2D = $AttackPivot/HitboxArea
 @onready var attack_pivot: Node2D = $AttackPivot
-@onready var hurt_state: HurtState = $StateMachine/Hurt
 
 func _ready() -> void:
 	state_machine.initialize(self)
@@ -35,7 +35,6 @@ func _ready() -> void:
 	health_changed.emit(health)
 	attack_timer.wait_time = attack_cooldown
 	invincibility_timer.wait_time = invincibility_time
-	hitbox_area.monitoring = false
 	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
 	attack_pivot.rotation = 0
 
@@ -86,8 +85,9 @@ func take_damage(amount: int, from_position: Vector2 = global_position) -> void:
 	invincibility_timer.start()
 	hit_flash_timer.start()
 	var knockback_dir = (global_position - from_position).normalized()
-	hurt_state.setup_knockback(knockback_dir)
-	state_machine.change_state(hurt_state)
+	var hurt = state_machine.states["hurt"] as HurtState
+	hurt.setup_knockback(knockback_dir)
+	state_machine.change_state(hurt)
 	if health <= 0:
 		died.emit()
 

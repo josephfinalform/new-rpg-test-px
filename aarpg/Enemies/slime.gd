@@ -13,9 +13,6 @@ var attack_range: float = 20.0
 
 func _ready() -> void:
 	super._ready()
-	move_speed = 35.0
-	max_health = 3
-	health = max_health
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
 
@@ -93,15 +90,11 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _update_idle_animation() -> void:
 	if idle_direction == Vector2.ZERO:
-		play_anim("idle")
+		play_animation("idle")
 	else:
-		play_anim("move")
+		play_animation("move")
 		sprite.flip_h = idle_direction.x < 0
 
 func _update_chase_animation(dir: Vector2) -> void:
-	play_anim("move")
+	play_animation("move")
 	sprite.flip_h = dir.x < 0
-
-func play_anim(anim_name: String) -> void:
-	if animation_player.current_animation != anim_name:
-		animation_player.play(anim_name)

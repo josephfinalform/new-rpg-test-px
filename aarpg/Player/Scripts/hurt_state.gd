@@ -1,7 +1,7 @@
 class_name HurtState
 extends State
 
-@onready var idle_state: IdleState = $"../Idle"
+@export var knockback_force: float = 200.0
 
 var knockback_velocity: Vector2 = Vector2.ZERO
 var knockback_duration: float = 0.2
@@ -21,12 +21,8 @@ func process(delta: float) -> State:
 	player.velocity = knockback_velocity * (knockback_timer / knockback_duration)
 	if knockback_timer <= 0:
 		player.get_input()
-		return idle_state
-	return null
-
-func physics(_delta: float) -> State:
-	player.move_and_slide()
+		return get_state("idle")
 	return null
 
 func setup_knockback(direction: Vector2) -> void:
-	knockback_velocity = direction.normalized() * 200.0
+	knockback_velocity = direction.normalized() * knockback_force

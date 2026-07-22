@@ -1,9 +1,6 @@
 class_name WalkState
 extends State
 
-@onready var idle_state: IdleState = $"../Idle"
-@onready var attack_state: AttackState = $"../Attack"
-
 func enter() -> void:
 	player.attack_pivot.visible = false
 	player.hitbox_area.monitoring = false
@@ -11,15 +8,12 @@ func enter() -> void:
 func process(_delta: float) -> State:
 	player.get_input()
 	if player.direction == Vector2.ZERO:
-		return idle_state
-	if Input.is_action_just_pressed("attack") and player.can_attack:
-		return attack_state
+		return get_state("idle")
+	var attack = check_attack_transition()
+	if attack:
+		return attack
 	_update_movement()
 	player.play_facing_animation("walk", player.direction)
-	return null
-
-func physics(_delta: float) -> State:
-	player.move_and_slide()
 	return null
 
 func _update_movement() -> void:

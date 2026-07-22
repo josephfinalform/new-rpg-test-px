@@ -1,10 +1,9 @@
+class_name HealthBar
 extends CanvasLayer
 
 @onready var hearts_container: HBoxContainer = $MarginContainer/VBoxContainer/HeartsContainer
 @onready var label: Label = $MarginContainer/VBoxContainer/Label
 
-var heart_full: TextureRect
-var heart_empty: TextureRect
 var hearts: Array[TextureRect] = []
 
 func _ready() -> void:
