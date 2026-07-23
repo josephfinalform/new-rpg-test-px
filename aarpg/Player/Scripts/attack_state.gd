@@ -10,15 +10,18 @@ func enter() -> void:
 	player.attack_pivot.visible = true
 	player.hitbox_area.monitoring = true
 	player.play_facing_animation("attack")
+	player.animation_player.animation_finished.connect(_on_animation_finished, CONNECT_ONE_SHOT)
 
 func exit() -> void:
 	player.hitbox_area.monitoring = false
 	player.attack_pivot.visible = false
 
 func process(_delta: float) -> State:
-	if not player.animation_player.is_playing():
-		player.get_input()
-		if player.direction != Vector2.ZERO:
-			return get_state("walk")
-		return get_state("idle")
 	return null
+
+func _on_animation_finished(_anim_name: String) -> void:
+	player.get_input()
+	if player.direction != Vector2.ZERO:
+		player.state_machine.change_state(get_state("walk"))
+	else:
+		player.state_machine.change_state(get_state("idle"))

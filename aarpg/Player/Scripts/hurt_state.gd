@@ -2,9 +2,9 @@ class_name HurtState
 extends State
 
 @export var knockback_force: float = 200.0
+@export var knockback_duration: float = 0.2
 
 var knockback_velocity: Vector2 = Vector2.ZERO
-var knockback_duration: float = 0.2
 var knockback_timer: float = 0.0
 
 func enter() -> void:

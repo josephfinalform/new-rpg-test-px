@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbgob6n720vup"]
+[gd_scene load_steps=5 format=3 uid="uid://dbgob6n720vup"]
 
 [ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="1_tsv16"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/slime.tscn" id="2_slime"]
 [ext_resource type="Script" path="res://aarpg/UI/health_bar.gd" id="3_hbar"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin.tscn" id="4_goblin"]
 
 [node name="Playground" type="Node2D"]
 
@@ -17,6 +18,9 @@ position = Vector2(180, 180)
 
 [node name="Slime3" parent="." instance=ExtResource("2_slime")]
 position = Vector2(350, 200)
+
+[node name="Goblin1" parent="." instance=ExtResource("4_goblin")]
+position = Vector2(400, 130)
 
 [node name="HealthBar" type="CanvasLayer" parent="."]
 script = ExtResource("3_hbar")

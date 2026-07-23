@@ -6,6 +6,8 @@ func enter() -> void:
 	player.hitbox_area.monitoring = false
 
 func process(_delta: float) -> State:
+	if player.is_dead:
+		return null
 	player.get_input()
 	if player.direction == Vector2.ZERO:
 		return get_state("idle")

@@ -10,13 +10,16 @@ signal died
 @export var attack_damage: int = 1
 @export var attack_cooldown: float = 0.4
 @export var invincibility_time: float = 1.0
-@export var knockback_force: float = 200.0
+@export var attack_sfx: AudioStream
+@export var hurt_sfx: AudioStream
+@export var death_sfx: AudioStream
 
 var direction: Vector2 = Vector2.ZERO
 var facing: Vector2 = Vector2.DOWN
 var is_sprinting: bool = false
 var health: int = 6
 var is_invincible: bool = false
+var is_dead: bool = false
 var can_attack: bool = true
 var hit_enemies_this_attack: Array[Node2D] = []
 
@@ -39,6 +42,8 @@ func _ready() -> void:
 	attack_pivot.rotation = 0
 
 func get_input() -> void:
+	if is_dead:
+		return
 	direction = Vector2(
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
 		Input.get_action_strength("down") - Input.get_action_strength("up")
@@ -77,19 +82,31 @@ func play_facing_animation(anim_prefix: String, dir: Vector2 = facing) -> void:
 	play_animation(anim_name)
 
 func take_damage(amount: int, from_position: Vector2 = global_position) -> void:
-	if is_invincible or health <= 0:
+	if is_invincible or is_dead:
 		return
 	health = max(health - amount, 0)
 	health_changed.emit(health)
 	is_invincible = true
 	invincibility_timer.start()
 	hit_flash_timer.start()
+	if hurt_sfx:
+		AudioManager.play_sfx(hurt_sfx)
 	var knockback_dir = (global_position - from_position).normalized()
 	var hurt = state_machine.states["hurt"] as HurtState
 	hurt.setup_knockback(knockback_dir)
 	state_machine.change_state(hurt)
 	if health <= 0:
-		died.emit()
+		_die()
+
+func _die() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	can_attack = false
+	if death_sfx:
+		AudioManager.play_sfx(death_sfx)
+	died.emit()
+	state_machine.change_state(state_machine.states["death"])
 
 func heal(amount: int) -> void:
 	health = min(health + amount, max_health)
@@ -111,3 +128,5 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Enemy and not body in hit_enemies_this_attack:
 		hit_enemies_this_attack.append(body)
 		body.take_damage(attack_damage, global_position)
+		if attack_sfx:
+			AudioManager.play_sfx(attack_sfx)

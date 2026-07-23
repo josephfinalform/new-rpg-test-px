@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://c4ghuoeieiweq" path="res://aarpg/Player/Scripts/walk_state.gd" id="5_h8p7q"]
 [ext_resource type="Script" path="res://aarpg/Player/Scripts/attack_state.gd" id="6_atk01"]
 [ext_resource type="Script" path="res://aarpg/Player/Scripts/hurt_state.gd" id="7_hrt01"]
+[ext_resource type="Script" path="res://aarpg/Player/Scripts/death_state.gd" id="8_dth01"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
 size = Vector2(10, 10)
@@ -224,6 +225,9 @@ script = ExtResource("6_atk01")
 
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource("7_hrt01")
+
+[node name="Death" type="Node" parent="StateMachine"]
+script = ExtResource("8_dth01")
 
 [node name="AttackPivot" type="Node2D" parent="."]
 visible = false

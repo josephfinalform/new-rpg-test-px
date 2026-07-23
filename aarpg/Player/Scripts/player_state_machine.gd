@@ -31,7 +31,8 @@ func _physics_process(delta: float) -> void:
 func change_state(new_state: State) -> void:
 	if new_state == null or new_state == current_state:
 		return
-
+	if current_state and current_state is DeathState:
+		return
 	current_state.exit()
 	current_state = new_state
 	current_state.enter()

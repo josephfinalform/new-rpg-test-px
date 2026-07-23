@@ -1,4 +1,4 @@
-class_name Slime
+class_name Goblin
 extends Enemy
 
 enum State { IDLE, CHASE, HURT, ATTACK }
@@ -6,10 +6,10 @@ enum State { IDLE, CHASE, HURT, ATTACK }
 var current_state: int = State.IDLE
 var chase_target: Player = null
 var idle_timer: float = 0.0
-var idle_duration: float = 2.0
+var idle_duration: float = 1.5
 var idle_direction: Vector2 = Vector2.ZERO
 var attack_cooldown: float = 0.0
-var attack_range: float = 20.0
+var attack_range: float = 24.0
 
 func _ready() -> void:
 	super._ready()
@@ -17,6 +17,8 @@ func _ready() -> void:
 	detection_area.body_exited.connect(_on_detection_body_exited)
 
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
 	match current_state:
 		State.IDLE:
 			_process_idle(delta)
@@ -32,11 +34,11 @@ func _process_idle(delta: float) -> void:
 	idle_timer += delta
 	if idle_timer >= idle_duration:
 		idle_timer = 0.0
-		idle_duration = randf_range(1.0, 3.0)
+		idle_duration = randf_range(1.0, 2.5)
 		idle_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 		if idle_direction.length() < 0.1:
 			idle_direction = Vector2.ZERO
-	velocity = idle_direction * move_speed * 0.3
+	velocity = idle_direction * move_speed * 0.4
 	base_velocity = velocity
 	_update_idle_animation()
 	if chase_target and is_instance_valid(chase_target):
@@ -52,7 +54,7 @@ func _process_chase(_delta: float) -> void:
 	_update_chase_animation(dir)
 	if global_position.distance_to(chase_target.global_position) < attack_range:
 		current_state = State.ATTACK
-		attack_cooldown = 0.5
+		attack_cooldown = 0.4
 
 func _process_hurt(_delta: float) -> void:
 	if hurt_timer.is_stopped():
@@ -78,7 +80,8 @@ func _process_attack(delta: float) -> void:
 
 func take_damage(amount: int, from_position: Vector2) -> void:
 	super.take_damage(amount, from_position)
-	current_state = State.HURT
+	if not is_dead:
+		current_state = State.HURT
 
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body is Player:

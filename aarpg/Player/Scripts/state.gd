@@ -7,6 +7,8 @@ func get_state(state_name: String) -> State:
 	return get_parent().states[state_name.to_lower()]
 
 func check_attack_transition() -> State:
+	if player.is_dead:
+		return null
 	if Input.is_action_just_pressed("attack") and player.can_attack:
 		return get_state("attack")
 	return null

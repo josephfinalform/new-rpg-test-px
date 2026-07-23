@@ -14,6 +14,10 @@ config/name="AARPG"
 run/main_scene="uid://dbgob6n720vup"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
+[autoload]
+
+AudioManager="*res://aarpg/autoload/audio_manager.gd"
+
 [display]
 
 window/size/viewport_width=480
