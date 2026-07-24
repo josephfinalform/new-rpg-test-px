@@ -31,20 +31,25 @@ func play_sfx_from_path(path: String, volume_db: float = 0.0) -> void:
 	var stream = load(path) as AudioStream
 	play_sfx(stream, volume_db)
 
+var _music_tween: Tween = null
+
 func play_music(stream: AudioStream, fade_time: float = 1.0) -> void:
 	if stream == null:
 		return
+	if _music_tween and _music_tween.is_valid():
+		_music_tween.kill()
+		_music_tween = null
 	if music_player.playing:
-		var tween = create_tween()
-		tween.tween_property(music_player, "volume_db", -40.0, fade_time * 0.5)
-		await tween.finished
+		_music_tween = create_tween()
+		_music_tween.tween_property(music_player, "volume_db", -40.0, fade_time * 0.5)
+		await _music_tween.finished
 	music_player.stream = stream
 	music_player.volume_db = 0.0
 	music_player.play()
 	if fade_time > 0.0:
 		music_player.volume_db = -40.0
-		var tween = create_tween()
-		tween.tween_property(music_player, "volume_db", 0.0, fade_time * 0.5)
+		_music_tween = create_tween()
+		_music_tween.tween_property(music_player, "volume_db", 0.0, fade_time * 0.5)
 
 func stop_music(fade_time: float = 0.5) -> void:
 	if not music_player.playing:

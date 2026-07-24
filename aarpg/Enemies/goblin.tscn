@@ -59,6 +59,10 @@ move_speed = 55.0
 damage = 2
 knockback_resistance = 0.3
 knockback_force = 180.0
+idle_speed_ratio = 0.4
+idle_duration_max = 2.5
+attack_range = 24.0
+attack_cooldown_time = 0.4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_col")

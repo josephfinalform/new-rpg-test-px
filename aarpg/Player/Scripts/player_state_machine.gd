@@ -13,7 +13,8 @@ func initialize(p: Player) -> void:
 			states[child.name.to_lower()] = child
 
 	current_state = get_child(0) as State
-	current_state.enter()
+	if current_state:
+		current_state.enter()
 
 func _process(delta: float) -> void:
 	if current_state:
