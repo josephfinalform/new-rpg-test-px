@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Resource" path="res://aarpg/Maps/TileSets/dungeon_tileset.tres" id="1_dung_ts"]
+
+[node name="DungeonMap" type="Node2D"]
+
+[node name="DungeonGround" type="TileMapLayer" parent="."]
+z_index = -1
+tile_set = ExtResource("1_dung_ts")
