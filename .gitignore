@@ -5,3 +5,25 @@
 
 # Asset excludes
 *.pdf
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Builds
+build/
+export/
+*.pck
+*.zip
+
+# Logs
+*.log
+logs/
