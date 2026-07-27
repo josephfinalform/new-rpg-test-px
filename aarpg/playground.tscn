@@ -44,3 +44,14 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HealthBar/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "HP"
+
+[node name="LevelLabel" type="Label" parent="HealthBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Lv.1"
+
+[node name="XPBar" type="ProgressBar" parent="HealthBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 8)
+max_value = 10.0
+value = 0.0
+show_percentage = false

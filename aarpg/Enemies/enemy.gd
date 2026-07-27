@@ -19,6 +19,7 @@ enum State { IDLE, CHASE, HURT, ATTACK }
 @export var idle_duration_max: float = 3.0
 @export var attack_range: float = 20.0
 @export var attack_cooldown_time: float = 0.5
+@export var xp_reward: int = 3
 
 var health: int = 3
 var is_invincible: bool = false
@@ -136,6 +137,11 @@ func _die() -> void:
 	died.emit()
 	current_state = State.IDLE
 	hitbox_area.set_deferred("monitoring", false)
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() > 0:
+		var player = players[0] as Player
+		if player and not player.is_dead:
+			player.gain_xp(xp_reward)
 	if death_sfx:
 		AudioManager.play_sfx(death_sfx)
 	_play_death_effect()

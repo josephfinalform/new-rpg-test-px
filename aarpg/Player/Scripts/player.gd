@@ -3,6 +3,8 @@ extends CharacterBody2D
 
 signal health_changed(new_health: int)
 signal died
+signal xp_changed(new_xp: int, new_level: int)
+signal level_up(new_level: int)
 
 @export var move_speed: float = 100.0
 @export var sprint_speed: float = 180.0
@@ -13,6 +15,7 @@ signal died
 @export var attack_sfx: AudioStream
 @export var hurt_sfx: AudioStream
 @export var death_sfx: AudioStream
+@export var level_up_sfx: AudioStream
 
 var direction: Vector2 = Vector2.ZERO
 var facing: Vector2 = Vector2.DOWN
@@ -22,6 +25,10 @@ var is_invincible: bool = false
 var is_dead: bool = false
 var can_attack: bool = true
 var hit_enemies_this_attack: Array[Node2D] = []
+
+var level: int = 1
+var xp: int = 0
+var xp_to_next_level: int = 10
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -36,6 +43,7 @@ func _ready() -> void:
 	state_machine.initialize(self)
 	health = max_health
 	health_changed.emit(health)
+	xp_to_next_level = get_xp_for_level(level)
 	attack_timer.wait_time = attack_cooldown
 	invincibility_timer.wait_time = invincibility_time
 	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
@@ -107,6 +115,30 @@ func _die() -> void:
 		AudioManager.play_sfx(death_sfx)
 	died.emit()
 	state_machine.change_state(state_machine.states["death"])
+
+func gain_xp(amount: int) -> void:
+	xp += amount
+	xp_changed.emit(xp, level)
+	while xp >= xp_to_next_level:
+		xp -= xp_to_next_level
+		_level_up()
+	xp_changed.emit(xp, level)
+
+func _level_up() -> void:
+	level += 1
+	xp_to_next_level = get_xp_for_level(level)
+	max_health += 1
+	health = min(health + 2, max_health)
+	attack_damage += 1
+	move_speed += 5.0
+	sprint_speed += 8.0
+	health_changed.emit(health)
+	if level_up_sfx:
+		AudioManager.play_sfx(level_up_sfx)
+	level_up.emit(level)
+
+func get_xp_for_level(lvl: int) -> int:
+	return 10 + (lvl - 1) * 5
 
 func heal(amount: int) -> void:
 	health = min(health + amount, max_health)

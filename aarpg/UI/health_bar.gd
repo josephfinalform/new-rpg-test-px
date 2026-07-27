@@ -3,6 +3,8 @@ extends CanvasLayer
 
 @onready var hearts_container: HBoxContainer = $MarginContainer/VBoxContainer/HeartsContainer
 @onready var label: Label = $MarginContainer/VBoxContainer/Label
+@onready var xp_bar: ProgressBar = $MarginContainer/VBoxContainer/XPBar
+@onready var level_label: Label = $MarginContainer/VBoxContainer/LevelLabel
 
 var hearts: Array[TextureRect] = []
 
@@ -11,8 +13,12 @@ func _ready() -> void:
 	if players.size() > 0:
 		var player = players[0] as Player
 		player.health_changed.connect(_on_health_changed)
+		player.xp_changed.connect(_on_xp_changed)
+		player.level_up.connect(_on_level_up)
 		_setup_hearts(player.max_health)
 		_on_health_changed(player.health)
+		_on_xp_changed(player.xp, player.level)
+		_on_level_up(player.level)
 
 func _setup_hearts(max_hp: int) -> void:
 	for child in hearts_container.get_children():
@@ -31,3 +37,13 @@ func _on_health_changed(new_health: int) -> void:
 			hearts[i].modulate = Color.RED
 		else:
 			hearts[i].modulate = Color(0.3, 0.3, 0.3)
+
+func _on_xp_changed(new_xp: int, _new_level: int) -> void:
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() > 0:
+		var player = players[0] as Player
+		xp_bar.max_value = player.xp_to_next_level
+		xp_bar.value = new_xp
+
+func _on_level_up(new_level: int) -> void:
+	level_label.text = "Lv." + str(new_level)
