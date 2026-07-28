@@ -19,7 +19,7 @@ enum State { IDLE, CHASE, HURT, ATTACK }
 @export var idle_duration_max: float = 3.0
 @export var attack_range: float = 20.0
 @export var attack_cooldown_time: float = 0.5
-@export var xp_reward: int = 3
+@export var xp_reward: int = 8
 
 var health: int = 3
 var is_invincible: bool = false

@@ -127,8 +127,8 @@ func gain_xp(amount: int) -> void:
 func _level_up() -> void:
 	level += 1
 	xp_to_next_level = get_xp_for_level(level)
-	max_health += 1
-	health = min(health + 2, max_health)
+	max_health += 2
+	health = min(health + 3, max_health)
 	attack_damage += 1
 	move_speed += 5.0
 	sprint_speed += 8.0
@@ -138,7 +138,7 @@ func _level_up() -> void:
 	level_up.emit(level)
 
 func get_xp_for_level(lvl: int) -> int:
-	return 10 + (lvl - 1) * 5
+	return 5 + lvl * 3
 
 func heal(amount: int) -> void:
 	health = min(health + amount, max_health)
