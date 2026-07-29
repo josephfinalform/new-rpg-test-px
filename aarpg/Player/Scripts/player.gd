@@ -138,6 +138,9 @@ func _level_up() -> void:
 	level_up.emit(level)
 
 func get_xp_for_level(lvl: int) -> int:
+	var config = load("res://aarpg/config/level_config.tres") as LevelConfig
+	if config and lvl - 1 < config.xp_curve.size():
+		return config.xp_curve[lvl - 1]
 	return 5 + lvl * 3
 
 func heal(amount: int) -> void:
