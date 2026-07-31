@@ -46,13 +46,23 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/playground.tsc
 - Rebindable input mapping via `project.godot`
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
+- Level & XP progression system (see below)
+
+### Level & XP System
+
+- **XP rewards**: Enemies grant XP on death (`xp_reward`, e.g. 8 per slime/goblin).
+- **XP curve**: Configurable via `aarpg/config/level_config.tres` (`xp_curve` array). Falls back to `5 + level * 3` beyond the curve.
+- **Per-level bonuses**:
+  - Max health `+2`, heal `+3` on level up
+  - Attack damage `+1`
+  - Move speed `+5`, sprint speed `+8`
+- **UI**: Current level & XP shown in the health bar overlay with level-up feedback.
 
 ### Planned
 
 | Feature | Status |
 |---|---|
 | Combat (boomerang, bow, bombs) | Assets ready |
-| More enemy types (Goblin, Wizard Boss) | Assets ready |
 | NPC & Dialogue system | Assets ready |
 | Quest system | Assets ready |
 | Shop system | Assets ready |
@@ -81,8 +91,18 @@ new-rpg-test-px/
 │   │       └── hurt_state.gd
 │   ├── Enemies/
 │   │   ├── enemy.gd
+│   │   ├── boss_enemy.gd
 │   │   ├── slime.gd
-│   │   └── slime.tscn
+│   │   ├── slime.tscn
+│   │   ├── goblin.gd
+│   │   ├── goblin.tscn
+│   │   ├── wizard_boss.gd
+│   │   ├── wizard_boss.tscn
+│   │   ├── boss_projectile.gd
+│   │   └── boss_projectile.tscn
+│   ├── config/
+│   │   ├── level_config.gd
+│   │   └── level_config.tres
 │   └── UI/
 │       └── health_bar.gd
 ├── assets/
@@ -107,7 +127,7 @@ new-rpg-test-px/
 ## Contributors
 
 - [turut](https://github.com/turut) — project creator
-- kanka — bug fixes, combat system, knockback, enemy movement, state machine fixes
+- kanka — bug fixes, combat system, knockback, enemy movement, state machine fixes, level & XP system
 
 ## Contributing
 
@@ -117,9 +137,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-07-31 | README: level system reports, project structure & changelog update |
+| 2026-07-30 | New bosses: Wizard Boss + goblin, boss projectiles |
+| 2026-07-29 | Level config: XP curve now read from `level_config.tres` |
+| 2026-07-28 | Fast level system: low XP curve, high enemy XP reward |
+| 2026-07-27 | XP/level system with UI display |
 | 2026-07-14 | Updated README, added changelog section |
 | 2026-07-13 | Combat system, enemy AI, health system & state machine overhaul |
 
 ---
 
-*Last updated: 2026-07-18*
+*Last updated: 2026-07-31*
