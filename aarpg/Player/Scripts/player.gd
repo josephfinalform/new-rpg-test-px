@@ -30,6 +30,8 @@ var level: int = 1
 var xp: int = 0
 var xp_to_next_level: int = 10
 
+var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as LevelConfig
+
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var state_machine: PlayerStateMachine = $StateMachine
@@ -117,9 +119,14 @@ func _die() -> void:
 	state_machine.change_state(state_machine.states["death"])
 
 func gain_xp(amount: int) -> void:
+	if level >= level_config.max_level:
+		return
 	xp += amount
 	xp_changed.emit(xp, level)
 	while xp >= xp_to_next_level:
+		if level >= level_config.max_level:
+			xp = 0
+			break
 		xp -= xp_to_next_level
 		_level_up()
 	xp_changed.emit(xp, level)
@@ -127,20 +134,21 @@ func gain_xp(amount: int) -> void:
 func _level_up() -> void:
 	level += 1
 	xp_to_next_level = get_xp_for_level(level)
-	max_health += 2
-	health = min(health + 3, max_health)
-	attack_damage += 1
-	move_speed += 5.0
-	sprint_speed += 8.0
+	max_health += level_config.health_gain_per_level
+	health = min(health + level_config.heal_on_level_up, max_health)
+	attack_damage += level_config.damage_gain_per_level
+	move_speed += level_config.move_speed_gain
+	sprint_speed += level_config.sprint_speed_gain
 	health_changed.emit(health)
 	if level_up_sfx:
 		AudioManager.play_sfx(level_up_sfx)
 	level_up.emit(level)
 
 func get_xp_for_level(lvl: int) -> int:
-	var config = load("res://aarpg/config/level_config.tres") as LevelConfig
-	if config and lvl - 1 < config.xp_curve.size():
-		return config.xp_curve[lvl - 1]
+	if lvl > level_config.max_level:
+		return 0
+	if lvl - 1 < level_config.xp_curve.size():
+		return level_config.xp_curve[lvl - 1]
 	return 5 + lvl * 3
 
 func heal(amount: int) -> void:

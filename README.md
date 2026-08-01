@@ -51,11 +51,12 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/playground.tsc
 ### Level & XP System
 
 - **XP rewards**: Enemies grant XP on death (`xp_reward`, e.g. 8 per slime/goblin).
-- **XP curve**: Configurable via `aarpg/config/level_config.tres` (`xp_curve` array). Falls back to `5 + level * 3` beyond the curve.
-- **Per-level bonuses**:
+- **XP curve**: Configurable via `aarpg/config/level_config.tres` (`xp_curve` array, up to `max_level` = 50). Falls back to `5 + level * 3` beyond the curve.
+- **Per-level bonuses** (configurable in `level_config.tres`):
   - Max health `+2`, heal `+3` on level up
   - Attack damage `+1`
   - Move speed `+5`, sprint speed `+8`
+- **Max level**: Leveling stops at `max_level`; further XP is ignored.
 - **UI**: Current level & XP shown in the health bar overlay with level-up feedback.
 
 ### Planned
@@ -137,6 +138,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-01 | Level & XP: curve extended to 50 levels, configurable per-level bonuses, max level cap |
 | 2026-07-31 | README: level system reports, project structure & changelog update |
 | 2026-07-30 | New bosses: Wizard Boss + goblin, boss projectiles |
 | 2026-07-29 | Level config: XP curve now read from `level_config.tres` |
@@ -147,4 +149,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-07-31*
+*Last updated: 2026-08-01*
