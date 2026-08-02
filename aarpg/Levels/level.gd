@@ -15,6 +15,29 @@ func _ready() -> void:
 		var boss_node := get_node_or_null(boss)
 		if boss_node:
 			boss_node.died.connect(_on_boss_died)
+	if is_final_level:
+		_show_boss_banner()
+
+
+func _show_boss_banner() -> void:
+	var overlay := CanvasLayer.new()
+	overlay.layer = 10
+	add_child(overlay)
+	var label := Label.new()
+	label.text = "WIZARD BOSS"
+	label.add_theme_font_size_override("font_size", 28)
+	label.add_theme_color_override("font_color", Color(1, 0.3, 0.3))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	label.modulate.a = 0.0
+	overlay.add_child(label)
+	var tween := label.create_tween()
+	tween.tween_property(label, "modulate:a", 1.0, 0.5)
+	tween.tween_interval(1.2)
+	tween.tween_property(label, "modulate:a", 0.0, 0.5)
+	await tween.finished
+	overlay.queue_free()
 
 
 func _get_player() -> Player:
