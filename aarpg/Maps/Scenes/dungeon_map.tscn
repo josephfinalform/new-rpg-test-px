@@ -1,9 +1,16 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Resource" path="res://aarpg/Maps/TileSets/dungeon_tileset.tres" id="1_dung_ts"]
+[ext_resource type="Script" path="res://aarpg/Maps/map_painter.gd" id="1_painter"]
+[ext_resource type="Resource" path="res://aarpg/Maps/TileSets/dungeon_tileset.tres" id="2_dung_ts"]
 
 [node name="DungeonMap" type="Node2D"]
+script = ExtResource("1_painter")
+floor_source_id = 1
+floor_atlas_region = Rect2i(0, 0, 12, 1)
+deco_source_id = 1
+deco_atlas_region = Rect2i(12, 2, 2, 1)
+decoration_density = 0.03
 
 [node name="DungeonGround" type="TileMapLayer" parent="."]
 z_index = -1
-tile_set = ExtResource("1_dung_ts")
+tile_set = ExtResource("2_dung_ts")
