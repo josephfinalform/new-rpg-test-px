@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/slime.tscn" id="5_slime"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="6_chest"]
 [ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="7_hud"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_elite.tscn" id="8_elite"]
 
 [node name="Level3" type="Node2D"]
 script = ExtResource("1_level")
@@ -27,6 +28,12 @@ position = Vector2(400, 200)
 
 [node name="Slime2" parent="Enemies" instance=ExtResource("5_slime")]
 position = Vector2(800, 200)
+
+[node name="EliteGuard1" parent="Enemies" instance=ExtResource("8_elite")]
+position = Vector2(520, 480)
+
+[node name="EliteGuard2" parent="Enemies" instance=ExtResource("8_elite")]
+position = Vector2(680, 480)
 
 [node name="WizardBoss" parent="." instance=ExtResource("4_boss")]
 position = Vector2(600, 320)
