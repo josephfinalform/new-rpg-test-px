@@ -55,6 +55,8 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pause menu — `ESC` to pause/resume (autoload, persists across levels)
 - Elite Goblin enemy (stronger, faster, drops 20 XP)
 - HUD shows current level name; later levels scale up enemy XP/damage
+- Enemy drops: healing orbs (heart drops) + floating XP popups
+- Kill counter in HUD; boss intro banner in the arena
 
 ### Level & XP System
 
@@ -126,7 +128,12 @@ new-rpg-test-px/
 │   │   └── TileSets/
 │   ├── Pickups/
 │   │   ├── treasure_chest.gd
-│   │   └── treasure_chest.tscn    # Heal + XP pickup
+│   │   ├── treasure_chest.tscn    # Heal + XP pickup
+│   │   ├── heart_pickup.gd
+│   │   └── heart_pickup.tscn      # Enemy drop, heals 1 HP
+│   ├── Effects/
+│   │   ├── floating_text.gd
+│   │   └── floating_text.tscn     # "+XP" popup on kill
 │   └── UI/
 │       ├── health_bar.gd
 │       ├── health_bar.tscn
@@ -164,6 +171,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-03 | Drops: healing orbs + floating XP popups, kill counter, boss intro banner |
 | 2026-08-02 | Title screen, pause (ESC), Elite Goblin, HUD seviye adı, level 2/3 zorluk ölçekleme |
 | 2026-08-02 | Levels: 3-stage progression (meadow/dungeon/boss), GameManager autoload, portals, runtime-painted maps with bounds, treasure chests & torches |
 | 2026-08-01 | Level & XP: curve extended to 50 levels, configurable per-level bonuses, max level cap |
@@ -177,4 +185,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-02*
+*Last updated: 2026-08-03*
