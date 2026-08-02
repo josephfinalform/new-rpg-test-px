@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/wizard_boss/torch.png" id="1_torch"]
+
+[node name="Torch" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_torch")
+
+[node name="Light" type="PointLight2D" parent="."]
+color = Color(1, 0.6, 0.2, 1)
+energy = 2.0
+texture_scale = 2.0

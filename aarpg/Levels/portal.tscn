@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/portal.gd" id="1_portal"]
+[ext_resource type="Texture2D" uid="uid://c35v8mesej6ol" path="res://assets/sprites/environment/dungeon_entrance.png" id="2_door"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trig"]
+size = Vector2(30, 30)
+
+[node name="Portal" type="Area2D"]
+script = ExtResource("1_portal")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_trig")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_door")
+scale = Vector2(0.4, 0.4)
+
+[node name="Glow" type="PointLight2D" parent="."]
+color = Color(1, 0.85, 0.4, 1)
+energy = 1.5
+texture_scale = 1.5

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Pickups/treasure_chest.gd" id="1_chest"]
+[ext_resource type="Texture2D" uid="uid://b6b4rymw8rqee" path="res://assets/sprites/environment/treasure_chest.png" id="2_chest_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
+size = Vector2(16, 14)
+
+[node name="TreasureChest" type="Area2D"]
+script = ExtResource("1_chest")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_col")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_chest_tex")
+centered = false
+hframes = 4
+vframes = 2
+frame = 4
+offset = Vector2(-16, -16)
+
+[node name="Glow" type="PointLight2D" parent="."]
+color = Color(1, 0.9, 0.5, 1)
+energy = 0.8
