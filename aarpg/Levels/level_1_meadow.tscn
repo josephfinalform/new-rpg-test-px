@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/grass_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/slime.tscn" id="4_slime"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin.tscn" id="5_goblin"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="6_portal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="7_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="8_hud"]
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 128)
+
+[node name="GrassMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(48, 26)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 128)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Slime1" parent="Enemies" instance=ExtResource("4_slime")]
+position = Vector2(300, 150)
+
+[node name="Slime2" parent="Enemies" instance=ExtResource("4_slime")]
+position = Vector2(350, 280)
+
+[node name="Slime3" parent="Enemies" instance=ExtResource("4_slime")]
+position = Vector2(450, 420)
+
+[node name="Slime4" parent="Enemies" instance=ExtResource("4_slime")]
+position = Vector2(600, 150)
+
+[node name="Goblin1" parent="Enemies" instance=ExtResource("5_goblin")]
+position = Vector2(500, 300)
+
+[node name="Goblin2" parent="Enemies" instance=ExtResource("5_goblin")]
+position = Vector2(700, 450)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("7_chest")]
+position = Vector2(820, 220)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("7_chest")]
+position = Vector2(950, 420)
+
+[node name="Portal" parent="." instance=ExtResource("6_portal")]
+position = Vector2(1380, 400)
+target_level_index = 1
+
+[node name="HealthBar" parent="." instance=ExtResource("8_hud")]

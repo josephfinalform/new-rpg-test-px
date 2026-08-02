@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/wizard_boss.tscn" id="4_boss"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/slime.tscn" id="5_slime"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="6_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="7_hud"]
+
+[node name="Level3" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 320)
+is_final_level = true
+boss = NodePath("WizardBoss")
+
+[node name="DungeonMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(36, 20)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 320)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Slime1" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(400, 200)
+
+[node name="Slime2" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(800, 200)
+
+[node name="WizardBoss" parent="." instance=ExtResource("4_boss")]
+position = Vector2(600, 320)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("6_chest")]
+position = Vector2(180, 220)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("6_chest")]
+position = Vector2(180, 420)
+
+[node name="HealthBar" parent="." instance=ExtResource("7_hud")]
