@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="AARPG"
-run/main_scene="res://aarpg/Levels/level_1_meadow.tscn"
+run/main_scene="res://aarpg/UI/title_screen.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]
 
 AudioManager="*res://aarpg/autoload/audio_manager.gd"
 GameManager="*res://aarpg/autoload/game_manager.gd"
+PauseMenu="*res://aarpg/UI/pause_menu.tscn"
 
 [display]
 
