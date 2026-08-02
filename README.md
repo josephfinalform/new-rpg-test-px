@@ -51,6 +51,10 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
+- Title screen (`aarpg/UI/title_screen.tscn`) — Enter/Space to start
+- Pause menu — `ESC` to pause/resume (autoload, persists across levels)
+- Elite Goblin enemy (stronger, faster, drops 20 XP)
+- HUD shows current level name; later levels scale up enemy XP/damage
 
 ### Level & XP System
 
@@ -73,7 +77,6 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 | Shop system | Assets ready |
 | Equipment system | Assets ready |
 | Dungeons & puzzles | Assets ready |
-| Title screen | Assets ready |
 | BGM music | Assets ready |
 
 ## Project Structure
@@ -101,6 +104,8 @@ new-rpg-test-px/
 │   │   ├── slime.tscn
 │   │   ├── goblin.gd
 │   │   ├── goblin.tscn
+│   │   ├── goblin_elite.gd
+│   │   ├── goblin_elite.tscn
 │   │   ├── wizard_boss.gd
 │   │   ├── wizard_boss.tscn
 │   │   ├── boss_projectile.gd
@@ -124,7 +129,9 @@ new-rpg-test-px/
 │   │   └── treasure_chest.tscn    # Heal + XP pickup
 │   └── UI/
 │       ├── health_bar.gd
-│       └── health_bar.tscn
+│       ├── health_bar.tscn
+│       ├── title_screen.gd / title_screen.tscn
+│       └── pause_menu.gd / pause_menu.tscn
 ├── assets/
 │   ├── sprites/               # Textures & spritesheets (14 sprites)
 │   ├── audio/                 # Sound effects (15 WAVs)
@@ -157,6 +164,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-02 | Title screen, pause (ESC), Elite Goblin, HUD seviye adı, level 2/3 zorluk ölçekleme |
 | 2026-08-02 | Levels: 3-stage progression (meadow/dungeon/boss), GameManager autoload, portals, runtime-painted maps with bounds, treasure chests & torches |
 | 2026-08-01 | Level & XP: curve extended to 50 levels, configurable per-level bonuses, max level cap |
 | 2026-07-31 | README: level system reports, project structure & changelog update |
