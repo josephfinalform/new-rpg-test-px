@@ -7,6 +7,11 @@ signal level_changed(index: int)
 	"res://aarpg/Levels/level_2_dungeon.tscn",
 	"res://aarpg/Levels/level_3_boss.tscn",
 ]
+@export var level_names: Array[String] = [
+	"Meadow",
+	"Dungeon",
+	"Boss Arena",
+]
 
 var current_level_index: int = 0
 
@@ -27,6 +32,12 @@ func load_next_level() -> void:
 
 func restart_current_level() -> void:
 	_load_level(current_level_index)
+
+
+func get_level_name(index: int) -> String:
+	if index < 0 or index >= level_names.size():
+		return ""
+	return level_names[index]
 
 
 func _load_level(index: int) -> void:
