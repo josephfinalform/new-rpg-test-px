@@ -21,7 +21,7 @@ git clone https://github.com/turut/new-rpg-test-px.git
 cd new-rpg-test-px
 ```
 
-Open the project in **Godot 4.4+** and run the main scene: `aarpg/playground.tscn`
+Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1_meadow.tscn`
 
 ### Controls
 
@@ -47,6 +47,10 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/playground.tsc
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
+- **3 playable levels** with portal-based progression (meadow → dungeon → boss arena)
+- GameManager autoload: level flow, restart-on-death, victory screen
+- Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
+- Treasure chest pickups (heal + XP) and torch lights in the dungeon
 
 ### Level & XP System
 
@@ -104,8 +108,23 @@ new-rpg-test-px/
 │   ├── config/
 │   │   ├── level_config.gd
 │   │   └── level_config.tres
+│   ├── Levels/
+│   │   ├── level.gd               # Level flow (spawn, death, victory)
+│   │   ├── portal.gd / portal.tscn # Level exit portal
+│   │   ├── torch.tscn             # Dungeon torch + light
+│   │   ├── level_1_meadow.tscn    # Entry level
+│   │   ├── level_2_dungeon.tscn   # Dungeon level
+│   │   └── level_3_boss.tscn      # Wizard boss arena (final)
+│   ├── Maps/
+│   │   ├── map_painter.gd         # Runtime tile painting + bounds
+│   │   ├── Scenes/                # grass_map.tscn, dungeon_map.tscn
+│   │   └── TileSets/
+│   ├── Pickups/
+│   │   ├── treasure_chest.gd
+│   │   └── treasure_chest.tscn    # Heal + XP pickup
 │   └── UI/
-│       └── health_bar.gd
+│       ├── health_bar.gd
+│       └── health_bar.tscn
 ├── assets/
 │   ├── sprites/               # Textures & spritesheets (14 sprites)
 │   ├── audio/                 # Sound effects (15 WAVs)
@@ -138,6 +157,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-02 | Levels: 3-stage progression (meadow/dungeon/boss), GameManager autoload, portals, runtime-painted maps with bounds, treasure chests & torches |
 | 2026-08-01 | Level & XP: curve extended to 50 levels, configurable per-level bonuses, max level cap |
 | 2026-07-31 | README: level system reports, project structure & changelog update |
 | 2026-07-30 | New bosses: Wizard Boss + goblin, boss projectiles |
@@ -149,4 +169,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-01*
+*Last updated: 2026-08-02*
