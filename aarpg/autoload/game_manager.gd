@@ -1,0 +1,34 @@
+extends Node
+
+signal level_changed(index: int)
+
+@export var levels: Array[String] = [
+	"res://aarpg/Levels/level_1_meadow.tscn",
+	"res://aarpg/Levels/level_2_dungeon.tscn",
+	"res://aarpg/Levels/level_3_boss.tscn",
+]
+
+var current_level_index: int = 0
+
+
+func start_game() -> void:
+	current_level_index = 0
+	_load_level(current_level_index)
+
+
+func load_level(index: int) -> void:
+	current_level_index = clampi(index, 0, levels.size() - 1)
+	_load_level(current_level_index)
+
+
+func load_next_level() -> void:
+	load_level(current_level_index + 1)
+
+
+func restart_current_level() -> void:
+	_load_level(current_level_index)
+
+
+func _load_level(index: int) -> void:
+	level_changed.emit(index)
+	get_tree().change_scene_to_file(levels[index])
