@@ -1,6 +1,7 @@
 extends Node
 
 signal level_changed(index: int)
+signal kills_changed(total: int)
 
 @export var levels: Array[String] = [
 	"res://aarpg/Levels/level_1_meadow.tscn",
@@ -14,10 +15,13 @@ signal level_changed(index: int)
 ]
 
 var current_level_index: int = 0
+var kills: int = 0
 
 
 func start_game() -> void:
 	current_level_index = 0
+	kills = 0
+	kills_changed.emit(0)
 	_load_level(current_level_index)
 
 
@@ -38,6 +42,11 @@ func get_level_name(index: int) -> String:
 	if index < 0 or index >= level_names.size():
 		return ""
 	return level_names[index]
+
+
+func enemy_killed() -> void:
+	kills += 1
+	kills_changed.emit(kills)
 
 
 func _load_level(index: int) -> void:

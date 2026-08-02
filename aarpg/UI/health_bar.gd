@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var xp_bar: ProgressBar = $MarginContainer/VBoxContainer/XPBar
 @onready var level_label: Label = $MarginContainer/VBoxContainer/LevelLabel
 @onready var level_name_label: Label = get_node_or_null("MarginContainer/VBoxContainer/LevelNameLabel")
+@onready var kills_label: Label = get_node_or_null("MarginContainer/VBoxContainer/KillsLabel")
 
 var hearts: Array[TextureRect] = []
 
@@ -22,10 +23,16 @@ func _ready() -> void:
 		_on_level_up(player.level)
 	GameManager.level_changed.connect(_on_level_changed)
 	_on_level_changed(GameManager.current_level_index)
+	GameManager.kills_changed.connect(_on_kills_changed)
+	_on_kills_changed(GameManager.kills)
 
 func _on_level_changed(index: int) -> void:
 	if level_name_label:
 		level_name_label.text = GameManager.get_level_name(index)
+
+func _on_kills_changed(total: int) -> void:
+	if kills_label:
+		kills_label.text = "Kills: " + str(total)
 
 func _setup_hearts(max_hp: int) -> void:
 	for child in hearts_container.get_children():
