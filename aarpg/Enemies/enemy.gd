@@ -5,6 +5,9 @@ signal died
 
 enum State { IDLE, CHASE, HURT, ATTACK }
 
+const HEART_SCENE = preload("res://aarpg/Pickups/heart_pickup.tscn")
+const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
+
 @export var max_health: int = 3
 @export var move_speed: float = 40.0
 @export var damage: int = 1
@@ -20,6 +23,10 @@ enum State { IDLE, CHASE, HURT, ATTACK }
 @export var attack_range: float = 20.0
 @export var attack_cooldown_time: float = 0.5
 @export var xp_reward: int = 8
+
+@export_group("Drops & Feedback")
+@export_range(0.0, 1.0) var heart_drop_chance: float = 0.15
+@export var xp_popup_enabled: bool = true
 
 var health: int = 3
 var is_invincible: bool = false
@@ -142,9 +149,25 @@ func _die() -> void:
 		var player = players[0] as Player
 		if player and not player.is_dead:
 			player.gain_xp(xp_reward)
+	GameManager.enemy_killed()
+	if heart_drop_chance > 0.0 and randf() < heart_drop_chance:
+		_spawn_heart_drop()
+	if xp_popup_enabled:
+		_spawn_xp_popup()
 	if death_sfx:
 		AudioManager.play_sfx(death_sfx)
 	_play_death_effect()
+
+func _spawn_heart_drop() -> void:
+	var heart := HEART_SCENE.instantiate()
+	get_parent().add_child(heart)
+	heart.global_position = global_position + Vector2(randf_range(-8, 8), -4)
+
+func _spawn_xp_popup() -> void:
+	var popup := XP_POPUP.instantiate() as Label
+	get_parent().add_child(popup)
+	popup.text = "+" + str(xp_reward)
+	popup.global_position = global_position + Vector2(0, -14)
 
 func _play_death_effect() -> void:
 	var tween: Tween = create_tween()
