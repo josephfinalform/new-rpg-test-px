@@ -1,0 +1,130 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Enemies/ice_golem.gd" id="1_golem"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/wizard_boss/boss-cloak.png" id="2_cloak"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/wizard_boss/boss-hand.png" id="3_hand"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/wizard_boss/boss-hp.png" id="4_hp"]
+[ext_resource type="AudioStream" path="res://assets/sprites/characters/wizard_boss/boss_hurt.wav" id="5_hurt"]
+[ext_resource type="AudioStream" path="res://assets/sprites/characters/wizard_boss/boss_destroy.wav" id="6_die"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
+size = Vector2(20, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(24, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_det"]
+size = Vector2(170, 170)
+
+[sub_resource type="Animation" id="Animation_golem_idle"]
+resource_name = "idle"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.45, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, -2), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_golem_move"]
+resource_name = "move"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, -3), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_golem_cast"]
+resource_name = "cast"
+length = 0.4
+loop_mode = 0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(12, -4), Vector2(18, -10), Vector2(12, -4)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_golem"]
+_data = {
+&"idle": SubResource("Animation_golem_idle"),
+&"move": SubResource("Animation_golem_move"),
+&"cast": SubResource("Animation_golem_cast")
+}
+
+[node name="IceGolem" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1_golem")
+max_health = 26
+move_speed = 45.0
+damage = 2
+knockback_resistance = 0.6
+knockback_force = 100.0
+attack_range = 26.0
+attack_cooldown_time = 0.6
+xp_reward = 28
+hit_sfx = ExtResource("5_hurt")
+death_sfx = ExtResource("6_die")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_col")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_cloak")
+
+[node name="Hand" type="Sprite2D" parent="."]
+texture = ExtResource("3_hand")
+position = Vector2(12, -4)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_golem")
+}
+
+[node name="BossHealthBar" type="ProgressBar" parent="."]
+position = Vector2(0, -22)
+custom_minimum_size = Vector2(44, 5)
+max_value = 26.0
+value = 26.0
+show_percentage = false
+
+[node name="HitboxArea" type="Area2D" parent="."]
+position = Vector2(0, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("RectangleShape2D_det")
+
+[node name="SpawnMarker" type="Marker2D" parent="."]
+position = Vector2(16, -6)
+
+[node name="HurtTimer" type="Timer" parent="."]
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+
+[node name="DeathTimer" type="Timer" parent="."]

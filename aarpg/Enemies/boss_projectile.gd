@@ -5,6 +5,7 @@ var direction: Vector2 = Vector2.RIGHT
 var speed: float = 120.0
 var damage: int = 1
 var lifetime: float = 3.0
+var projectile_tint: Color = Color(1, 1, 1)
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = $CollisionShape2D
@@ -18,6 +19,7 @@ func _ready() -> void:
 	death_timer.timeout.connect(queue_free)
 	if sprite:
 		sprite.rotation = direction.angle()
+		sprite.self_modulate = projectile_tint
 
 
 func _physics_process(delta: float) -> void:
