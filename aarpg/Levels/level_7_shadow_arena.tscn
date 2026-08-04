@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/shadow_knight.tscn" id="4_boss"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/bat.tscn" id="5_bat"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_elite.tscn" id="6_elite"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="7_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="8_hud"]
+
+[node name="Level7" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 320)
+is_final_level = true
+boss = NodePath("ShadowKnight")
+
+[node name="DungeonMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(36, 20)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 320)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Bat1" parent="Enemies" instance=ExtResource("5_bat")]
+position = Vector2(380, 200)
+
+[node name="Bat2" parent="Enemies" instance=ExtResource("5_bat")]
+position = Vector2(420, 440)
+
+[node name="Elite1" parent="Enemies" instance=ExtResource("6_elite")]
+position = Vector2(760, 220)
+
+[node name="Elite2" parent="Enemies" instance=ExtResource("6_elite")]
+position = Vector2(760, 420)
+
+[node name="ShadowKnight" parent="." instance=ExtResource("4_boss")]
+position = Vector2(600, 320)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("7_chest")]
+position = Vector2(180, 220)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("7_chest")]
+position = Vector2(180, 420)
+
+[node name="HealthBar" parent="." instance=ExtResource("8_hud")]
