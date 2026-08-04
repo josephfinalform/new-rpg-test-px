@@ -16,8 +16,18 @@ func _ready() -> void:
 		var boss_node := get_node_or_null(boss)
 		if boss_node:
 			boss_node.died.connect(_on_boss_died)
+	_apply_difficulty_scaling()
 	if is_final_level:
 		_show_boss_banner()
+
+
+func _apply_difficulty_scaling() -> void:
+	var index := GameManager.current_level_index
+	if index <= 0:
+		return
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if enemy.has_method("apply_level_scaling"):
+			enemy.apply_level_scaling(index)
 
 
 func _show_boss_banner() -> void:

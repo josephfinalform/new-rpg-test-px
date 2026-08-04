@@ -225,3 +225,15 @@ func _update_chase_animation(dir: Vector2) -> void:
 func play_animation(anim_name: String) -> void:
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
+
+
+func apply_level_scaling(level_index: int) -> void:
+	if is_dead or level_index <= 0:
+		return
+	var hp_mult := 1.0 + 0.35 * float(level_index)
+	var dmg_mult := 1.0 + 0.2 * float(level_index)
+	var xp_mult := 1.0 + 0.25 * float(level_index)
+	max_health = ceili(float(max_health) * hp_mult)
+	health = max_health
+	damage = ceili(float(damage) * dmg_mult)
+	xp_reward = roundi(float(xp_reward) * xp_mult)

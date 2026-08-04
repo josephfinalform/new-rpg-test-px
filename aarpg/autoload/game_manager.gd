@@ -9,6 +9,8 @@ signal kills_changed(total: int)
 	"res://aarpg/Levels/level_3_boss.tscn",
 	"res://aarpg/Levels/level_4_forest.tscn",
 	"res://aarpg/Levels/level_5_graveyard.tscn",
+	"res://aarpg/Levels/level_6_ice_arena.tscn",
+	"res://aarpg/Levels/level_7_shadow_arena.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
@@ -16,6 +18,8 @@ signal kills_changed(total: int)
 	"Boss Arena",
 	"Forest",
 	"Graveyard",
+	"Ice Cavern",
+	"Shadow Keep",
 ]
 
 var current_level_index: int = 0
