@@ -7,11 +7,13 @@ signal kills_changed(total: int)
 	"res://aarpg/Levels/level_1_meadow.tscn",
 	"res://aarpg/Levels/level_2_dungeon.tscn",
 	"res://aarpg/Levels/level_3_boss.tscn",
+	"res://aarpg/Levels/level_4_forest.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
 	"Dungeon",
 	"Boss Arena",
+	"Forest",
 ]
 
 var current_level_index: int = 0

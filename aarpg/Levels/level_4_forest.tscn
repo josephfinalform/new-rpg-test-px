@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/grass_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/bat.tscn" id="4_bat"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin.tscn" id="5_goblin"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/orc_brute.tscn" id="6_orc"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="7_portal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="8_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="9_hud"]
+
+[node name="Level4" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 128)
+
+[node name="GrassMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(48, 26)
+decoration_density = 0.05
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 128)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Bat1" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(300, 150)
+
+[node name="Bat2" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(360, 260)
+
+[node name="Bat3" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(480, 420)
+
+[node name="Bat4" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(640, 160)
+
+[node name="Goblin1" parent="Enemies" instance=ExtResource("5_goblin")]
+position = Vector2(520, 300)
+xp_reward = 12
+
+[node name="Goblin2" parent="Enemies" instance=ExtResource("5_goblin")]
+position = Vector2(700, 460)
+xp_reward = 12
+
+[node name="Orc1" parent="Enemies" instance=ExtResource("6_orc")]
+position = Vector2(880, 240)
+
+[node name="Orc2" parent="Enemies" instance=ExtResource("6_orc")]
+position = Vector2(1000, 440)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("8_chest")]
+position = Vector2(820, 200)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("8_chest")]
+position = Vector2(1100, 380)
+
+[node name="Portal" parent="." instance=ExtResource("7_portal")]
+position = Vector2(1380, 400)
+target_level_index = 4
+
+[node name="HealthBar" parent="." instance=ExtResource("9_hud")]
