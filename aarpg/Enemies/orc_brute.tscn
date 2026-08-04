@@ -54,6 +54,7 @@ _data = {
 
 [node name="OrcBrute" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("2_orc")
+xp_gem_drop_chance = 0.35
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_col")

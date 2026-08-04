@@ -54,6 +54,7 @@ _data = {
 
 [node name="Skeleton" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("2_skel")
+xp_gem_drop_chance = 0.2
 max_health = 6
 move_speed = 42.0
 damage = 2

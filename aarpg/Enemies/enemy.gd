@@ -7,6 +7,7 @@ enum State { IDLE, CHASE, HURT, ATTACK }
 
 const HEART_SCENE = preload("res://aarpg/Pickups/heart_pickup.tscn")
 const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
+const XP_GEM_SCENE = preload("res://aarpg/Pickups/xp_gem.tscn")
 
 @export var max_health: int = 3
 @export var move_speed: float = 40.0
@@ -26,6 +27,7 @@ const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
 
 @export_group("Drops & Feedback")
 @export_range(0.0, 1.0) var heart_drop_chance: float = 0.15
+@export_range(0.0, 1.0) var xp_gem_drop_chance: float = 0.0
 @export var xp_popup_enabled: bool = true
 
 var health: int = 3
@@ -152,6 +154,8 @@ func _die() -> void:
 	GameManager.enemy_killed()
 	if heart_drop_chance > 0.0 and randf() < heart_drop_chance:
 		_spawn_heart_drop()
+	if xp_gem_drop_chance > 0.0 and randf() < xp_gem_drop_chance:
+		_spawn_xp_gem()
 	if xp_popup_enabled:
 		_spawn_xp_popup()
 	if death_sfx:
@@ -162,6 +166,15 @@ func _spawn_heart_drop() -> void:
 	var heart := HEART_SCENE.instantiate()
 	get_parent().add_child(heart)
 	heart.global_position = global_position + Vector2(randf_range(-8, 8), -4)
+
+func _spawn_xp_gem() -> void:
+	var gem := XP_GEM_SCENE.instantiate()
+	get_parent().add_child(gem)
+	gem.global_position = global_position + Vector2(randf_range(-8, 8), -4)
+	var popup := XP_POPUP.instantiate() as Label
+	get_parent().add_child(popup)
+	popup.text = "GEM"
+	popup.global_position = global_position + Vector2(0, -22)
 
 func _spawn_xp_popup() -> void:
 	var popup := XP_POPUP.instantiate() as Label
