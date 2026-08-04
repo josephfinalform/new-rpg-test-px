@@ -1,0 +1,122 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/goblin.png" id="1_knight"]
+[ext_resource type="Script" path="res://aarpg/Enemies/shadow_knight.gd" id="2_knight"]
+[ext_resource type="AudioStream" path="res://assets/sprites/characters/wizard_boss/boss_hurt.wav" id="3_hurt"]
+[ext_resource type="AudioStream" path="res://assets/sprites/characters/wizard_boss/boss_destroy.wav" id="4_die"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
+size = Vector2(16, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(22, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_det"]
+size = Vector2(180, 180)
+
+[sub_resource type="Animation" id="Animation_knight_idle"]
+resource_name = "idle"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_knight_move"]
+resource_name = "move"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_knight_cast"]
+resource_name = "cast"
+length = 0.4
+loop_mode = 0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 2, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_knight"]
+_data = {
+&"idle": SubResource("Animation_knight_idle"),
+&"move": SubResource("Animation_knight_move"),
+&"cast": SubResource("Animation_knight_cast")
+}
+
+[node name="ShadowKnight" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("2_knight")
+max_health = 34
+move_speed = 55.0
+damage = 3
+knockback_resistance = 0.7
+knockback_force = 90.0
+attack_range = 30.0
+attack_cooldown_time = 0.5
+xp_reward = 32
+hit_sfx = ExtResource("3_hurt")
+death_sfx = ExtResource("4_die")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_col")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_knight")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_knight")
+}
+
+[node name="BossHealthBar" type="ProgressBar" parent="."]
+position = Vector2(0, -20)
+custom_minimum_size = Vector2(44, 5)
+max_value = 34.0
+value = 34.0
+show_percentage = false
+
+[node name="HitboxArea" type="Area2D" parent="."]
+position = Vector2(0, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("RectangleShape2D_det")
+
+[node name="HurtTimer" type="Timer" parent="."]
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+
+[node name="DeathTimer" type="Timer" parent="."]
