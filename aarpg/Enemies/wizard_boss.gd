@@ -5,6 +5,11 @@ enum SpecialAttack { FIREBALL, TELEPORT, BEAM, SUMMON }
 
 const FIREBALL_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
 const SLIME_SCENE = preload("res://aarpg/Enemies/slime.tscn")
+const BOSS_NAME := "WIZARD BOSS"
+
+
+func get_boss_name() -> String:
+	return BOSS_NAME
 
 @export_group("Wizard Attacks")
 @export var fireball_cooldown: float = 2.5

@@ -112,3 +112,18 @@ func _process_hurt(_delta: float) -> void:
 			current_state = State.CHASE
 		else:
 			current_state = State.IDLE
+
+
+func apply_level_scaling(level_index: int) -> void:
+	if is_dead or level_index <= 0:
+		return
+	var hp_mult := 1.0 + 0.12 * float(level_index)
+	var dmg_mult := 1.0 + 0.1 * float(level_index)
+	var xp_mult := 1.0 + 0.1 * float(level_index)
+	max_health = ceili(float(max_health) * hp_mult)
+	health = max_health
+	damage = ceili(float(damage) * dmg_mult)
+	xp_reward = roundi(float(xp_reward) * xp_mult)
+	if boss_health_bar:
+		boss_health_bar.max_value = max_health
+		boss_health_bar.value = health

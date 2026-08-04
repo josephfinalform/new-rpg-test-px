@@ -107,7 +107,7 @@ func _show_gate_opened_banner() -> void:
 	label.add_theme_color_override("font_color", Color(0.6, 1.0, 0.6))
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	label.offset_bottom = -40
 	label.modulate.a = 0.0
 	overlay.add_child(label)
