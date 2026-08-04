@@ -1,0 +1,70 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/skeleton.tscn" id="4_skel"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/bat.tscn" id="5_bat"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_elite.tscn" id="6_elite"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="7_portal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="8_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/torch.tscn" id="9_torch"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="10_hud"]
+
+[node name="Level5" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 128)
+
+[node name="DungeonMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(44, 24)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 128)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Skeleton1" parent="Enemies" instance=ExtResource("4_skel")]
+position = Vector2(280, 200)
+
+[node name="Skeleton2" parent="Enemies" instance=ExtResource("4_skel")]
+position = Vector2(400, 340)
+
+[node name="Skeleton3" parent="Enemies" instance=ExtResource("4_skel")]
+position = Vector2(540, 260)
+
+[node name="Skeleton4" parent="Enemies" instance=ExtResource("4_skel")]
+position = Vector2(660, 440)
+
+[node name="Bat1" parent="Enemies" instance=ExtResource("5_bat")]
+position = Vector2(720, 180)
+
+[node name="Bat2" parent="Enemies" instance=ExtResource("5_bat")]
+position = Vector2(840, 400)
+
+[node name="Bat3" parent="Enemies" instance=ExtResource("5_bat")]
+position = Vector2(950, 240)
+
+[node name="Elite1" parent="Enemies" instance=ExtResource("6_elite")]
+position = Vector2(980, 480)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("8_chest")]
+position = Vector2(760, 560)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("8_chest")]
+position = Vector2(1100, 300)
+
+[node name="Torches" type="Node2D" parent="."]
+
+[node name="Torch1" parent="Torches" instance=ExtResource("9_torch")]
+position = Vector2(200, 120)
+
+[node name="Torch2" parent="Torches" instance=ExtResource("9_torch")]
+position = Vector2(1180, 120)
+
+[node name="Portal" parent="." instance=ExtResource("7_portal")]
+position = Vector2(1260, 400)
+target_level_index = 5
+
+[node name="HealthBar" parent="." instance=ExtResource("10_hud")]
