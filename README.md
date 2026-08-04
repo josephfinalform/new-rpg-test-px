@@ -47,7 +47,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
-- **3 playable levels** with portal-based progression (meadow → dungeon → boss arena)
+- **7 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → shadow keep)
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
@@ -57,6 +57,11 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - HUD shows current level name; later levels scale up enemy XP/damage
 - Enemy drops: healing orbs (heart drops) + floating XP popups
 - Kill counter in HUD; boss intro banner in the arena
+- **New enemies**: Bat (fast, low HP), Skeleton (tanky undead), Orc Brute (heavy, drops XP gems)
+- **New bosses**: Ice Golem (ice balls, charge, ice minions) & Shadow Knight (dash, whirlwind, shadow bats — final boss)
+- **Locked boss gates**: portals stay locked until the arena boss is defeated
+- **XP gem drops**: blue crystals (5 XP each) dropped by stronger enemies
+- **Difficulty scaling**: enemy HP/damage/XP scale up per campaign level
 
 ### Level & XP System
 
@@ -68,6 +73,8 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
   - Move speed `+5`, sprint speed `+8`
 - **Max level**: Leveling stops at `max_level`; further XP is ignored.
 - **UI**: Current level & XP shown in the health bar overlay with level-up feedback.
+- **XP gems**: Orc Brutes (35%) and Skeletons (20%) drop blue XP crystals worth 5 XP.
+- **Difficulty scaling**: Each campaign level past the first scales enemy HP (`+35%/level`), damage (`+20%/level`) and XP reward (`+25%/level`).
 
 ### Planned
 
@@ -108,8 +115,13 @@ new-rpg-test-px/
 │   │   ├── goblin.tscn
 │   │   ├── goblin_elite.gd
 │   │   ├── goblin_elite.tscn
+│   │   ├── bat.gd / bat.tscn             # Fast flying enemy
+│   │   ├── skeleton.gd / skeleton.tscn   # Tanky undead
+│   │   ├── orc_brute.gd / orc_brute.tscn # Heavy melee, XP gem drops
 │   │   ├── wizard_boss.gd
 │   │   ├── wizard_boss.tscn
+│   │   ├── ice_golem.gd / ice_golem.tscn # Boss: ice balls, charge, minions
+│   │   ├── shadow_knight.gd / shadow_knight.tscn # Final boss: dash, whirlwind
 │   │   ├── boss_projectile.gd
 │   │   └── boss_projectile.tscn
 │   ├── config/
@@ -121,7 +133,11 @@ new-rpg-test-px/
 │   │   ├── torch.tscn             # Dungeon torch + light
 │   │   ├── level_1_meadow.tscn    # Entry level
 │   │   ├── level_2_dungeon.tscn   # Dungeon level
-│   │   └── level_3_boss.tscn      # Wizard boss arena (final)
+│   │   ├── level_3_boss.tscn      # Wizard boss arena (gate to forest)
+│   │   ├── level_4_forest.tscn    # Forest: bats, goblins, orcs
+│   │   ├── level_5_graveyard.tscn # Graveyard: skeletons, bats
+│   │   ├── level_6_ice_arena.tscn # Ice Golem arena (locked gate)
+│   │   └── level_7_shadow_arena.tscn # Shadow Knight arena (final)
 │   ├── Maps/
 │   │   ├── map_painter.gd         # Runtime tile painting + bounds
 │   │   ├── Scenes/                # grass_map.tscn, dungeon_map.tscn
@@ -130,7 +146,9 @@ new-rpg-test-px/
 │   │   ├── treasure_chest.gd
 │   │   ├── treasure_chest.tscn    # Heal + XP pickup
 │   │   ├── heart_pickup.gd
-│   │   └── heart_pickup.tscn      # Enemy drop, heals 1 HP
+│   │   ├── heart_pickup.tscn      # Enemy drop, heals 1 HP
+│   │   ├── xp_gem.gd
+│   │   └── xp_gem.tscn            # Enemy drop, +5 XP
 │   ├── Effects/
 │   │   ├── floating_text.gd
 │   │   └── floating_text.tscn     # "+XP" popup on kill
@@ -171,6 +189,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-04 | 7-level campaign: Forest & Graveyard levels, Bat/Skeleton/Orc enemies, Ice Golem & Shadow Knight bosses, XP gem drops, locked boss gates, difficulty scaling |
 | 2026-08-03 | Drops: healing orbs + floating XP popups, kill counter, boss intro banner |
 | 2026-08-02 | Title screen, pause (ESC), Elite Goblin, HUD seviye adı, level 2/3 zorluk ölçekleme |
 | 2026-08-02 | Levels: 3-stage progression (meadow/dungeon/boss), GameManager autoload, portals, runtime-painted maps with bounds, treasure chests & torches |
@@ -185,4 +204,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-03*
+*Last updated: 2026-08-04*
