@@ -1,0 +1,94 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/goblin.png" id="1_skel"]
+[ext_resource type="Script" path="res://aarpg/Enemies/skeleton.gd" id="2_skel"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
+size = Vector2(12, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(16, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_det"]
+size = Vector2(80, 80)
+
+[sub_resource type="Animation" id="Animation_skel_idle"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_skel_move"]
+resource_name = "move"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_skel"]
+_data = {
+&"idle": SubResource("Animation_skel_idle"),
+&"move": SubResource("Animation_skel_move")
+}
+
+[node name="Skeleton" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("2_skel")
+max_health = 6
+move_speed = 42.0
+damage = 2
+knockback_resistance = 0.5
+knockback_force = 160.0
+idle_duration_min = 0.6
+idle_duration_max = 2.0
+idle_speed_ratio = 0.25
+attack_range = 24.0
+attack_cooldown_time = 0.7
+xp_reward = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_col")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_skel")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_skel")
+}
+
+[node name="HitboxArea" type="Area2D" parent="."]
+position = Vector2(0, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("RectangleShape2D_det")
+
+[node name="HurtTimer" type="Timer" parent="."]
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
