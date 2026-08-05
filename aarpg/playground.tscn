@@ -53,6 +53,12 @@ text = "HP"
 layout_mode = 2
 text = "Lv.1"
 
+[node name="XPTextLabel" type="Label" parent="HealthBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "0 / 10"
+theme_override_colors/font_color = Color(0.5, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+
 [node name="XPBar" type="ProgressBar" parent="HealthBar/MarginContainer/VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(120, 8)

@@ -7,8 +7,10 @@ extends CanvasLayer
 @onready var level_label: Label = $MarginContainer/VBoxContainer/LevelLabel
 @onready var level_name_label: Label = get_node_or_null("MarginContainer/VBoxContainer/LevelNameLabel")
 @onready var kills_label: Label = get_node_or_null("MarginContainer/VBoxContainer/KillsLabel")
+@onready var xp_text_label: Label = get_node_or_null("MarginContainer/VBoxContainer/XPTextLabel")
 
 var hearts: Array[TextureRect] = []
+var _xp_tween: Tween = null
 
 func _ready() -> void:
 	var players = get_tree().get_nodes_in_group("player")
@@ -57,7 +59,17 @@ func _on_xp_changed(new_xp: int, _new_level: int) -> void:
 	if players.size() > 0:
 		var player = players[0] as Player
 		xp_bar.max_value = player.xp_to_next_level
-		xp_bar.value = new_xp
+		if xp_text_label:
+			xp_text_label.text = str(new_xp) + " / " + str(player.xp_to_next_level)
+		if _xp_tween and _xp_tween.is_valid():
+			_xp_tween.kill()
+		_xp_tween = create_tween()
+		_xp_tween.tween_property(xp_bar, "value", float(new_xp), 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func _on_level_up(new_level: int) -> void:
 	level_label.text = "Lv." + str(new_level)
+	level_label.add_theme_color_override("font_color", Color(1, 0.9, 0.3))
+	var tween := level_label.create_tween()
+	tween.tween_property(level_label, "scale", Vector2(1.7, 1.7), 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(level_label, "scale", Vector2(1.0, 1.0), 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tween.tween_callback(func() -> void: level_label.add_theme_color_override("font_color", Color.WHITE))
