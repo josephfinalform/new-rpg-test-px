@@ -33,11 +33,23 @@ position = Vector2(450, 420)
 [node name="Slime4" parent="Enemies" instance=ExtResource("4_slime")]
 position = Vector2(600, 150)
 
+[node name="Slime5" parent="Enemies" instance=ExtResource("4_slime")]
+position = Vector2(760, 620)
+
+[node name="Slime6" parent="Enemies" instance=ExtResource("4_slime")]
+position = Vector2(1000, 260)
+
+[node name="Slime7" parent="Enemies" instance=ExtResource("4_slime")]
+position = Vector2(1150, 560)
+
 [node name="Goblin1" parent="Enemies" instance=ExtResource("5_goblin")]
 position = Vector2(500, 300)
 
 [node name="Goblin2" parent="Enemies" instance=ExtResource("5_goblin")]
 position = Vector2(700, 450)
+
+[node name="Goblin3" parent="Enemies" instance=ExtResource("5_goblin")]
+position = Vector2(1250, 300)
 
 [node name="Pickups" type="Node2D" parent="."]
 
@@ -46,6 +58,9 @@ position = Vector2(820, 220)
 
 [node name="Chest2" parent="Pickups" instance=ExtResource("7_chest")]
 position = Vector2(950, 420)
+
+[node name="Chest3" parent="Pickups" instance=ExtResource("7_chest")]
+position = Vector2(1180, 700)
 
 [node name="Portal" parent="." instance=ExtResource("6_portal")]
 position = Vector2(1380, 400)

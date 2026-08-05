@@ -38,6 +38,10 @@ xp_reward = 12
 position = Vector2(640, 420)
 xp_reward = 12
 
+[node name="Goblin5" parent="Enemies" instance=ExtResource("4_goblin")]
+position = Vector2(1040, 240)
+xp_reward = 12
+
 [node name="Elite1" parent="Enemies" instance=ExtResource("10_elite")]
 position = Vector2(720, 560)
 
@@ -50,6 +54,10 @@ xp_reward = 10
 
 [node name="Slime2" parent="Enemies" instance=ExtResource("5_slime")]
 position = Vector2(820, 380)
+xp_reward = 10
+
+[node name="Slime3" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(1120, 540)
 xp_reward = 10
 
 [node name="Pickups" type="Node2D" parent="."]
