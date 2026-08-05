@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+const LEVEL_UP_EFFECT = preload("res://aarpg/Effects/level_up_effect.tscn")
+
 signal health_changed(new_health: int)
 signal died
 signal xp_changed(new_xp: int, new_level: int)
@@ -151,9 +153,24 @@ func _level_up() -> void:
 	move_speed += level_config.move_speed_gain
 	sprint_speed += level_config.sprint_speed_gain
 	health_changed.emit(health)
-	if level_up_sfx:
-		AudioManager.play_sfx(level_up_sfx)
 	level_up.emit(level)
+	_spawn_level_up_effect()
+	_animate_level_scale()
+
+func _spawn_level_up_effect() -> void:
+	var effect := LEVEL_UP_EFFECT.instantiate()
+	get_tree().current_scene.add_child(effect)
+	effect.global_position = global_position
+	var stats_text := "HP +%d  ATK +%d  SPD +%d" % [
+		level_config.health_gain_per_level,
+		level_config.damage_gain_per_level,
+		int(level_config.move_speed_gain),
+	]
+	effect.setup(stats_text)
+
+func _animate_level_scale() -> void:
+	var target_scale := minf(1.0 + 0.03 * float(level), 1.5)
+	create_tween().tween_property(self, "scale", Vector2(target_scale, target_scale), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 func get_xp_for_level(lvl: int) -> int:
 	if lvl > level_config.max_level:
