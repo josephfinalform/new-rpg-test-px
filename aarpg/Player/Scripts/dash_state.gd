@@ -10,7 +10,7 @@ func enter() -> void:
 	player.dash_velocity = dir * player.dash_speed
 	player.attack_pivot.visible = false
 	player.hitbox_area.monitoring = false
-	player.play_animation("walk")
+	player.play_facing_animation("walk", player.facing)
 	player.dash_timer.start()
 
 func exit() -> void:

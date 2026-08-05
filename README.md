@@ -30,6 +30,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 | Move | WASD / Arrow Keys |
 | Sprint | Hold Shift |
 | Attack | Space / X |
+| Dash | F / C |
 
 ## Features
 
@@ -58,6 +59,9 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Enemy drops: healing orbs (heart drops) + floating XP popups
 - Kill counter in HUD; boss intro banner in the arena
 - **New enemies**: Bat (fast, low HP), Skeleton (tanky undead), Orc Brute (heavy, drops XP gems)
+- **New enemies v2**: Wolf (fast forest predator), Zombie (slow graveyard tank), Goblin Archer (ranged, kites & shoots arrows)
+- **New pickups**: Potion (heals 4 HP, dropped by zombies/elites/orcs, found in levels)
+- **New player ability**: Dash (`F`/`C`) — quick directional burst with cooldown
 - **New bosses**: Ice Golem (ice balls, charge, ice minions) & Shadow Knight (dash, whirlwind, shadow bats — final boss)
 - **Locked boss gates**: portals stay locked until the arena boss is defeated
 - **XP gem drops**: blue crystals (5 XP each) dropped by stronger enemies
@@ -105,6 +109,7 @@ new-rpg-test-px/
 │   │       ├── idle_state.gd
 │   │       ├── walk_state.gd
 │   │       ├── attack_state.gd
+│   │       ├── dash_state.gd
 │   │       └── hurt_state.gd
 │   ├── Enemies/
 │   │   ├── enemy.gd
@@ -115,6 +120,9 @@ new-rpg-test-px/
 │   │   ├── goblin.tscn
 │   │   ├── goblin_elite.gd
 │   │   ├── goblin_elite.tscn
+│   │   ├── wolf.gd / wolf.tscn                 # Fast forest predator
+│   │   ├── zombie.gd / zombie.tscn             # Slow tanky graveyard undead
+│   │   ├── goblin_archer.gd / goblin_archer.tscn # Ranged goblin, shoots arrows
 │   │   ├── bat.gd / bat.tscn             # Fast flying enemy
 │   │   ├── skeleton.gd / skeleton.tscn   # Tanky undead
 │   │   ├── orc_brute.gd / orc_brute.tscn # Heavy melee, XP gem drops
@@ -147,6 +155,8 @@ new-rpg-test-px/
 │   │   ├── treasure_chest.tscn    # Heal + XP pickup
 │   │   ├── heart_pickup.gd
 │   │   ├── heart_pickup.tscn      # Enemy drop, heals 1 HP
+│   │   ├── potion_pickup.gd
+│   │   ├── potion_pickup.tscn     # Heals 4 HP, enemy/level drop
 │   │   ├── xp_gem.gd
 │   │   └── xp_gem.tscn            # Enemy drop, +5 XP
 │   ├── Effects/
@@ -189,6 +199,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-05 | New enemies (Wolf, Zombie, Goblin Archer with ranged arrows), potion pickups + enemy drops, empty levels 4/5/1/2 refilled, player Dash (F/C) |
 | 2026-08-04 | 7-level campaign: Forest & Graveyard levels, Bat/Skeleton/Orc enemies, Ice Golem & Shadow Knight bosses, XP gem drops, locked boss gates, difficulty scaling |
 | 2026-08-03 | Drops: healing orbs + floating XP popups, kill counter, boss intro banner |
 | 2026-08-02 | Title screen, pause (ESC), Elite Goblin, HUD seviye adı, level 2/3 zorluk ölçekleme |
@@ -204,4 +215,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-04*
+*Last updated: 2026-08-05*

@@ -10,7 +10,7 @@ size = Vector2(12, 8)
 size = Vector2(16, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_det"]
-size = Vector2(120, 120)
+size = Vector2(170, 170)
 
 [sub_resource type="Animation" id="Animation_archer_idle"]
 resource_name = "idle"

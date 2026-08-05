@@ -35,6 +35,12 @@ position = Vector2(760, 220)
 [node name="Elite2" parent="Enemies" instance=ExtResource("6_elite")]
 position = Vector2(760, 420)
 
+[node name="Elite3" parent="Enemies" instance=ExtResource("6_elite")]
+position = Vector2(560, 480)
+
+[node name="Bat3" parent="Enemies" instance=ExtResource("5_bat")]
+position = Vector2(520, 180)
+
 [node name="ShadowKnight" parent="." instance=ExtResource("4_boss")]
 position = Vector2(600, 320)
 
