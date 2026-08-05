@@ -15,4 +15,5 @@ func _ready() -> void:
 	knockback_force = 120.0
 	attack_range = 28.0
 	attack_cooldown_time = 0.8
+	potion_drop_chance = 0.1
 	super()

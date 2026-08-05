@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Pickups/potion_pickup.gd" id="1_potion"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 8.0
+
+[node name="PotionPickup" type="Area2D"]
+script = ExtResource("1_potion")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="Glow" type="PointLight2D" parent="."]
+color = Color(1, 0.4, 0.5, 1)
+energy = 0.7

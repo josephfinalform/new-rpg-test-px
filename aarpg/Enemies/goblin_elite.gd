@@ -9,4 +9,5 @@ func _ready() -> void:
 	xp_reward = 20
 	attack_range = 26.0
 	attack_cooldown_time = 0.5
+	potion_drop_chance = 0.08
 	super()
