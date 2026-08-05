@@ -1,6 +1,8 @@
 class_name XpGem
 extends Area2D
 
+const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
+
 @export var xp_amount: int = 5
 
 @export_group("Magnet")
@@ -60,6 +62,11 @@ func _on_body_entered(body: Node2D) -> void:
 	collected = true
 	set_deferred("monitoring", false)
 	player.gain_xp(xp_amount)
+	var popup := XP_POPUP.instantiate() as Label
+	get_parent().add_child(popup)
+	popup.text = "+" + str(xp_amount) + " XP"
+	popup.modulate = Color(0.35, 0.75, 1.0)
+	popup.global_position = global_position + Vector2(0, -10)
 	AudioManager.play_sfx_from_path("res://assets/audio/sfx/item_pickup.wav")
 	var tween := create_tween()
 	tween.set_parallel(true)
