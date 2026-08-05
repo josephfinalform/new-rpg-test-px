@@ -17,6 +17,11 @@ signal level_up(new_level: int)
 @export var death_sfx: AudioStream
 @export var level_up_sfx: AudioStream
 
+@export_group("Dash")
+@export var dash_speed: float = 280.0
+@export var dash_duration: float = 0.16
+@export var dash_cooldown: float = 1.2
+
 var direction: Vector2 = Vector2.ZERO
 var facing: Vector2 = Vector2.DOWN
 var is_sprinting: bool = false
@@ -25,6 +30,8 @@ var is_invincible: bool = false
 var is_dead: bool = false
 var can_attack: bool = true
 var hit_enemies_this_attack: Array[Node2D] = []
+var is_dashing: bool = false
+var dash_velocity: Vector2 = Vector2.ZERO
 
 var level: int = 1
 var xp: int = 0
@@ -40,6 +47,8 @@ var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as 
 @onready var hit_flash_timer: Timer = $HitFlashTimer
 @onready var hitbox_area: Area2D = $AttackPivot/HitboxArea
 @onready var attack_pivot: Node2D = $AttackPivot
+@onready var dash_timer: Timer = $DashTimer
+@onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 
 func _ready() -> void:
 	state_machine.initialize(self)
@@ -48,6 +57,8 @@ func _ready() -> void:
 	xp_to_next_level = get_xp_for_level(level)
 	attack_timer.wait_time = attack_cooldown
 	invincibility_timer.wait_time = invincibility_time
+	dash_timer.wait_time = dash_duration
+	dash_cooldown_timer.wait_time = dash_cooldown
 	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
 	attack_pivot.rotation = 0
 

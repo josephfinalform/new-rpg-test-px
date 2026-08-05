@@ -9,6 +9,9 @@ func process(_delta: float) -> State:
 	if player.is_dead:
 		return null
 	player.get_input()
+	var dash = check_dash_transition()
+	if dash:
+		return dash
 	if player.direction == Vector2.ZERO:
 		return get_state("idle")
 	var attack = check_attack_transition()

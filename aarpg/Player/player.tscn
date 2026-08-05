@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c5yawo6ekq6s2"]
+[gd_scene load_steps=23 format=3 uid="uid://c5yawo6ekq6s2"]
 
 [ext_resource type="Script" uid="uid://bfn66lxdr1rgc" path="res://aarpg/Player/Scripts/player.gd" id="1_4ntmi"]
 [ext_resource type="Texture2D" uid="uid://kg4a0anlddq7" path="res://assets/sprites/characters/example_player_sprite.png" id="1_l8h54"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://aarpg/Player/Scripts/attack_state.gd" id="6_atk01"]
 [ext_resource type="Script" path="res://aarpg/Player/Scripts/hurt_state.gd" id="7_hrt01"]
 [ext_resource type="Script" path="res://aarpg/Player/Scripts/death_state.gd" id="8_dth01"]
+[ext_resource type="Script" path="res://aarpg/Player/Scripts/dash_state.gd" id="9_dsh01"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
 size = Vector2(10, 10)
@@ -223,6 +224,9 @@ script = ExtResource("5_h8p7q")
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("6_atk01")
 
+[node name="Dash" type="Node" parent="StateMachine"]
+script = ExtResource("9_dsh01")
+
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource("7_hrt01")
 
@@ -246,6 +250,12 @@ one_shot = true
 
 [node name="HitFlashTimer" type="Timer" parent="."]
 wait_time = 0.1
+
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DashCooldownTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

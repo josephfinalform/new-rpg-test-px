@@ -13,6 +13,14 @@ func check_attack_transition() -> State:
 		return get_state("attack")
 	return null
 
+func check_dash_transition() -> State:
+	if player.is_dead or player.is_dashing:
+		return null
+	if Input.is_action_just_pressed("dash") and player.dash_cooldown_timer.is_stopped():
+		player.dash_cooldown_timer.start()
+		return get_state("dash")
+	return null
+
 func enter() -> void:
 	pass
 
