@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 const LEVEL_UP_EFFECT = preload("res://aarpg/Effects/level_up_effect.tscn")
+const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
 
 signal health_changed(new_health: int)
 signal died
@@ -109,6 +110,7 @@ func take_damage(amount: int, from_position: Vector2 = global_position) -> void:
 		return
 	health = max(health - amount, 0)
 	health_changed.emit(health)
+	_spawn_damage_number(amount)
 	is_invincible = true
 	invincibility_timer.start()
 	hit_flash_timer.start()
@@ -182,6 +184,14 @@ func get_xp_for_level(lvl: int) -> int:
 func heal(amount: int) -> void:
 	health = min(health + amount, max_health)
 	health_changed.emit(health)
+
+
+func _spawn_damage_number(amount: int) -> void:
+	var number := DAMAGE_NUMBER.instantiate() as Label
+	get_tree().current_scene.add_child(number)
+	number.text = str(amount)
+	number.modulate = Color(1.0, 0.35, 0.35)
+	number.global_position = global_position + Vector2(randf_range(-6, 6), -16)
 
 func _on_attack_timer_timeout() -> void:
 	can_attack = true

@@ -9,6 +9,7 @@ const HEART_SCENE = preload("res://aarpg/Pickups/heart_pickup.tscn")
 const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
 const XP_GEM_SCENE = preload("res://aarpg/Pickups/xp_gem.tscn")
 const POTION_SCENE = preload("res://aarpg/Pickups/potion_pickup.tscn")
+const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
 
 @export var max_health: int = 3
 @export var move_speed: float = 40.0
@@ -128,6 +129,7 @@ func take_damage(amount: int, from_position: Vector2) -> void:
 	if is_invincible or is_dead:
 		return
 	health = max(health - amount, 0)
+	_spawn_damage_number(amount)
 	is_invincible = true
 	invincibility_timer.start()
 	hurt_timer.start()
@@ -191,6 +193,13 @@ func _spawn_xp_popup() -> void:
 	get_parent().add_child(popup)
 	popup.text = "+" + str(xp_reward)
 	popup.global_position = global_position + Vector2(0, -14)
+
+
+func _spawn_damage_number(amount: int) -> void:
+	var number := DAMAGE_NUMBER.instantiate() as Label
+	get_parent().add_child(number)
+	number.text = str(amount)
+	number.global_position = global_position + Vector2(randf_range(-6, 6), -16)
 
 func _play_death_effect() -> void:
 	var tween: Tween = create_tween()
