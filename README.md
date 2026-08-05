@@ -65,6 +65,12 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **New bosses**: Ice Golem (ice balls, charge, ice minions) & Shadow Knight (dash, whirlwind, shadow bats — final boss)
 - **Locked boss gates**: portals stay locked until the arena boss is defeated
 - **XP gem drops**: blue crystals (5 XP each) dropped by stronger enemies
+- **XP gem magnet**: crystals fly to the player when nearby (radius scaling with size per XP value)
+- **+XP popup**: collecting a gem shows a floating "+N XP" text
+- **Damage numbers**: floating hit text on enemy and player hits
+- **Level-up effect**: "LEVEL UP" banner + particle burst + jingle + stat summary (HP/ATK/SPD)
+- **Player growth**: character scales up slightly with each level
+- **HUD XP text**: `12 / 15` progress label + smoothly animated XP bar, pulsing level label
 - **Difficulty scaling**: enemy HP/damage/XP scale up per campaign level
 
 ### Level & XP System
@@ -199,6 +205,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-06 | Level-up effect (banner + particles + jingle + stat summary), XP gem magnet, +XP pickups, damage numbers, player level scaling, HUD XP text & smooth bar |
 | 2026-08-05 | New enemies (Wolf, Zombie, Goblin Archer with ranged arrows), potion pickups + enemy drops, empty levels 4/5/1/2 refilled, player Dash (F/C) |
 | 2026-08-04 | 7-level campaign: Forest & Graveyard levels, Bat/Skeleton/Orc enemies, Ice Golem & Shadow Knight bosses, XP gem drops, locked boss gates, difficulty scaling |
 | 2026-08-03 | Drops: healing orbs + floating XP popups, kill counter, boss intro banner |
@@ -215,4 +222,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-05*
+*Last updated: 2026-08-06*
