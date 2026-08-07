@@ -6,6 +6,8 @@ extends CanvasLayer
 @onready var xp_bar: ProgressBar = $MarginContainer/VBoxContainer/XPBar
 @onready var level_label: Label = $MarginContainer/VBoxContainer/LevelLabel
 @onready var level_name_label: Label = get_node_or_null("MarginContainer/VBoxContainer/LevelNameLabel")
+@onready var weapon_label: Label = get_node_or_null("MarginContainer/VBoxContainer/WeaponLabel")
+@onready var season_label: Label = get_node_or_null("MarginContainer/VBoxContainer/SeasonLabel")
 @onready var kills_label: Label = get_node_or_null("MarginContainer/VBoxContainer/KillsLabel")
 @onready var xp_text_label: Label = get_node_or_null("MarginContainer/VBoxContainer/XPTextLabel")
 
@@ -19,14 +21,19 @@ func _ready() -> void:
 		player.health_changed.connect(_on_health_changed)
 		player.xp_changed.connect(_on_xp_changed)
 		player.level_up.connect(_on_level_up)
+		player.weapon_changed.connect(_on_weapon_changed)
 		_setup_hearts(player.max_health)
 		_on_health_changed(player.health)
 		_on_xp_changed(player.xp, player.level)
 		_on_level_up(player.level)
+		if player.equipped_weapon:
+			_on_weapon_changed(player.equipped_weapon)
 	GameManager.level_changed.connect(_on_level_changed)
 	_on_level_changed(GameManager.current_level_index)
 	GameManager.kills_changed.connect(_on_kills_changed)
 	_on_kills_changed(GameManager.kills)
+	SeasonManager.season_changed.connect(_on_season_changed)
+	_on_season_changed(SeasonManager.current_season)
 
 func _on_level_changed(index: int) -> void:
 	if level_name_label:
@@ -35,6 +42,16 @@ func _on_level_changed(index: int) -> void:
 func _on_kills_changed(total: int) -> void:
 	if kills_label:
 		kills_label.text = "Kills: " + str(total)
+
+func _on_weapon_changed(weapon: Weapon) -> void:
+	if weapon_label:
+		weapon_label.text = weapon.display_name
+		weapon_label.add_theme_color_override("font_color", weapon.trail_color)
+
+func _on_season_changed(season: int) -> void:
+	if season_label:
+		season_label.text = SeasonManager.get_season_name()
+		season_label.add_theme_color_override("font_color", SeasonManager.get_outdoor_tint())
 
 func _setup_hearts(max_hp: int) -> void:
 	for child in hearts_container.get_children():

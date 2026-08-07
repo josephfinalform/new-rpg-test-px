@@ -46,6 +46,12 @@ var idle_duration: float = 2.0
 var idle_direction: Vector2 = Vector2.ZERO
 var attack_cooldown: float = 0.0
 
+var slow_factor: float = 1.0
+var slow_remaining: float = 0.0
+var burn_damage: int = 0
+var burn_remaining: float = 0.0
+var burn_tick_timer: float = 0.0
+
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hitbox_area: Area2D = $HitboxArea
@@ -75,7 +81,21 @@ func _physics_process(delta: float) -> void:
 			_process_attack(delta)
 	velocity = base_velocity + knockback_velocity
 	knockback_velocity = knockback_velocity.lerp(Vector2.ZERO, 1.0 - exp(-5.0 * delta))
+	_process_status_effects(delta)
 	move_and_slide()
+
+func _process_status_effects(delta: float) -> void:
+	if slow_remaining > 0.0:
+		slow_remaining = maxf(slow_remaining - delta, 0.0)
+		if slow_remaining == 0.0:
+			slow_factor = 1.0
+	if burn_remaining > 0.0:
+		burn_tick_timer -= delta
+		if burn_tick_timer <= 0.0:
+			burn_tick_timer = 0.5
+			burn_remaining -= 0.5
+			_apply_burn_tick()
+	_update_status_visual()
 
 func _process_idle(delta: float) -> void:
 	idle_timer += delta
@@ -85,7 +105,7 @@ func _process_idle(delta: float) -> void:
 		idle_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 		if idle_direction.length() < 0.1:
 			idle_direction = Vector2.ZERO
-	velocity = idle_direction * move_speed * idle_speed_ratio
+	velocity = idle_direction * move_speed * idle_speed_ratio * slow_factor
 	base_velocity = velocity
 	_update_idle_animation()
 	if chase_target and is_instance_valid(chase_target):
@@ -96,7 +116,7 @@ func _process_chase(_delta: float) -> void:
 		current_state = State.IDLE
 		return
 	var dir: Vector2 = (chase_target.global_position - global_position).normalized()
-	velocity = dir * move_speed
+	velocity = dir * move_speed * slow_factor
 	base_velocity = velocity
 	_update_chase_animation(dir)
 	if global_position.distance_to(chase_target.global_position) < attack_range:
@@ -256,3 +276,46 @@ func apply_level_scaling(level_index: int) -> void:
 	health = max_health
 	damage = ceili(float(damage) * dmg_mult)
 	xp_reward = roundi(float(xp_reward) * xp_mult)
+
+
+func apply_status_from_weapon(weapon: Weapon) -> void:
+	if is_dead:
+		return
+	match weapon.effect:
+		Weapon.Effect.FIRE:
+			apply_burn(1, 3)
+		Weapon.Effect.FROST:
+			apply_slow(1.6, 0.5)
+
+
+func apply_slow(duration: float, factor: float) -> void:
+	if is_dead:
+		return
+	slow_remaining = maxf(slow_remaining, duration)
+	slow_factor = factor
+
+
+func apply_burn(damage: int, ticks: int) -> void:
+	if is_dead:
+		return
+	burn_damage = damage
+	burn_remaining = float(ticks) * 0.5
+	burn_tick_timer = 0.0
+
+
+func _apply_burn_tick() -> void:
+	if is_dead:
+		return
+	health = maxi(health - burn_damage, 0)
+	_spawn_damage_number(burn_damage)
+	if health <= 0:
+		_die()
+
+
+func _update_status_visual() -> void:
+	var target := Color.WHITE
+	if burn_remaining > 0.0:
+		target = Color(1.0, 0.6, 0.3)
+	elif slow_remaining > 0.0:
+		target = Color(0.65, 0.8, 1.0)
+	modulate = modulate.lerp(target, 0.1)

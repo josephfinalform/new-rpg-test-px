@@ -1,0 +1,100 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/fire_imp.tscn" id="4_imp"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/skeleton.tscn" id="5_skeleton"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/orc_brute.tscn" id="6_orc"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="7_portal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="8_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="9_hud"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/torch.tscn" id="10_torch"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/potion_pickup.tscn" id="11_potion"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/weapon_pickup.tscn" id="12_weapon"]
+[ext_resource type="Resource" path="res://aarpg/config/weapons/fire_sword.tres" id="13_fire"]
+
+[node name="Level8" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 128)
+
+[node name="DungeonMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(48, 26)
+decoration_density = 0.06
+tint = Color(1, 0.55, 0.3, 1)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 128)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Imp1" parent="Enemies" instance=ExtResource("4_imp")]
+position = Vector2(300, 180)
+
+[node name="Imp2" parent="Enemies" instance=ExtResource("4_imp")]
+position = Vector2(360, 320)
+
+[node name="Imp3" parent="Enemies" instance=ExtResource("4_imp")]
+position = Vector2(480, 430)
+
+[node name="Imp4" parent="Enemies" instance=ExtResource("4_imp")]
+position = Vector2(620, 160)
+
+[node name="Imp5" parent="Enemies" instance=ExtResource("4_imp")]
+position = Vector2(900, 280)
+
+[node name="Imp6" parent="Enemies" instance=ExtResource("4_imp")]
+position = Vector2(1180, 520)
+
+[node name="Skeleton1" parent="Enemies" instance=ExtResource("5_skeleton")]
+position = Vector2(440, 260)
+
+[node name="Skeleton2" parent="Enemies" instance=ExtResource("5_skeleton")]
+position = Vector2(700, 480)
+
+[node name="Skeleton3" parent="Enemies" instance=ExtResource("5_skeleton")]
+position = Vector2(1100, 300)
+
+[node name="Orc1" parent="Enemies" instance=ExtResource("6_orc")]
+position = Vector2(800, 220)
+
+[node name="Orc2" parent="Enemies" instance=ExtResource("6_orc")]
+position = Vector2(1280, 420)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("8_chest")]
+position = Vector2(240, 480)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("8_chest")]
+position = Vector2(1350, 180)
+
+[node name="FireSword" parent="Pickups" instance=ExtResource("12_weapon")]
+position = Vector2(700, 320)
+weapon = ExtResource("13_fire")
+
+[node name="Potion1" parent="Pickups" instance=ExtResource("11_potion")]
+position = Vector2(520, 540)
+
+[node name="Potion2" parent="Pickups" instance=ExtResource("11_potion")]
+position = Vector2(1050, 560)
+
+[node name="Torches" type="Node2D" parent="."]
+
+[node name="Torch1" parent="Torches" instance=ExtResource("10_torch")]
+position = Vector2(180, 120)
+
+[node name="Torch2" parent="Torches" instance=ExtResource("10_torch")]
+position = Vector2(420, 640)
+
+[node name="Torch3" parent="Torches" instance=ExtResource("10_torch")]
+position = Vector2(1000, 120)
+
+[node name="Torch4" parent="Torches" instance=ExtResource("10_torch")]
+position = Vector2(1380, 640)
+
+[node name="Portal" parent="." instance=ExtResource("7_portal")]
+position = Vector2(1380, 400)
+target_level_index = 7
+
+[node name="HealthBar" parent="." instance=ExtResource("9_hud")]

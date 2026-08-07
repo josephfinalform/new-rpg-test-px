@@ -1,0 +1,8 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Fire Sword"
+damage_bonus = 2
+cooldown_multiplier = 1.0
+effect = 1
+trail_color = Color(1.0, 0.45, 0.15, 1)
+description = "Forged in Ember Canyon. Scorches enemies with every swing."

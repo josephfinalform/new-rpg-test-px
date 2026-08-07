@@ -10,6 +10,7 @@ signal kills_changed(total: int)
 	"res://aarpg/Levels/level_4_forest.tscn",
 	"res://aarpg/Levels/level_5_graveyard.tscn",
 	"res://aarpg/Levels/level_6_ice_arena.tscn",
+	"res://aarpg/Levels/level_8_ember_canyon.tscn",
 	"res://aarpg/Levels/level_7_shadow_arena.tscn",
 ]
 @export var level_names: Array[String] = [
@@ -19,16 +20,19 @@ signal kills_changed(total: int)
 	"Forest",
 	"Graveyard",
 	"Ice Cavern",
+	"Ember Canyon",
 	"Shadow Keep",
 ]
 
 var current_level_index: int = 0
 var kills: int = 0
+var equipped_weapon: Weapon = null
 
 
 func start_game() -> void:
 	current_level_index = 0
 	kills = 0
+	equipped_weapon = null
 	kills_changed.emit(0)
 	_load_level(current_level_index)
 

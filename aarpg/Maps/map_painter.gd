@@ -9,6 +9,7 @@ extends Node2D
 @export_range(0.0, 1.0) var decoration_density: float = 0.0
 @export var rng_seed: int = 1337
 @export var enable_bounds: bool = true
+@export var tint: Color = Color.WHITE
 
 var _floor_tiles: Array[Vector2i] = []
 var _deco_tiles: Array[Vector2i] = []
@@ -20,6 +21,9 @@ func _ready() -> void:
 	rng.seed = rng_seed
 	for child in get_children():
 		if child is TileMapLayer:
+			child.modulate = tint
+			if child.is_in_group("outdoor_ground"):
+				child.modulate = tint * SeasonManager.get_outdoor_tint()
 			_paint(child, rng)
 			break
 	if enable_bounds:

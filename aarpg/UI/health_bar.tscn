@@ -30,6 +30,16 @@ text = "Lv.1"
 layout_mode = 2
 text = ""
 
+[node name="WeaponLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Iron Sword"
+theme_override_font_sizes/font_size = 8
+
+[node name="SeasonLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Spring"
+theme_override_font_sizes/font_size = 8
+
 [node name="KillsLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Kills: 0"

@@ -31,6 +31,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 | Sprint | Hold Shift |
 | Attack | Space / X |
 | Dash | F / C |
+| Cycle Season | Q |
 
 ## Features
 
@@ -48,7 +49,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
-- **7 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → shadow keep)
+- **8 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → shadow keep)
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
@@ -72,6 +73,12 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Player growth**: character scales up slightly with each level
 - **HUD XP text**: `12 / 15` progress label + smoothly animated XP bar, pulsing level label
 - **Difficulty scaling**: enemy HP/damage/XP scale up per campaign level
+- **Weapon system**: `Weapon` resources (Iron, Fire, Frost, Royal swords) picked up in the world, affecting damage / attack speed / status effects; equipped weapon persists through the campaign and is shown on the HUD
+- **Weapon status effects**: Fire Sword burns enemies over time, Frost Sword chills & slows them
+- **Weapon pickups**: glowing sword drops with name labels & bob animation (Fire → Ember Canyon, Frost → Ice Cavern, Royal → Shadow Keep)
+- **New enemy**: Fire Imp (fast, skittish ember goblin that drops XP gems)
+- **New level**: Ember Canyon — lava-tinted dungeon arena between the Ice Cavern and the Shadow Keep, packed with fire imps, skeletons and orcs
+- **Season system**: cycle Spring → Summer → Autumn → Winter (`Q`); outdoor maps get seasonal palettes and weather (falling leaves in autumn, snow in winter), shown on the HUD
 
 ### Level & XP System
 
@@ -136,11 +143,13 @@ new-rpg-test-px/
 │   │   ├── wizard_boss.tscn
 │   │   ├── ice_golem.gd / ice_golem.tscn # Boss: ice balls, charge, minions
 │   │   ├── shadow_knight.gd / shadow_knight.tscn # Final boss: dash, whirlwind
+│   │   ├── fire_imp.gd / fire_imp.tscn # Fast ember goblin, XP gem drops
 │   │   ├── boss_projectile.gd
 │   │   └── boss_projectile.tscn
 │   ├── config/
 │   │   ├── level_config.gd
-│   │   └── level_config.tres
+│   │   ├── level_config.tres
+│   │   └── weapons/                 # Weapon resource + sword .tres files
 │   ├── Levels/
 │   │   ├── level.gd               # Level flow (spawn, death, victory)
 │   │   ├── portal.gd / portal.tscn # Level exit portal
@@ -151,6 +160,7 @@ new-rpg-test-px/
 │   │   ├── level_4_forest.tscn    # Forest: bats, goblins, orcs
 │   │   ├── level_5_graveyard.tscn # Graveyard: skeletons, bats
 │   │   ├── level_6_ice_arena.tscn # Ice Golem arena (locked gate)
+│   │   ├── level_8_ember_canyon.tscn # Ember Canyon: fire imps, lava tint
 │   │   └── level_7_shadow_arena.tscn # Shadow Knight arena (final)
 │   ├── Maps/
 │   │   ├── map_painter.gd         # Runtime tile painting + bounds
@@ -164,10 +174,14 @@ new-rpg-test-px/
 │   │   ├── potion_pickup.gd
 │   │   ├── potion_pickup.tscn     # Heals 4 HP, enemy/level drop
 │   │   ├── xp_gem.gd
-│   │   └── xp_gem.tscn            # Enemy drop, +5 XP
+│   │   ├── xp_gem.tscn            # Enemy drop, +5 XP
+│   │   ├── weapon_pickup.gd
+│   │   └── weapon_pickup.tscn     # Sword drop, equips Weapon resource
 │   ├── Effects/
 │   │   ├── floating_text.gd
 │   │   └── floating_text.tscn     # "+XP" popup on kill
+│   ├── autoload/
+│   │   └── season_manager.gd      # Seasons: palettes, weather, cycle (Q)
 │   └── UI/
 │       ├── health_bar.gd
 │       ├── health_bar.tscn
@@ -205,6 +219,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-06 | Weapons (Iron/Fire/Frost/Royal swords + status effects), Ember Canyon level, Fire Imp enemy, season system (Q), HUD weapon/season labels |
 | 2026-08-06 | Level-up effect (banner + particles + jingle + stat summary), XP gem magnet, +XP pickups, damage numbers, player level scaling, HUD XP text & smooth bar |
 | 2026-08-05 | New enemies (Wolf, Zombie, Goblin Archer with ranged arrows), potion pickups + enemy drops, empty levels 4/5/1/2 refilled, player Dash (F/C) |
 | 2026-08-04 | 7-level campaign: Forest & Graveyard levels, Bat/Skeleton/Orc enemies, Ice Golem & Shadow Knight bosses, XP gem drops, locked boss gates, difficulty scaling |

@@ -1,0 +1,8 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Royal Sword"
+damage_bonus = 3
+cooldown_multiplier = 0.9
+effect = 0
+trail_color = Color(1.0, 0.84, 0.35, 1)
+description = "The blade of the Shadow Keep's lost king. Hits like a crown jewel."

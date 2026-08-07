@@ -1,0 +1,8 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Iron Sword"
+damage_bonus = 0
+cooldown_multiplier = 1.0
+effect = 0
+trail_color = Color(0.85, 0.85, 0.9, 1)
+description = "A trusty iron blade. Reliable and honest."

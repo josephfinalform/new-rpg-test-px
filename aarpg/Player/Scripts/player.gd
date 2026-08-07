@@ -8,6 +8,7 @@ signal health_changed(new_health: int)
 signal died
 signal xp_changed(new_xp: int, new_level: int)
 signal level_up(new_level: int)
+signal weapon_changed(weapon: Weapon)
 
 @export var move_speed: float = 100.0
 @export var sprint_speed: float = 180.0
@@ -36,6 +37,10 @@ var hit_enemies_this_attack: Array[Node2D] = []
 var is_dashing: bool = false
 var dash_velocity: Vector2 = Vector2.ZERO
 
+var base_attack_damage: int = 1
+var base_attack_cooldown: float = 0.4
+var equipped_weapon: Weapon = null
+
 var level: int = 1
 var xp: int = 0
 var xp_to_next_level: int = 10
@@ -50,6 +55,7 @@ var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as 
 @onready var hit_flash_timer: Timer = $HitFlashTimer
 @onready var hitbox_area: Area2D = $AttackPivot/HitboxArea
 @onready var attack_pivot: Node2D = $AttackPivot
+@onready var sword_visual: Polygon2D = $AttackPivot/SwordVisual
 @onready var dash_timer: Timer = $DashTimer
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 
@@ -64,6 +70,11 @@ func _ready() -> void:
 	dash_cooldown_timer.wait_time = dash_cooldown
 	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
 	attack_pivot.rotation = 0
+	base_attack_damage = attack_damage
+	base_attack_cooldown = attack_cooldown
+	var default_weapon := load("res://aarpg/config/weapons/iron_sword.tres") as Weapon
+	equipped_weapon = GameManager.equipped_weapon if GameManager.equipped_weapon != null else default_weapon
+	_apply_weapon()
 
 func get_input() -> void:
 	if is_dead:
@@ -151,7 +162,8 @@ func _level_up() -> void:
 	xp_to_next_level = get_xp_for_level(level)
 	max_health += level_config.health_gain_per_level
 	health = min(health + level_config.heal_on_level_up, max_health)
-	attack_damage += level_config.damage_gain_per_level
+	base_attack_damage += level_config.damage_gain_per_level
+	_apply_weapon()
 	move_speed += level_config.move_speed_gain
 	sprint_speed += level_config.sprint_speed_gain
 	health_changed.emit(health)
@@ -186,6 +198,23 @@ func heal(amount: int) -> void:
 	health_changed.emit(health)
 
 
+func equip_weapon(weapon: Weapon) -> void:
+	equipped_weapon = weapon
+	GameManager.equipped_weapon = weapon
+	_apply_weapon()
+	weapon_changed.emit(weapon)
+
+
+func _apply_weapon() -> void:
+	if equipped_weapon == null:
+		return
+	attack_damage = base_attack_damage + equipped_weapon.damage_bonus
+	attack_cooldown = base_attack_cooldown * equipped_weapon.cooldown_multiplier
+	attack_timer.wait_time = attack_cooldown
+	if sword_visual:
+		sword_visual.color = equipped_weapon.trail_color
+
+
 func _spawn_damage_number(amount: int) -> void:
 	var number := DAMAGE_NUMBER.instantiate() as Label
 	get_tree().current_scene.add_child(number)
@@ -209,5 +238,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Enemy and not body in hit_enemies_this_attack:
 		hit_enemies_this_attack.append(body)
 		body.take_damage(attack_damage, global_position)
+		if equipped_weapon and equipped_weapon.effect != Weapon.Effect.NONE and body.has_method("apply_status_from_weapon"):
+			body.apply_status_from_weapon(equipped_weapon)
 		if attack_sfx:
 			AudioManager.play_sfx(attack_sfx)
