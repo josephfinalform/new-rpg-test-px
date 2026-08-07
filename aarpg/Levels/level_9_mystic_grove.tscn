@@ -1,0 +1,89 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/grass_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/crystal_wisp.tscn" id="4_wisp"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="5_portal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="6_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_gem.tscn" id="7_gem"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/potion_pickup.tscn" id="8_potion"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/torch.tscn" id="9_torch"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="10_hud"]
+
+[node name="Level9" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 128)
+
+[node name="GrassMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(48, 26)
+decoration_density = 0.02
+tint = Color(0.9, 0.88, 1, 1)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 128)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Wisp1" parent="Enemies" instance=ExtResource("4_wisp")]
+position = Vector2(400, 220)
+
+[node name="Wisp2" parent="Enemies" instance=ExtResource("4_wisp")]
+position = Vector2(640, 460)
+
+[node name="Wisp3" parent="Enemies" instance=ExtResource("4_wisp")]
+position = Vector2(980, 240)
+
+[node name="Wisp4" parent="Enemies" instance=ExtResource("4_wisp")]
+position = Vector2(1180, 520)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("6_chest")]
+position = Vector2(520, 300)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("6_chest")]
+position = Vector2(1120, 620)
+
+[node name="Gem1" parent="Pickups" instance=ExtResource("7_gem")]
+position = Vector2(300, 420)
+
+[node name="Gem2" parent="Pickups" instance=ExtResource("7_gem")]
+position = Vector2(480, 540)
+
+[node name="Gem3" parent="Pickups" instance=ExtResource("7_gem")]
+position = Vector2(700, 200)
+
+[node name="Gem4" parent="Pickups" instance=ExtResource("7_gem")]
+position = Vector2(860, 380)
+xp_amount = 10
+
+[node name="Gem5" parent="Pickups" instance=ExtResource("7_gem")]
+position = Vector2(1050, 160)
+xp_amount = 10
+
+[node name="Gem6" parent="Pickups" instance=ExtResource("7_gem")]
+position = Vector2(1240, 420)
+
+[node name="Potion1" parent="Pickups" instance=ExtResource("8_potion")]
+position = Vector2(620, 560)
+
+[node name="Potion2" parent="Pickups" instance=ExtResource("8_potion")]
+position = Vector2(950, 660)
+
+[node name="Torches" type="Node2D" parent="."]
+
+[node name="Torch1" parent="Torches" instance=ExtResource("9_torch")]
+position = Vector2(220, 160)
+
+[node name="Torch2" parent="Torches" instance=ExtResource("9_torch")]
+position = Vector2(1300, 160)
+
+[node name="Torch3" parent="Torches" instance=ExtResource("9_torch")]
+position = Vector2(760, 600)
+
+[node name="Portal" parent="." instance=ExtResource("5_portal")]
+position = Vector2(1380, 400)
+target_level_index = 8
+
+[node name="HealthBar" parent="." instance=ExtResource("10_hud")]

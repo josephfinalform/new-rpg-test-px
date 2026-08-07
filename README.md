@@ -49,7 +49,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
-- **8 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → shadow keep)
+- **9 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → shadow keep)
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
@@ -79,6 +79,8 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **New enemy**: Fire Imp (fast, skittish ember goblin that drops XP gems)
 - **New level**: Ember Canyon — lava-tinted dungeon arena between the Ice Cavern and the Shadow Keep, packed with fire imps, skeletons and orcs
 - **Season system**: cycle Spring → Summer → Autumn → Winter (`Q`); outdoor maps get seasonal palettes and weather (falling leaves in autumn, snow in winter), shown on the HUD
+- **New enemy**: Crystal Wisp — floating mystic crystal that drifts through the grove, dropping XP gems on death (60%)
+- **New level**: Mystic Grove — calm, mostly-empty outdoor clearing between the Ember Canyon and the Shadow Keep, packed with XP gems, chests and potions
 
 ### Level & XP System
 
@@ -144,6 +146,7 @@ new-rpg-test-px/
 │   │   ├── ice_golem.gd / ice_golem.tscn # Boss: ice balls, charge, minions
 │   │   ├── shadow_knight.gd / shadow_knight.tscn # Final boss: dash, whirlwind
 │   │   ├── fire_imp.gd / fire_imp.tscn # Fast ember goblin, XP gem drops
+│   │   ├── crystal_wisp.gd / crystal_wisp.tscn # Floating mystic crystal, XP gem drops
 │   │   ├── boss_projectile.gd
 │   │   └── boss_projectile.tscn
 │   ├── config/
@@ -161,6 +164,7 @@ new-rpg-test-px/
 │   │   ├── level_5_graveyard.tscn # Graveyard: skeletons, bats
 │   │   ├── level_6_ice_arena.tscn # Ice Golem arena (locked gate)
 │   │   ├── level_8_ember_canyon.tscn # Ember Canyon: fire imps, lava tint
+│   │   ├── level_9_mystic_grove.tscn # Mystic Grove: crystal wisps, XP gems
 │   │   └── level_7_shadow_arena.tscn # Shadow Knight arena (final)
 │   ├── Maps/
 │   │   ├── map_painter.gd         # Runtime tile painting + bounds
@@ -219,6 +223,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-07 | Crystal Wisp enemy + Mystic Grove level (9-level campaign), XP gem / chest / potion placement |
 | 2026-08-06 | Weapons (Iron/Fire/Frost/Royal swords + status effects), Ember Canyon level, Fire Imp enemy, season system (Q), HUD weapon/season labels |
 | 2026-08-06 | Level-up effect (banner + particles + jingle + stat summary), XP gem magnet, +XP pickups, damage numbers, player level scaling, HUD XP text & smooth bar |
 | 2026-08-05 | New enemies (Wolf, Zombie, Goblin Archer with ranged arrows), potion pickups + enemy drops, empty levels 4/5/1/2 refilled, player Dash (F/C) |
