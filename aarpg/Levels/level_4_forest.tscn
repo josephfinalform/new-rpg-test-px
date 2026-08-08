@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/grass_map.tscn" id="2_map"]
@@ -12,6 +12,11 @@
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/wolf.tscn" id="10_wolf"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_archer.tscn" id="11_archer"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/potion_pickup.tscn" id="12_potion"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/armor_pickup.tscn" id="13_armor"]
+[ext_resource type="Resource" path="res://aarpg/config/armors/cyan_plate.tres" id="14_plate"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/gear_up_pickup.tscn" id="15_gearup"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/spd_up.tres" id="16_spd"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/dash_up.tres" id="17_dash"]
 
 [node name="Level4" type="Node2D"]
 script = ExtResource("1_level")
@@ -96,6 +101,18 @@ position = Vector2(960, 300)
 
 [node name="Potion2" parent="Pickups" instance=ExtResource("12_potion")]
 position = Vector2(1320, 500)
+
+[node name="CyanPlate" parent="Pickups" instance=ExtResource("13_armor")]
+position = Vector2(640, 600)
+armor = ExtResource("14_plate")
+
+[node name="SpdUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(360, 500)
+gear_up = ExtResource("16_spd")
+
+[node name="DashUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(1220, 620)
+gear_up = ExtResource("17_dash")
 
 [node name="Portal" parent="." instance=ExtResource("7_portal")]
 position = Vector2(1380, 400)

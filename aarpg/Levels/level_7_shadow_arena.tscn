@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="8_hud"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/weapon_pickup.tscn" id="9_weapon"]
 [ext_resource type="Resource" path="res://aarpg/config/weapons/royal_sword.tres" id="10_royal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/armor_pickup.tscn" id="11_armor"]
+[ext_resource type="Resource" path="res://aarpg/config/armors/royal_cyan_guard.tres" id="12_guard"]
 
 [node name="Level7" type="Node2D"]
 script = ExtResource("1_level")
@@ -57,5 +59,9 @@ position = Vector2(180, 420)
 [node name="RoyalSword" parent="Pickups" instance=ExtResource("9_weapon")]
 position = Vector2(300, 320)
 weapon = ExtResource("10_royal")
+
+[node name="RoyalCyanGuard" parent="Pickups" instance=ExtResource("11_armor")]
+position = Vector2(420, 460)
+armor = ExtResource("12_guard")
 
 [node name="HealthBar" parent="." instance=ExtResource("8_hud")]

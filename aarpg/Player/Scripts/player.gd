@@ -9,6 +9,8 @@ signal died
 signal xp_changed(new_xp: int, new_level: int)
 signal level_up(new_level: int)
 signal weapon_changed(weapon: Weapon)
+signal armor_changed(armor: Armor)
+signal gear_up_applied(gear_up: GearUp)
 
 @export var move_speed: float = 100.0
 @export var sprint_speed: float = 180.0
@@ -40,6 +42,9 @@ var dash_velocity: Vector2 = Vector2.ZERO
 var base_attack_damage: int = 1
 var base_attack_cooldown: float = 0.4
 var equipped_weapon: Weapon = null
+var equipped_armor: Armor = null
+
+@onready var armor_visual: Polygon2D = get_node_or_null("ArmorVisual")
 
 var level: int = 1
 var xp: int = 0
@@ -75,6 +80,9 @@ func _ready() -> void:
 	var default_weapon := load("res://aarpg/config/weapons/iron_sword.tres") as Weapon
 	equipped_weapon = GameManager.equipped_weapon if GameManager.equipped_weapon != null else default_weapon
 	_apply_weapon()
+	if equipped_armor == null:
+		equipped_armor = GameManager.equipped_armor
+	_apply_armor_visual()
 
 func get_input() -> void:
 	if is_dead:
@@ -119,9 +127,13 @@ func play_facing_animation(anim_prefix: String, dir: Vector2 = facing) -> void:
 func take_damage(amount: int, from_position: Vector2 = global_position) -> void:
 	if is_invincible or is_dead:
 		return
-	health = max(health - amount, 0)
+	var final_amount := amount
+	if equipped_armor:
+		final_amount = maxi(final_amount - equipped_armor.damage_reduction, 1)
+		final_amount = maxi(roundi(final_amount * (1.0 - equipped_armor.damage_reduction_ratio)), 1)
+	health = max(health - final_amount, 0)
 	health_changed.emit(health)
-	_spawn_damage_number(amount)
+	_spawn_damage_number(final_amount)
 	is_invincible = true
 	invincibility_timer.start()
 	hit_flash_timer.start()
@@ -166,10 +178,22 @@ func _level_up() -> void:
 	_apply_weapon()
 	move_speed += level_config.move_speed_gain
 	sprint_speed += level_config.sprint_speed_gain
+	_apply_milestone_bonus()
 	health_changed.emit(health)
 	level_up.emit(level)
 	_spawn_level_up_effect()
 	_animate_level_scale()
+
+func _apply_milestone_bonus() -> void:
+	if level_config.milestone_interval <= 0:
+		return
+	if level % level_config.milestone_interval == 0:
+		max_health += level_config.milestone_max_health_bonus
+		health = min(health + level_config.milestone_max_health_bonus, max_health)
+		base_attack_damage += level_config.milestone_damage_bonus
+		_apply_weapon()
+		move_speed += level_config.milestone_speed_bonus
+		sprint_speed += level_config.milestone_speed_bonus
 
 func _spawn_level_up_effect() -> void:
 	var effect := LEVEL_UP_EFFECT.instantiate()
@@ -180,6 +204,8 @@ func _spawn_level_up_effect() -> void:
 		level_config.damage_gain_per_level,
 		int(level_config.move_speed_gain),
 	]
+	if level % level_config.milestone_interval == 0:
+		stats_text += "  MILESTONE!"
 	effect.setup(stats_text)
 
 func _animate_level_scale() -> void:
@@ -213,6 +239,42 @@ func _apply_weapon() -> void:
 	attack_timer.wait_time = attack_cooldown
 	if sword_visual:
 		sword_visual.color = equipped_weapon.trail_color
+
+
+func equip_armor(armor: Armor) -> void:
+	equipped_armor = armor
+	GameManager.equipped_armor = armor
+	_apply_armor_visual()
+	armor_changed.emit(armor)
+
+
+func _apply_armor_visual() -> void:
+	if armor_visual == null:
+		return
+	if equipped_armor == null:
+		armor_visual.visible = false
+		return
+	armor_visual.visible = true
+	armor_visual.color = equipped_armor.armor_color
+	armor_visual.modulate.a = 0.55
+
+
+func apply_gear_up(gear_up: GearUp) -> void:
+	match gear_up.stat:
+		GearUp.Stat.ATTACK:
+			base_attack_damage += gear_up.amount
+			_apply_weapon()
+		GearUp.Stat.MAX_HEALTH:
+			max_health += gear_up.amount
+			health = min(health + gear_up.amount, max_health)
+			health_changed.emit(health)
+		GearUp.Stat.SPEED:
+			move_speed += float(gear_up.amount)
+			sprint_speed += float(gear_up.amount)
+		GearUp.Stat.DASH_COOLDOWN:
+			dash_cooldown = maxf(dash_cooldown - gear_up.amount * 0.05, 0.4)
+			dash_cooldown_timer.wait_time = dash_cooldown
+	gear_up_applied.emit(gear_up)
 
 
 func _spawn_damage_number(amount: int) -> void:

@@ -7,6 +7,8 @@ extends CanvasLayer
 @onready var level_label: Label = $MarginContainer/VBoxContainer/LevelLabel
 @onready var level_name_label: Label = get_node_or_null("MarginContainer/VBoxContainer/LevelNameLabel")
 @onready var weapon_label: Label = get_node_or_null("MarginContainer/VBoxContainer/WeaponLabel")
+@onready var armor_label: Label = get_node_or_null("MarginContainer/VBoxContainer/ArmorLabel")
+@onready var gear_up_label: Label = get_node_or_null("MarginContainer/VBoxContainer/GearUpLabel")
 @onready var season_label: Label = get_node_or_null("MarginContainer/VBoxContainer/SeasonLabel")
 @onready var kills_label: Label = get_node_or_null("MarginContainer/VBoxContainer/KillsLabel")
 @onready var xp_text_label: Label = get_node_or_null("MarginContainer/VBoxContainer/XPTextLabel")
@@ -22,12 +24,16 @@ func _ready() -> void:
 		player.xp_changed.connect(_on_xp_changed)
 		player.level_up.connect(_on_level_up)
 		player.weapon_changed.connect(_on_weapon_changed)
+		player.armor_changed.connect(_on_armor_changed)
+		player.gear_up_applied.connect(_on_gear_up_applied)
 		_setup_hearts(player.max_health)
 		_on_health_changed(player.health)
 		_on_xp_changed(player.xp, player.level)
 		_on_level_up(player.level)
 		if player.equipped_weapon:
 			_on_weapon_changed(player.equipped_weapon)
+		if player.equipped_armor:
+			_on_armor_changed(player.equipped_armor)
 	GameManager.level_changed.connect(_on_level_changed)
 	_on_level_changed(GameManager.current_level_index)
 	GameManager.kills_changed.connect(_on_kills_changed)
@@ -47,6 +53,20 @@ func _on_weapon_changed(weapon: Weapon) -> void:
 	if weapon_label:
 		weapon_label.text = weapon.display_name
 		weapon_label.add_theme_color_override("font_color", weapon.trail_color)
+
+func _on_armor_changed(armor: Armor) -> void:
+	if armor_label:
+		armor_label.text = armor.display_name
+		armor_label.add_theme_color_override("font_color", armor.armor_color)
+
+func _on_gear_up_applied(gear_up: GearUp) -> void:
+	if gear_up_label:
+		gear_up_label.text = gear_up.display_name
+		gear_up_label.add_theme_color_override("font_color", gear_up.stat_color)
+		gear_up_label.modulate.a = 1.0
+		var tween := gear_up_label.create_tween()
+		tween.tween_interval(2.0)
+		tween.tween_property(gear_up_label, "modulate:a", 0.0, 0.5)
 
 func _on_season_changed(season: int) -> void:
 	if season_label:

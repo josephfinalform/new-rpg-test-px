@@ -35,6 +35,18 @@ layout_mode = 2
 text = "Iron Sword"
 theme_override_font_sizes/font_size = 8
 
+[node name="ArmorLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "No Armor"
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+
+[node name="GearUpLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 8
+modulate = Color(1, 1, 1, 0)
+
 [node name="SeasonLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Spring"

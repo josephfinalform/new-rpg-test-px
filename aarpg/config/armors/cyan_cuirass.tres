@@ -1,0 +1,8 @@
+[gd_resource type=Resource script=load("res://aarpg/config/armor.gd")]
+
+display_name = "Cyan Cuirass"
+damage_reduction = 1
+damage_reduction_ratio = 0.05
+speed_multiplier = 1.0
+armor_color = Color(0.45, 0.8, 1.0, 1)
+description = "Light cyan plating. Absorbs a bit of every blow."

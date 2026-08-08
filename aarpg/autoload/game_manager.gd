@@ -29,12 +29,14 @@ signal kills_changed(total: int)
 var current_level_index: int = 0
 var kills: int = 0
 var equipped_weapon: Weapon = null
+var equipped_armor: Armor = null
 
 
 func start_game() -> void:
 	current_level_index = 0
 	kills = 0
 	equipped_weapon = null
+	equipped_armor = null
 	kills_changed.emit(0)
 	_load_level(current_level_index)
 

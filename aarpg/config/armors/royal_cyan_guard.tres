@@ -1,0 +1,8 @@
+[gd_resource type=Resource script=load("res://aarpg/config/armor.gd")]
+
+display_name = "Royal Cyan Guard"
+damage_reduction = 3
+damage_reduction_ratio = 0.15
+speed_multiplier = 0.95
+armor_color = Color(0.7, 0.9, 1.0, 1)
+description = "The Cyan Guard of old kings. Nearly unbreakable."

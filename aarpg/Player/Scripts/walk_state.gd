@@ -23,5 +23,8 @@ func process(_delta: float) -> State:
 
 func _update_movement() -> void:
 	player.is_sprinting = Input.is_action_pressed("sprint") and player.direction != Vector2.ZERO
-	var speed = player.sprint_speed if player.is_sprinting else player.move_speed
+	var armor_mult := 1.0
+	if player.equipped_armor:
+		armor_mult = player.equipped_armor.speed_multiplier
+	var speed = (player.sprint_speed if player.is_sprinting else player.move_speed) * armor_mult
 	player.velocity = player.direction * speed
