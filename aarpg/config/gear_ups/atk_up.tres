@@ -1,0 +1,7 @@
+[gd_resource type=Resource script=load("res://aarpg/config/gear_up.gd")]
+
+display_name = "ATK Up"
+stat = 0
+amount = 1
+stat_color = Color(1.0, 0.6, 0.4, 1)
+description = "Permanently raises attack damage."
