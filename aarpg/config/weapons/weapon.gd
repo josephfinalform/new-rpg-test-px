@@ -1,7 +1,7 @@
 class_name Weapon
 extends Resource
 
-enum Effect { NONE, FIRE, FROST }
+enum Effect { NONE, FIRE, FROST, SHOCK }
 
 @export var display_name: String = "Iron Sword"
 @export var damage_bonus: int = 0

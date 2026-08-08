@@ -51,6 +51,7 @@ var slow_remaining: float = 0.0
 var burn_damage: int = 0
 var burn_remaining: float = 0.0
 var burn_tick_timer: float = 0.0
+var stun_remaining: float = 0.0
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -69,6 +70,13 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
+		return
+	if stun_remaining > 0.0:
+		stun_remaining = maxf(stun_remaining - delta, 0.0)
+		velocity = Vector2.ZERO
+		base_velocity = Vector2.ZERO
+		move_and_slide()
+		_update_status_visual()
 		return
 	match current_state:
 		State.IDLE:
@@ -286,6 +294,8 @@ func apply_status_from_weapon(weapon: Weapon) -> void:
 			apply_burn(1, 3)
 		Weapon.Effect.FROST:
 			apply_slow(1.6, 0.5)
+		Weapon.Effect.SHOCK:
+			apply_stun(0.8)
 
 
 func apply_slow(duration: float, factor: float) -> void:
@@ -303,6 +313,12 @@ func apply_burn(damage: int, ticks: int) -> void:
 	burn_tick_timer = 0.0
 
 
+func apply_stun(duration: float) -> void:
+	if is_dead:
+		return
+	stun_remaining = maxf(stun_remaining, duration)
+
+
 func _apply_burn_tick() -> void:
 	if is_dead:
 		return
@@ -314,7 +330,9 @@ func _apply_burn_tick() -> void:
 
 func _update_status_visual() -> void:
 	var target := Color.WHITE
-	if burn_remaining > 0.0:
+	if stun_remaining > 0.0:
+		target = Color(0.35, 0.85, 1.0)
+	elif burn_remaining > 0.0:
 		target = Color(1.0, 0.6, 0.3)
 	elif slow_remaining > 0.0:
 		target = Color(0.65, 0.8, 1.0)

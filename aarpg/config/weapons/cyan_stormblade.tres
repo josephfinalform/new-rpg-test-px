@@ -1,0 +1,8 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Cyan Stormblade"
+damage_bonus = 2
+cooldown_multiplier = 0.9
+effect = 3
+trail_color = Color(0.3, 0.85, 1.0, 1)
+description = "Channeled lightning from the Mystic Grove. Stuns enemies on hit."
