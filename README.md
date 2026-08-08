@@ -81,6 +81,11 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Season system**: cycle Spring → Summer → Autumn → Winter (`Q`); outdoor maps get seasonal palettes and weather (falling leaves in autumn, snow in winter), shown on the HUD
 - **New enemy**: Crystal Wisp — floating mystic crystal that drifts through the grove, dropping XP gems on death (60%)
 - **New level**: Mystic Grove — calm, mostly-empty outdoor clearing between the Ember Canyon and the Shadow Keep, packed with XP gems, chests and potions
+- **Armor system**: `Armor` resources (Cyan Cuirass, Cyan Plate, Royal Cyan Guard) picked up in the world, granting flat + percentage damage reduction, a speed multiplier and a cyan halo around the player; equipped armor persists and is shown on the HUD
+- **Gear up pickups**: permanent stat boosts (ATK/HP/SPD/Dash cooldown) scattered through the levels, shown on the HUD with a fading label
+- **New weapon**: Cyan Stormblade — electric cyan blade with a new SHOCK status effect that stuns enemies on hit
+- **EXP rework**: level cap raised to 100, steeper late-game XP curve, and milestone bonuses every 10 levels (bonus ATK/HP/SPD + "MILESTONE!" banner)
+- **New main menu**: animated title screen with cyan particle sparks, floating/swaying sword, pulsing glow title, clickable "BAŞLA" button and menu BGM
 
 ### Level & XP System
 
@@ -223,6 +228,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-08 | Armor system (3 cyan armors + damage reduction + halo), gear up pickups (ATK/HP/SPD/Dash), Cyan Stormblade with SHOCK stun, EXP cap 100 + milestone bonuses, animated main menu with BGM |
 | 2026-08-07 | Crystal Wisp enemy + Mystic Grove level (9-level campaign), XP gem / chest / potion placement |
 | 2026-08-06 | Weapons (Iron/Fire/Frost/Royal swords + status effects), Ember Canyon level, Fire Imp enemy, season system (Q), HUD weapon/season labels |
 | 2026-08-06 | Level-up effect (banner + particles + jingle + stat summary), XP gem magnet, +XP pickups, damage numbers, player level scaling, HUD XP text & smooth bar |
@@ -242,4 +248,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-06*
+*Last updated: 2026-08-08*
