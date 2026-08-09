@@ -86,16 +86,24 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **New weapon**: Cyan Stormblade — electric cyan blade with a new SHOCK status effect that stuns enemies on hit
 - **EXP rework**: level cap raised to 100, steeper late-game XP curve, and milestone bonuses every 10 levels (bonus ATK/HP/SPD + "MILESTONE!" banner)
 - **New main menu**: animated title screen with cyan particle sparks, floating/swaying sword, pulsing glow title, clickable "BAŞLA" button and menu BGM
+- **EXP rework v2**: parametrized 4-phase XP curve (fast early, grindy late), 11 rank titles (ROOKIE → GODLIKE) shown in the HUD & level-up banner, and milestone bonuses that scale up every 10 levels
 
 ### Level & XP System
 
 - **XP rewards**: Enemies grant XP on death (`xp_reward`, e.g. 8 per slime/goblin).
-- **XP curve**: Configurable via `aarpg/config/level_config.tres` (`xp_curve` array, up to `max_level` = 50). Falls back to `5 + level * 3` beyond the curve.
+- **XP curve**: Parametrized in `aarpg/config/level_config.gd` / `.tres` as 4 phases, generated via `build_xp_curve()`:
+  - Level 1–20: `+3 XP` per level (8 → 65)
+  - Level 21–50: `+5 XP` per level (70 → 215)
+  - Level 51–80: `+12 XP` per level (227 → 575)
+  - Level 81–100: `+35 XP` per level (610 → 1275)
+  - Editing `curve_base_xp` / `curve_phases` regenerates the curve; the stored `xp_curve` array is used at runtime with a `5 + level * 3` fallback.
+- **Ranks (persona titles)**: 11 rank tiers shown in the HUD and level-up banner, colored per rank (ROOKIE → ADVENTURER → VETERAN → KNIGHT → WARRIOR → CHAMPION → HERO → LEGEND → MYTHIC → DIVINE → GODLIKE).
 - **Per-level bonuses** (configurable in `level_config.tres`):
   - Max health `+2`, heal `+3` on level up
   - Attack damage `+1`
   - Move speed `+5`, sprint speed `+8`
-- **Max level**: Leveling stops at `max_level`; further XP is ignored.
+- **Scaling milestone bonuses**: every 10 levels the milestone reward grows with `milestone_bonus_growth` (`+0.5` per tier) — e.g. ATK/HP/SPD at level 20 are `1.5×`, at level 100 `5.5×` the base bonus.
+- **Max level**: Leveling stops at `max_level` (100); further XP is ignored.
 - **UI**: Current level & XP shown in the health bar overlay with level-up feedback.
 - **XP gems**: Orc Brutes (35%) and Skeletons (20%) drop blue XP crystals worth 5 XP.
 - **Difficulty scaling**: Each campaign level past the first scales enemy HP (`+35%/level`), damage (`+20%/level`) and XP reward (`+25%/level`).
@@ -228,6 +236,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-09 | EXP rework v2: parametrized 4-phase XP curve to 100, 11 rank titles (persona) in HUD & level-up banner, scaling milestone bonuses every 10 levels |
 | 2026-08-08 | Armor system (3 cyan armors + damage reduction + halo), gear up pickups (ATK/HP/SPD/Dash), Cyan Stormblade with SHOCK stun, EXP cap 100 + milestone bonuses, animated main menu with BGM |
 | 2026-08-07 | Crystal Wisp enemy + Mystic Grove level (9-level campaign), XP gem / chest / potion placement |
 | 2026-08-06 | Weapons (Iron/Fire/Frost/Royal swords + status effects), Ember Canyon level, Fire Imp enemy, season system (Q), HUD weapon/season labels |
@@ -248,4 +257,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-08*
+*Last updated: 2026-08-09*

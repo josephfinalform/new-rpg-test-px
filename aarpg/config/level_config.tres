@@ -1,7 +1,21 @@
 [gd_resource type=Resource script=load("res://aarpg/config/level_config.gd")]
 
 max_level = 100
-xp_curve = [8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50, 53, 56, 59, 62, 65, 68, 71, 74, 77, 80, 83, 86, 89, 92, 95, 98, 101, 104, 107, 110, 113, 116, 119, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 155, 163, 171, 179, 187, 195, 203, 211, 219, 227, 235, 243, 251, 259, 267, 275, 283, 291, 299, 307, 315, 323, 331, 339, 347, 355, 363, 371, 379, 387, 395, 403, 411, 419, 427, 435, 443, 451, 459, 467, 475, 483, 491, 499, 507, 515, 523, 531, 539, 547, 555]
+curve_base_xp = 8
+curve_phases = [{
+"end_level": 20,
+"growth": 3
+}, {
+"end_level": 50,
+"growth": 5
+}, {
+"end_level": 80,
+"growth": 12
+}, {
+"end_level": 100,
+"growth": 35
+}]
+xp_curve = [8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50, 53, 56, 59, 62, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200, 205, 210, 215, 227, 239, 251, 263, 275, 287, 299, 311, 323, 335, 347, 359, 371, 383, 395, 407, 419, 431, 443, 455, 467, 479, 491, 503, 515, 527, 539, 551, 563, 575, 610, 645, 680, 715, 750, 785, 820, 855, 890, 925, 960, 995, 1030, 1065, 1100, 1135, 1170, 1205, 1240, 1275]
 health_gain_per_level = 2
 heal_on_level_up = 3
 damage_gain_per_level = 1
@@ -11,3 +25,49 @@ milestone_interval = 10
 milestone_damage_bonus = 2
 milestone_max_health_bonus = 5
 milestone_speed_bonus = 10.0
+milestone_bonus_growth = 0.5
+ranks = [{
+"color": Color(0.7, 0.7, 0.75, 1),
+"level": 1,
+"title": "ROOKIE"
+}, {
+"color": Color(0.4, 1, 0.5, 1),
+"level": 10,
+"title": "ADVENTURER"
+}, {
+"color": Color(0.4, 0.7, 1, 1),
+"level": 20,
+"title": "VETERAN"
+}, {
+"color": Color(0.75, 0.5, 1, 1),
+"level": 30,
+"title": "KNIGHT"
+}, {
+"color": Color(1, 0.6, 0.3, 1),
+"level": 40,
+"title": "WARRIOR"
+}, {
+"color": Color(1, 0.85, 0.3, 1),
+"level": 50,
+"title": "CHAMPION"
+}, {
+"color": Color(0.4, 0.9, 1, 1),
+"level": 60,
+"title": "HERO"
+}, {
+"color": Color(1, 0.4, 0.9, 1),
+"level": 70,
+"title": "LEGEND"
+}, {
+"color": Color(1, 0.3, 0.3, 1),
+"level": 80,
+"title": "MYTHIC"
+}, {
+"color": Color(1, 1, 1, 1),
+"level": 90,
+"title": "DIVINE"
+}, {
+"color": Color(1, 0.9, 0.5, 1),
+"level": 100,
+"title": "GODLIKE"
+}]

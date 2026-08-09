@@ -187,13 +187,18 @@ func _level_up() -> void:
 func _apply_milestone_bonus() -> void:
 	if level_config.milestone_interval <= 0:
 		return
-	if level % level_config.milestone_interval == 0:
-		max_health += level_config.milestone_max_health_bonus
-		health = min(health + level_config.milestone_max_health_bonus, max_health)
-		base_attack_damage += level_config.milestone_damage_bonus
-		_apply_weapon()
-		move_speed += level_config.milestone_speed_bonus
-		sprint_speed += level_config.milestone_speed_bonus
+	if level % level_config.milestone_interval != 0:
+		return
+	var mult := maxf(level_config.get_milestone_multiplier(level), 1.0)
+	var hp_bonus := maxi(roundi(level_config.milestone_max_health_bonus * mult), 1)
+	var dmg_bonus := maxi(roundi(level_config.milestone_damage_bonus * mult), 1)
+	var spd_bonus := level_config.milestone_speed_bonus * mult
+	max_health += hp_bonus
+	health = min(health + hp_bonus, max_health)
+	base_attack_damage += dmg_bonus
+	_apply_weapon()
+	move_speed += spd_bonus
+	sprint_speed += spd_bonus
 
 func _spawn_level_up_effect() -> void:
 	var effect := LEVEL_UP_EFFECT.instantiate()
@@ -205,8 +210,8 @@ func _spawn_level_up_effect() -> void:
 		int(level_config.move_speed_gain),
 	]
 	if level % level_config.milestone_interval == 0:
-		stats_text += "  MILESTONE!"
-	effect.setup(stats_text)
+		stats_text += "  MILESTONE x%d!" % level_config.get_milestone_tier(level)
+	effect.setup(stats_text, get_rank_title(), get_rank_color())
 
 func _animate_level_scale() -> void:
 	var target_scale := minf(1.0 + 0.03 * float(level), 1.5)
@@ -218,6 +223,12 @@ func get_xp_for_level(lvl: int) -> int:
 	if lvl - 1 < level_config.xp_curve.size():
 		return level_config.xp_curve[lvl - 1]
 	return 5 + lvl * 3
+
+func get_rank_title() -> String:
+	return level_config.get_rank_title(level)
+
+func get_rank_color() -> Color:
+	return level_config.get_rank_color(level)
 
 func heal(amount: int) -> void:
 	health = min(health + amount, max_health)

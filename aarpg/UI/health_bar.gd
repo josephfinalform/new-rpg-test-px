@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var label: Label = $MarginContainer/VBoxContainer/Label
 @onready var xp_bar: ProgressBar = $MarginContainer/VBoxContainer/XPBar
 @onready var level_label: Label = $MarginContainer/VBoxContainer/LevelLabel
+@onready var rank_label: Label = get_node_or_null("MarginContainer/VBoxContainer/RankLabel")
 @onready var level_name_label: Label = get_node_or_null("MarginContainer/VBoxContainer/LevelNameLabel")
 @onready var weapon_label: Label = get_node_or_null("MarginContainer/VBoxContainer/WeaponLabel")
 @onready var armor_label: Label = get_node_or_null("MarginContainer/VBoxContainer/ArmorLabel")
@@ -110,3 +111,14 @@ func _on_level_up(new_level: int) -> void:
 	tween.tween_property(level_label, "scale", Vector2(1.7, 1.7), 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(level_label, "scale", Vector2(1.0, 1.0), 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func() -> void: level_label.add_theme_color_override("font_color", Color.WHITE))
+	_update_rank(new_level)
+
+func _update_rank(new_level: int) -> void:
+	if not rank_label:
+		return
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() == 0:
+		return
+	var player = players[0] as Player
+	rank_label.text = player.get_rank_title()
+	rank_label.add_theme_color_override("font_color", player.get_rank_color())
