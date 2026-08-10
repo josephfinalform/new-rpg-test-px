@@ -1,0 +1,7 @@
+[gd_resource type=Resource script=load("res://aarpg/config/gear_up.gd")]
+
+display_name = "XP Up"
+stat = 6
+amount = 1
+stat_color = Color(0.5, 0.8, 1.0, 1)
+description = "All XP earned is boosted by 10%."

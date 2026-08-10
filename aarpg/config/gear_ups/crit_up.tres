@@ -1,0 +1,7 @@
+[gd_resource type=Resource script=load("res://aarpg/config/gear_up.gd")]
+
+display_name = "CRIT Up"
+stat = 4
+amount = 1
+stat_color = Color(1.0, 0.45, 0.9, 1)
+description = "Permanently raises crit chance by 5%."

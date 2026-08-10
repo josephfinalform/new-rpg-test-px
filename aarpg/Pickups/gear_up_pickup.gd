@@ -51,6 +51,37 @@ func _draw() -> void:
 		GearUp.Stat.MAX_HEALTH:
 			draw_line(Vector2(0, -6), Vector2(0, 6), Color.WHITE, 1.5)
 			draw_line(Vector2(-4, 0), Vector2(4, 0), Color.WHITE, 1.5)
+		GearUp.Stat.SPEED:
+			draw_line(Vector2(-3, -5), Vector2(1, 0), Color.WHITE, 1.5)
+			draw_line(Vector2(1, 0), Vector2(-3, 5), Color.WHITE, 1.5)
+			draw_line(Vector2(1, -5), Vector2(5, 0), Color.WHITE, 1.5)
+			draw_line(Vector2(5, 0), Vector2(1, 5), Color.WHITE, 1.5)
+		GearUp.Stat.DASH_COOLDOWN:
+			draw_circle(Vector2(0, 0), 3.0, Color.WHITE)
+			draw_circle(Vector2(0, 0), 1.2, c.darkened(0.2))
+			draw_line(Vector2(0, -3), Vector2(0, -6), Color.WHITE, 1.5)
+		GearUp.Stat.CRIT_CHANCE:
+			for i in range(4):
+				var dir := Vector2.RIGHT.rotated(TAU / 4.0 * float(i))
+				draw_line(dir * 2.0, dir * 6.0, Color.WHITE, 1.5)
+			draw_circle(Vector2(0, 0), 1.4, Color.WHITE)
+		GearUp.Stat.LIFESTEAL:
+			draw_circle(Vector2(-2.5, -2), 2.2, Color.WHITE)
+			draw_circle(Vector2(2.5, -2), 2.2, Color.WHITE)
+			draw_colored_polygon(PackedVector2Array(
+				Vector2(-5, -0.5), Vector2(5, -0.5), Vector2(0, 6)
+			), Color.WHITE)
+		GearUp.Stat.XP_BONUS:
+			draw_line(Vector2(0, 3), Vector2(0, -2), Color.WHITE, 1.5)
+			draw_line(Vector2(-3, 0), Vector2(0, -4), Color.WHITE, 1.5)
+			draw_line(Vector2(3, 0), Vector2(0, -4), Color.WHITE, 1.5)
+		GearUp.Stat.ARMOR:
+			draw_colored_polygon(PackedVector2Array(
+				Vector2(0, -7), Vector2(6, -5), Vector2(6, 1), Vector2(3, 5), Vector2(0, 6)
+			), Color.WHITE.darkened(0.1))
+			draw_colored_polygon(PackedVector2Array(
+				Vector2(0, -7), Vector2(-6, -5), Vector2(-6, 1), Vector2(-3, 5), Vector2(0, 6)
+			), Color.WHITE.darkened(0.1))
 
 
 func _on_body_entered(body: Node2D) -> void:
