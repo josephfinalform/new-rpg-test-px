@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 const LEVEL_UP_EFFECT = preload("res://aarpg/Effects/level_up_effect.tscn")
 const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
+const CRIT_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
 
 signal health_changed(new_health: int)
 signal died
@@ -42,6 +43,13 @@ var dash_velocity: Vector2 = Vector2.ZERO
 
 var base_attack_damage: int = 1
 var base_attack_cooldown: float = 0.4
+var base_move_speed: float = 100.0
+var base_sprint_speed: float = 180.0
+var base_dash_cooldown: float = 1.2
+var level_move_bonus: float = 0.0
+var level_sprint_bonus: float = 0.0
+var gear_speed_bonus: float = 0.0
+var gear_dash_reduction: float = 0.0
 var equipped_weapon: Weapon = null
 var equipped_armor: Armor = null
 
@@ -53,6 +61,11 @@ var xp_to_next_level: int = 10
 
 var prestige: int = 0
 var prestige_xp: int = 0
+
+var crit_chance: float = 0.0
+var lifesteal: float = 0.0
+var xp_bonus: float = 0.0
+var gear_armor_reduction: int = 0
 
 var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as LevelConfig
 
@@ -81,12 +94,17 @@ func _ready() -> void:
 	attack_pivot.rotation = 0
 	base_attack_damage = attack_damage
 	base_attack_cooldown = attack_cooldown
+	base_move_speed = move_speed
+	base_sprint_speed = sprint_speed
+	base_dash_cooldown = dash_cooldown
 	var default_weapon := load("res://aarpg/config/weapons/iron_sword.tres") as Weapon
 	equipped_weapon = GameManager.equipped_weapon if GameManager.equipped_weapon != null else default_weapon
 	_apply_weapon()
 	if equipped_armor == null:
 		equipped_armor = GameManager.equipped_armor
 	_apply_armor_visual()
+	_recalculate_speed()
+	_apply_dash_cooldown()
 
 func get_input() -> void:
 	if is_dead:
@@ -133,8 +151,10 @@ func take_damage(amount: int, from_position: Vector2 = global_position) -> void:
 		return
 	var final_amount := amount
 	if equipped_armor:
-		final_amount = maxi(final_amount - equipped_armor.damage_reduction, 1)
+		final_amount = maxi(final_amount - equipped_armor.damage_reduction - gear_armor_reduction, 1)
 		final_amount = maxi(roundi(final_amount * (1.0 - equipped_armor.damage_reduction_ratio)), 1)
+	else:
+		final_amount = maxi(final_amount - gear_armor_reduction, 1)
 	health = max(health - final_amount, 0)
 	health_changed.emit(health)
 	_spawn_damage_number(final_amount)
@@ -161,6 +181,7 @@ func _die() -> void:
 	state_machine.change_state(state_machine.states["death"])
 
 func gain_xp(amount: int) -> void:
+	amount = maxi(roundi(amount * get_xp_multiplier()), 1)
 	if level >= level_config.max_level:
 		_gain_prestige(amount)
 		return
@@ -176,6 +197,13 @@ func gain_xp(amount: int) -> void:
 	xp_changed.emit(xp, level)
 
 
+func get_xp_multiplier() -> float:
+	var mult := 1.0 + xp_bonus
+	if equipped_armor:
+		mult *= equipped_armor.xp_multiplier
+	return mult
+
+
 func _gain_prestige(amount: int) -> void:
 	prestige_xp += amount
 	while prestige_xp >= level_config.prestige_xp_threshold:
@@ -185,8 +213,9 @@ func _gain_prestige(amount: int) -> void:
 		health = min(health + level_config.prestige_health_bonus, max_health)
 		base_attack_damage += level_config.prestige_attack_bonus
 		_apply_weapon()
-		move_speed += level_config.prestige_speed_bonus
-		sprint_speed += level_config.prestige_speed_bonus
+		level_move_bonus += level_config.prestige_speed_bonus
+		level_sprint_bonus += level_config.prestige_speed_bonus
+		_recalculate_speed()
 		health_changed.emit(health)
 		prestige_changed.emit(prestige)
 		_spawn_prestige_effect()
@@ -212,8 +241,9 @@ func _level_up() -> void:
 	health = min(health + level_config.heal_on_level_up, max_health)
 	base_attack_damage += level_config.damage_gain_per_level
 	_apply_weapon()
-	move_speed += level_config.move_speed_gain
-	sprint_speed += level_config.sprint_speed_gain
+	level_move_bonus += level_config.move_speed_gain
+	level_sprint_bonus += level_config.sprint_speed_gain
+	_recalculate_speed()
 	_apply_milestone_bonus()
 	health_changed.emit(health)
 	level_up.emit(level)
@@ -233,8 +263,9 @@ func _apply_milestone_bonus() -> void:
 	health = min(health + hp_bonus, max_health)
 	base_attack_damage += dmg_bonus
 	_apply_weapon()
-	move_speed += spd_bonus
-	sprint_speed += spd_bonus
+	level_move_bonus += spd_bonus
+	level_sprint_bonus += spd_bonus
+	_recalculate_speed()
 
 func _spawn_level_up_effect() -> void:
 	var effect := LEVEL_UP_EFFECT.instantiate()
@@ -296,7 +327,25 @@ func equip_armor(armor: Armor) -> void:
 	equipped_armor = armor
 	GameManager.equipped_armor = armor
 	_apply_armor_visual()
+	_recalculate_speed()
+	_apply_dash_cooldown()
 	armor_changed.emit(armor)
+
+
+func _recalculate_speed() -> void:
+	var mult := 1.0
+	if equipped_armor:
+		mult = equipped_armor.move_speed_multiplier
+	move_speed = (base_move_speed + level_move_bonus + gear_speed_bonus) * mult
+	sprint_speed = (base_sprint_speed + level_sprint_bonus + gear_speed_bonus) * mult
+
+
+func _apply_dash_cooldown() -> void:
+	var mult := 1.0
+	if equipped_armor:
+		mult = equipped_armor.dash_cooldown_multiplier
+	dash_cooldown = maxf(base_dash_cooldown * mult - gear_dash_reduction, 0.4)
+	dash_cooldown_timer.wait_time = dash_cooldown
 
 
 func _apply_armor_visual() -> void:
@@ -320,11 +369,19 @@ func apply_gear_up(gear_up: GearUp) -> void:
 			health = min(health + gear_up.amount, max_health)
 			health_changed.emit(health)
 		GearUp.Stat.SPEED:
-			move_speed += float(gear_up.amount)
-			sprint_speed += float(gear_up.amount)
+			gear_speed_bonus += float(gear_up.amount)
+			_recalculate_speed()
 		GearUp.Stat.DASH_COOLDOWN:
-			dash_cooldown = maxf(dash_cooldown - gear_up.amount * 0.05, 0.4)
-			dash_cooldown_timer.wait_time = dash_cooldown
+			gear_dash_reduction += gear_up.amount * 0.05
+			_apply_dash_cooldown()
+		GearUp.Stat.CRIT_CHANCE:
+			crit_chance = minf(crit_chance + float(gear_up.amount) * 0.05, 0.5)
+		GearUp.Stat.LIFESTEAL:
+			lifesteal = minf(lifesteal + float(gear_up.amount) * 0.05, 0.5)
+		GearUp.Stat.XP_BONUS:
+			xp_bonus += float(gear_up.amount) * 0.1
+		GearUp.Stat.ARMOR:
+			gear_armor_reduction += gear_up.amount
 	gear_up_applied.emit(gear_up)
 
 
@@ -350,8 +407,25 @@ func _on_hit_flash_timer_timeout() -> void:
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Enemy and not body in hit_enemies_this_attack:
 		hit_enemies_this_attack.append(body)
-		body.take_damage(attack_damage, global_position)
+		var damage := attack_damage
+		var is_crit := false
+		if crit_chance > 0.0 and randf() < crit_chance:
+			damage *= 2
+			is_crit = true
+		body.take_damage(damage, global_position)
+		if is_crit:
+			_spawn_crit_text(body)
+		if lifesteal > 0.0:
+			heal(maxi(roundi(damage * lifesteal), 1))
 		if equipped_weapon and equipped_weapon.effect != Weapon.Effect.NONE and body.has_method("apply_status_from_weapon"):
 			body.apply_status_from_weapon(equipped_weapon)
 		if attack_sfx:
 			AudioManager.play_sfx(attack_sfx)
+
+
+func _spawn_crit_text(enemy: Node2D) -> void:
+	var popup := CRIT_POPUP.instantiate() as Label
+	get_tree().current_scene.add_child(popup)
+	popup.text = "CRIT!"
+	popup.modulate = Color(1.0, 0.9, 0.3)
+	popup.global_position = enemy.global_position + Vector2(randf_range(-6, 6), -18)

@@ -6,3 +6,7 @@ damage_reduction_ratio = 0.1
 speed_multiplier = 0.97
 armor_color = Color(0.2, 0.65, 1.0, 1)
 description = "Heavy cyan steel. Shrugs off hits, slows you down a touch."
+armor_tier = 2
+xp_multiplier = 1.1
+dash_cooldown_multiplier = 0.95
+move_speed_multiplier = 0.98

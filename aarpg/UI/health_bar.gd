@@ -58,7 +58,10 @@ func _on_weapon_changed(weapon: Weapon) -> void:
 
 func _on_armor_changed(armor: Armor) -> void:
 	if armor_label:
-		armor_label.text = armor.display_name
+		var text := armor.display_name
+		if armor.xp_multiplier != 1.0:
+			text += "  (XP x%s)" % str(armor.xp_multiplier)
+		armor_label.text = text
 		armor_label.add_theme_color_override("font_color", armor.armor_color)
 
 func _on_gear_up_applied(gear_up: GearUp) -> void:

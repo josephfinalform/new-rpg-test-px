@@ -1,0 +1,12 @@
+[gd_resource type=Resource script=load("res://aarpg/config/armor.gd")]
+
+display_name = "Mystic Aegis"
+damage_reduction = 2
+damage_reduction_ratio = 0.12
+speed_multiplier = 1.0
+armor_color = Color(0.65, 0.45, 1.0, 1)
+description = "A living shield of arcane crystal. Feeds on fallen foes, granting extra XP."
+armor_tier = 4
+xp_multiplier = 1.25
+dash_cooldown_multiplier = 0.9
+move_speed_multiplier = 1.05

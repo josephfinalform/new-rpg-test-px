@@ -6,3 +6,7 @@ damage_reduction_ratio = 0.05
 speed_multiplier = 1.0
 armor_color = Color(0.45, 0.8, 1.0, 1)
 description = "Light cyan plating. Absorbs a bit of every blow."
+armor_tier = 1
+xp_multiplier = 1.0
+dash_cooldown_multiplier = 1.0
+move_speed_multiplier = 1.0
