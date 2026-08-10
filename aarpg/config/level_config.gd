@@ -45,6 +45,12 @@ const DEFAULT_RANKS: Array[Dictionary] = [
 @export_group("Ranks (persona titles)")
 @export var ranks: Array[Dictionary] = DEFAULT_RANKS
 
+@export_group("Prestige (beyond max level)")
+@export var prestige_xp_threshold: int = 1000
+@export var prestige_attack_bonus: int = 2
+@export var prestige_health_bonus: int = 5
+@export var prestige_speed_bonus: float = 3.0
+
 
 func build_xp_curve() -> Array[int]:
 	var result: Array[int] = []
@@ -95,3 +101,14 @@ func get_rank_color(lvl: int) -> Color:
 	if ranks.is_empty():
 		return Color.WHITE
 	return ranks[get_rank_index(lvl)].get("color", Color.WHITE)
+
+
+func get_prestige_title(prestige: int) -> String:
+	if prestige <= 0:
+		return ""
+	var stars := ""
+	for i in range(mini(prestige, 5)):
+		stars += "★"
+	if prestige > 5:
+		stars += " x" + str(prestige)
+	return stars

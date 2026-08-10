@@ -8,6 +8,7 @@ signal health_changed(new_health: int)
 signal died
 signal xp_changed(new_xp: int, new_level: int)
 signal level_up(new_level: int)
+signal prestige_changed(prestige: int)
 signal weapon_changed(weapon: Weapon)
 signal armor_changed(armor: Armor)
 signal gear_up_applied(gear_up: GearUp)
@@ -49,6 +50,9 @@ var equipped_armor: Armor = null
 var level: int = 1
 var xp: int = 0
 var xp_to_next_level: int = 10
+
+var prestige: int = 0
+var prestige_xp: int = 0
 
 var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as LevelConfig
 
@@ -158,16 +162,48 @@ func _die() -> void:
 
 func gain_xp(amount: int) -> void:
 	if level >= level_config.max_level:
+		_gain_prestige(amount)
 		return
 	xp += amount
 	xp_changed.emit(xp, level)
 	while xp >= xp_to_next_level:
 		if level >= level_config.max_level:
+			_gain_prestige(xp)
 			xp = 0
 			break
 		xp -= xp_to_next_level
 		_level_up()
 	xp_changed.emit(xp, level)
+
+
+func _gain_prestige(amount: int) -> void:
+	prestige_xp += amount
+	while prestige_xp >= level_config.prestige_xp_threshold:
+		prestige_xp -= level_config.prestige_xp_threshold
+		prestige += 1
+		max_health += level_config.prestige_health_bonus
+		health = min(health + level_config.prestige_health_bonus, max_health)
+		base_attack_damage += level_config.prestige_attack_bonus
+		_apply_weapon()
+		move_speed += level_config.prestige_speed_bonus
+		sprint_speed += level_config.prestige_speed_bonus
+		health_changed.emit(health)
+		prestige_changed.emit(prestige)
+		_spawn_prestige_effect()
+	xp_changed.emit(prestige_xp, level)
+
+
+func _spawn_prestige_effect() -> void:
+	var effect := LEVEL_UP_EFFECT.instantiate()
+	get_tree().current_scene.add_child(effect)
+	effect.global_position = global_position
+	var stars := level_config.get_prestige_title(prestige)
+	var stats_text := "HP +%d  ATK +%d  SPD +%d" % [
+		level_config.prestige_health_bonus,
+		level_config.prestige_attack_bonus,
+		int(level_config.prestige_speed_bonus),
+	]
+	effect.setup(stats_text, "PRESTIGE " + stars, Color(1.0, 0.9, 0.4))
 
 func _level_up() -> void:
 	level += 1
@@ -211,7 +247,11 @@ func _spawn_level_up_effect() -> void:
 	]
 	if level % level_config.milestone_interval == 0:
 		stats_text += "  MILESTONE x%d!" % level_config.get_milestone_tier(level)
-	effect.setup(stats_text, get_rank_title(), get_rank_color())
+	var rank_title := get_rank_title()
+	var stars := level_config.get_prestige_title(prestige)
+	if not stars.is_empty():
+		rank_title += "  " + stars
+	effect.setup(stats_text, rank_title, get_rank_color())
 
 func _animate_level_scale() -> void:
 	var target_scale := minf(1.0 + 0.03 * float(level), 1.5)

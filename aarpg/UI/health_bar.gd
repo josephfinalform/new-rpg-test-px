@@ -24,6 +24,7 @@ func _ready() -> void:
 		player.health_changed.connect(_on_health_changed)
 		player.xp_changed.connect(_on_xp_changed)
 		player.level_up.connect(_on_level_up)
+		player.prestige_changed.connect(_on_prestige_changed)
 		player.weapon_changed.connect(_on_weapon_changed)
 		player.armor_changed.connect(_on_armor_changed)
 		player.gear_up_applied.connect(_on_gear_up_applied)
@@ -96,22 +97,43 @@ func _on_xp_changed(new_xp: int, _new_level: int) -> void:
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		var player = players[0] as Player
-		xp_bar.max_value = player.xp_to_next_level
-		if xp_text_label:
-			xp_text_label.text = str(new_xp) + " / " + str(player.xp_to_next_level)
+		if player.level >= player.level_config.max_level:
+			xp_bar.max_value = float(player.level_config.prestige_xp_threshold)
+			if xp_text_label:
+				xp_text_label.text = "★ %d / %d" % [player.prestige_xp, player.level_config.prestige_xp_threshold]
+		else:
+			xp_bar.max_value = player.xp_to_next_level
+			if xp_text_label:
+				xp_text_label.text = str(new_xp) + " / " + str(player.xp_to_next_level)
 		if _xp_tween and _xp_tween.is_valid():
 			_xp_tween.kill()
 		_xp_tween = create_tween()
 		_xp_tween.tween_property(xp_bar, "value", float(new_xp), 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func _on_level_up(new_level: int) -> void:
-	level_label.text = "Lv." + str(new_level)
-	level_label.add_theme_color_override("font_color", Color(1, 0.9, 0.3))
+	_update_level_label()
 	var tween := level_label.create_tween()
 	tween.tween_property(level_label, "scale", Vector2(1.7, 1.7), 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(level_label, "scale", Vector2(1.0, 1.0), 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func() -> void: level_label.add_theme_color_override("font_color", Color.WHITE))
 	_update_rank(new_level)
+
+func _on_prestige_changed(_prestige: int) -> void:
+	_update_level_label()
+	_update_rank(level)
+	if level_label:
+		level_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4))
+
+func _update_level_label() -> void:
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() == 0:
+		return
+	var player = players[0] as Player
+	var text := "Lv." + str(player.level)
+	if player.prestige > 0:
+		text += "  ★" + str(player.prestige)
+	level_label.text = text
+	level_label.add_theme_color_override("font_color", Color(1, 0.9, 0.3) if player.prestige > 0 else Color.WHITE)
 
 func _update_rank(new_level: int) -> void:
 	if not rank_label:
@@ -120,5 +142,9 @@ func _update_rank(new_level: int) -> void:
 	if players.size() == 0:
 		return
 	var player = players[0] as Player
-	rank_label.text = player.get_rank_title()
+	var title := player.get_rank_title()
+	var stars := player.level_config.get_prestige_title(player.prestige)
+	if not stars.is_empty():
+		title += "  " + stars
+	rank_label.text = title
 	rank_label.add_theme_color_override("font_color", player.get_rank_color())

@@ -26,6 +26,10 @@ milestone_damage_bonus = 2
 milestone_max_health_bonus = 5
 milestone_speed_bonus = 10.0
 milestone_bonus_growth = 0.5
+prestige_xp_threshold = 1000
+prestige_attack_bonus = 2
+prestige_health_bonus = 5
+prestige_speed_bonus = 3.0
 ranks = [{
 "color": Color(0.7, 0.7, 0.75, 1),
 "level": 1,
