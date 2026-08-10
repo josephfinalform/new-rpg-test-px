@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/zombie.tscn" id="11_zombie"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_archer.tscn" id="12_archer"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/potion_pickup.tscn" id="13_potion"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/gear_up_pickup.tscn" id="14_gearup"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="15_crit"]
 
 [node name="Level5" type="Node2D"]
 script = ExtResource("1_level")
@@ -87,6 +89,10 @@ position = Vector2(500, 500)
 
 [node name="Potion2" parent="Pickups" instance=ExtResource("13_potion")]
 position = Vector2(1340, 200)
+
+[node name="CritUp" parent="Pickups" instance=ExtResource("14_gearup")]
+position = Vector2(1320, 120)
+gear_up = ExtResource("15_crit")
 
 [node name="Torches" type="Node2D" parent="."]
 

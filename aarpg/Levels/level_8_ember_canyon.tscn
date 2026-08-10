@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -13,6 +13,10 @@
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/potion_pickup.tscn" id="11_potion"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/weapon_pickup.tscn" id="12_weapon"]
 [ext_resource type="Resource" path="res://aarpg/config/weapons/fire_sword.tres" id="13_fire"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/armor_pickup.tscn" id="14_armor"]
+[ext_resource type="Resource" path="res://aarpg/config/armors/mystic_aegis.tres" id="15_aegis"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/gear_up_pickup.tscn" id="16_gearup"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="17_crit"]
 
 [node name="Level8" type="Node2D"]
 script = ExtResource("1_level")
@@ -78,6 +82,14 @@ position = Vector2(520, 540)
 
 [node name="Potion2" parent="Pickups" instance=ExtResource("11_potion")]
 position = Vector2(1050, 560)
+
+[node name="MysticAegis" parent="Pickups" instance=ExtResource("14_armor")]
+position = Vector2(360, 540)
+armor = ExtResource("15_aegis")
+
+[node name="CritUp" parent="Pickups" instance=ExtResource("16_gearup")]
+position = Vector2(1060, 120)
+gear_up = ExtResource("17_crit")
 
 [node name="Torches" type="Node2D" parent="."]
 
