@@ -1,7 +1,7 @@
 class_name GearUp
 extends Resource
 
-enum Stat { ATTACK, MAX_HEALTH, SPEED, DASH_COOLDOWN, CRIT_CHANCE, LIFESTEAL, XP_BONUS, ARMOR }
+enum Stat { ATTACK, MAX_HEALTH, SPEED, DASH_COOLDOWN, CRIT_CHANCE, LIFESTEAL, XP_BONUS, ARMOR, THORNS, MAGNET, REGEN, FURY, KNOCKBACK, CRIT_DAMAGE }
 
 @export var display_name: String = "Power Up"
 @export var stat: Stat = Stat.ATTACK

@@ -27,8 +27,8 @@ func _ready() -> void:
 		boss_health_bar.value = health
 
 
-func take_damage(amount: int, from_position: Vector2) -> void:
-	super(amount, from_position)
+func take_damage(amount: int, from_position: Vector2, attacker: Node2D = null) -> void:
+	super(amount, from_position, attacker)
 	if boss_health_bar:
 		if hp_tween and hp_tween.is_valid():
 			hp_tween.kill()

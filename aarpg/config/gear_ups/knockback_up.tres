@@ -1,0 +1,7 @@
+[gd_resource type=Resource script=load("res://aarpg/config/gear_up.gd")]
+
+display_name = "Knockback"
+stat = 12
+amount = 1
+stat_color = Color(1.0, 0.6, 0.8, 1)
+description = "Hits push enemies 25% further back."

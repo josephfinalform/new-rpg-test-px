@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/grass_map.tscn" id="2_map"]
@@ -12,6 +12,8 @@
 [ext_resource type="Resource" path="res://aarpg/config/armors/cyan_cuirass.tres" id="10_cuirass"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/gear_up_pickup.tscn" id="11_gearup"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/atk_up.tres" id="12_atk"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/scroll_pickup.tscn" id="13_scroll"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/thorns_up.tres" id="14_thorns"]
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_level")
@@ -73,6 +75,13 @@ armor = ExtResource("10_cuirass")
 [node name="AtkUp" parent="Pickups" instance=ExtResource("11_gearup")]
 position = Vector2(680, 620)
 gear_up = ExtResource("12_atk")
+
+[node name="ThornsUp" parent="Pickups" instance=ExtResource("11_gearup")]
+position = Vector2(520, 560)
+gear_up = ExtResource("14_thorns")
+
+[node name="XpScroll" parent="Pickups" instance=ExtResource("13_scroll")]
+position = Vector2(760, 320)
 
 [node name="Portal" parent="." instance=ExtResource("6_portal")]
 position = Vector2(1380, 400)

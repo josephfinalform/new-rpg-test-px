@@ -123,7 +123,9 @@ func _on_level_up(new_level: int) -> void:
 
 func _on_prestige_changed(_prestige: int) -> void:
 	_update_level_label()
-	_update_rank(level)
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() > 0:
+		_update_rank((players[0] as Player).level)
 	if level_label:
 		level_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4))
 

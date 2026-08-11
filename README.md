@@ -90,6 +90,10 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Prestige system**: after max level (100), earned XP fills a prestige bar; every 1000 XP grants a Prestige ★ that permanently boosts ATK/HP/SPD, adds a star suffix to the rank title, and triggers a PRESTIGE effect — the HUD XP bar switches to prestige progress
 - **Armor v2**: armor now also grants an XP multiplier, dash cooldown multiplier and move speed multiplier, plus 2 new legendary armors (Mystic Aegis → Ember Canyon, Stormlord Plate → Mystic Grove)
 - **Gear up v2**: 4 new permanent upgrades — CRIT (chance to deal 2×, shown with a CRIT! popup), Lifesteal (heal a % of damage dealt), XP (all XP boosted), and Armor (flat damage reduction)
+- **EXP refactor**: level / XP / prestige logic extracted from the player into a dedicated `XpProgression` class (`aarpg/Player/Scripts/xp_progression.gd`) — the player keeps read-only `level` / `xp` / `prestige` properties and applies stat bonuses via signals
+- **Level settings (level setleme)**: `level_config.tres` now ships configurable `starting_level` / `starting_xp` plus a "Parchment" group (`parchment_xp`, `parchment_xp_multiplier`, `tome_levels`)
+- **XP Scroll & Level Tome pickups**: new parchment/book pickups (`scroll_pickup.tscn`) — the XP Scroll grants configurable XP (respects XP multipliers), the Level Tome grants +1 level instantly (converts to prestige past max level)
+- **Gear up v3**: 6 new permanent upgrades — Thorns (reflect damage to attackers), Magnet (wider XP gem vacuum), Regen (HP per second), Fury (faster attacks), Knockback (enemies pushed further), CRIT DMG (bigger crits) — spread across levels 1–9
 
 ### Level & XP System
 
@@ -107,12 +111,16 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
   - Move speed `+5`, sprint speed `+8`
 - **Scaling milestone bonuses**: every 10 levels the milestone reward grows with `milestone_bonus_growth` (`+0.5` per tier) — e.g. ATK/HP/SPD at level 20 are `1.5×`, at level 100 `5.5×` the base bonus.
 - **Max level**: Leveling stops at `max_level` (100); further XP is ignored.
+- **Start settings**: `starting_level` / `starting_xp` in `level_config.tres` let you set the player's starting progression.
+- **Parchment (XP scrolls)**: `parchment_xp` (default 15) is the XP granted by an XP Scroll pickup; `parchment_xp_multiplier` decides whether it benefits from the player's XP multiplier; `tome_levels` (default 1) is the number of levels a Level Tome grants instantly.
 - **Prestige (beyond 100)**: XP earned past max level fills a prestige bar (`prestige_xp_threshold`, 1000). Each full bar grants a Prestige point with permanent `+HP/+ATK/+SPD` bonuses (configurable in `level_config.tres`), a `★` suffix on the HUD rank/level label and a PRESTIGE banner effect. Prestige bonuses also benefit from the armor/gear XP multiplier.
 - **UI**: Current level & XP shown in the health bar overlay with level-up feedback.
 - **XP gems**: Orc Brutes (35%) and Skeletons (20%) drop blue XP crystals worth 5 XP.
 - **Difficulty scaling**: Each campaign level past the first scales enemy HP (`+35%/level`), damage (`+20%/level`) and XP reward (`+25%/level`).
 - **Armor v2**: 5 armors across tiers — each grants flat + percentage damage reduction, a speed multiplier and a cyan halo, plus (new) an XP multiplier, dash cooldown multiplier and move speed multiplier. Legendary drops: Mystic Aegis (Ember Canyon) and Stormlord Plate (Mystic Grove).
 - **Gear up v2**: 8 permanent upgrades — ATK, HP, SPD, Dash cooldown, CRIT (2× damage chance), Lifesteal, XP boost and flat Armor reduction — dropped in levels 1–9 and shown on the HUD.
+- **Gear up v3**: 14 permanent upgrades total — adds Thorns (reflect), Magnet (wider gem vacuum), Regen (HP/sec), Fury (attack speed), Knockback (knockback force) and CRIT DMG (crit multiplier) on top of the previous 8, dropped across levels 1–9.
+- **XP Scrolls**: XP Scroll (grants `parchment_xp`, respects XP multiplier) and Level Tome (grants `tome_levels` instantly) pickups found in levels 1, 2, 3, 7 and 9.
 
 ### Planned
 
@@ -242,6 +250,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-11 | XP/level refactor (XpProgression sınıfı), level setleme ayarları (starting_level/XP + parşömen XP/tome), XP Scroll & Level Tome pickup'ları, Gear up v3 (Thorns/Magnet/Regen/Fury/Knockback/CRIT DMG) + seviye yerleşimleri |
 | 2026-08-10 | EXP prestige sistemi (100 sonrası ★ prestij + kalıcı bonuslar), Armor v2 (XP/dash/hız çarpanları + Mystic Aegis & Stormlord Plate), Gear up v2 (CRIT/Lifesteal/XP/Armor) + seviye yerleşimleri |
 | 2026-08-09 | EXP rework v2: parametrized 4-phase XP curve to 100, 11 rank titles (persona) in HUD & level-up banner, scaling milestone bonuses every 10 levels |
 | 2026-08-08 | Armor system (3 cyan armors + damage reduction + halo), gear up pickups (ATK/HP/SPD/Dash), Cyan Stormblade with SHOCK stun, EXP cap 100 + milestone bonuses, animated main menu with BGM |
@@ -264,4 +273,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-10*
+*Last updated: 2026-08-11*

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/grass_map.tscn" id="2_map"]
@@ -17,6 +17,8 @@
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/armor_pickup.tscn" id="15_armor"]
 [ext_resource type="Resource" path="res://aarpg/config/armors/stormlord_plate.tres" id="16_plate"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/xp_up.tres" id="17_xp"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/scroll_pickup.tscn" id="18_scroll"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/regen_up.tres" id="19_regen"]
 
 [node name="Level9" type="Node2D"]
 script = ExtResource("1_level")
@@ -93,6 +95,13 @@ armor = ExtResource("16_plate")
 [node name="XpUp" parent="Pickups" instance=ExtResource("13_gearup")]
 position = Vector2(1020, 640)
 gear_up = ExtResource("17_xp")
+
+[node name="XpScroll" parent="Pickups" instance=ExtResource("18_scroll")]
+position = Vector2(560, 380)
+
+[node name="RegenUp" parent="Pickups" instance=ExtResource("13_gearup")]
+position = Vector2(1240, 660)
+gear_up = ExtResource("19_regen")
 
 [node name="Torches" type="Node2D" parent="."]
 

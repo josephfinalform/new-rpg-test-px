@@ -15,6 +15,15 @@ const DEFAULT_RANKS: Array[Dictionary] = [
 	{ "level": 100, "title": "GODLIKE", "color": Color(1.0, 0.9, 0.5) },
 ]
 
+@export_group("Start Settings")
+@export var starting_level: int = 1
+@export var starting_xp: int = 0
+
+@export_group("Parchment (XP scrolls)")
+@export var parchment_xp: int = 15
+@export var parchment_xp_multiplier: bool = true
+@export var tome_levels: int = 1
+
 @export_group("Level Cap")
 @export var max_level: int = 100
 

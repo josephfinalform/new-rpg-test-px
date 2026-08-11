@@ -41,7 +41,7 @@ func _process_magnet(delta: float) -> void:
 		return
 	var to_player: Vector2 = player.global_position - global_position
 	var dist: float = to_player.length()
-	if dist > magnet_radius:
+	if dist > player.get_xp_magnet_radius(magnet_radius):
 		return
 	var dir := to_player / maxf(dist, 0.001)
 	_magnet_velocity = _magnet_velocity.move_toward(dir * magnet_speed, magnet_accel * delta)

@@ -38,6 +38,7 @@ var is_invincible: bool = false
 var is_dead: bool = false
 var knockback_velocity: Vector2 = Vector2.ZERO
 var base_velocity: Vector2 = Vector2.ZERO
+var knockback_multiplier: float = 1.0
 
 var current_state: int = State.IDLE
 var chase_target: Player = null
@@ -153,7 +154,7 @@ func _process_attack(delta: float) -> void:
 		else:
 			current_state = State.IDLE
 
-func take_damage(amount: int, from_position: Vector2) -> void:
+func take_damage(amount: int, from_position: Vector2, attacker: Node2D = null) -> void:
 	if is_invincible or is_dead:
 		return
 	health = max(health - amount, 0)
@@ -167,7 +168,7 @@ func take_damage(amount: int, from_position: Vector2) -> void:
 	if not is_dead:
 		current_state = State.HURT
 	var knockback_dir: Vector2 = (global_position - from_position).normalized()
-	knockback_velocity = knockback_dir * knockback_force * (1.0 - knockback_resistance)
+	knockback_velocity = knockback_dir * knockback_force * (1.0 - knockback_resistance) * knockback_multiplier
 	if health <= 0:
 		_die()
 
@@ -239,7 +240,7 @@ func _play_death_effect() -> void:
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Player:
-		body.take_damage(damage, global_position)
+		body.take_damage(damage, global_position, self)
 
 func _on_hurt_timer_timeout() -> void:
 	if not is_dead:

@@ -55,17 +55,35 @@ var equipped_armor: Armor = null
 
 @onready var armor_visual: Polygon2D = get_node_or_null("ArmorVisual")
 
-var level: int = 1
-var xp: int = 0
-var xp_to_next_level: int = 10
+var xp_progression: XpProgression
 
-var prestige: int = 0
-var prestige_xp: int = 0
+var level: int:
+	get:
+		return xp_progression.level if xp_progression else 1
+var xp: int:
+	get:
+		return xp_progression.xp if xp_progression else 0
+var xp_to_next_level: int:
+	get:
+		return xp_progression.xp_to_next_level if xp_progression else 10
+var prestige: int:
+	get:
+		return xp_progression.prestige if xp_progression else 0
+var prestige_xp: int:
+	get:
+		return xp_progression.prestige_xp if xp_progression else 0
 
 var crit_chance: float = 0.0
 var lifesteal: float = 0.0
 var xp_bonus: float = 0.0
 var gear_armor_reduction: int = 0
+
+var thorns_damage: int = 0
+var magnet_radius_bonus: float = 0.0
+var regen_per_second: float = 0.0
+var attack_speed_multiplier: float = 1.0
+var knockback_multiplier: float = 1.0
+var crit_damage_multiplier: float = 2.0
 
 var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as LevelConfig
 
@@ -80,12 +98,17 @@ var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as 
 @onready var sword_visual: Polygon2D = $AttackPivot/SwordVisual
 @onready var dash_timer: Timer = $DashTimer
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
+@onready var regen_timer: Timer = $RegenTimer
 
 func _ready() -> void:
+	xp_progression = XpProgression.new(level_config)
+	xp_progression.xp_changed.connect(_on_progression_xp_changed)
+	xp_progression.level_gained.connect(_on_progression_level_gained)
+	xp_progression.prestige_gained.connect(_on_progression_prestige_gained)
+	regen_timer.timeout.connect(_on_regen_timer_timeout)
 	state_machine.initialize(self)
 	health = max_health
 	health_changed.emit(health)
-	xp_to_next_level = get_xp_for_level(level)
 	attack_timer.wait_time = attack_cooldown
 	invincibility_timer.wait_time = invincibility_time
 	dash_timer.wait_time = dash_duration
@@ -146,9 +169,13 @@ func play_facing_animation(anim_prefix: String, dir: Vector2 = facing) -> void:
 		anim_name = anim_prefix + "_up"
 	play_animation(anim_name)
 
-func take_damage(amount: int, from_position: Vector2 = global_position) -> void:
+func take_damage(amount: int, from_position: Vector2 = global_position, attacker: Node2D = null) -> void:
 	if is_invincible or is_dead:
 		return
+	if thorns_damage > 0 and attacker is Enemy:
+		var enemy := attacker as Enemy
+		if not enemy.is_dead:
+			enemy.take_damage(thorns_damage, global_position)
 	var final_amount := amount
 	if equipped_armor:
 		final_amount = maxi(final_amount - equipped_armor.damage_reduction - gear_armor_reduction, 1)
@@ -182,19 +209,11 @@ func _die() -> void:
 
 func gain_xp(amount: int) -> void:
 	amount = maxi(roundi(amount * get_xp_multiplier()), 1)
-	if level >= level_config.max_level:
-		_gain_prestige(amount)
-		return
-	xp += amount
-	xp_changed.emit(xp, level)
-	while xp >= xp_to_next_level:
-		if level >= level_config.max_level:
-			_gain_prestige(xp)
-			xp = 0
-			break
-		xp -= xp_to_next_level
-		_level_up()
-	xp_changed.emit(xp, level)
+	xp_progression.gain_xp(amount)
+
+
+func gain_level() -> void:
+	xp_progression.gain_level()
 
 
 func get_xp_multiplier() -> float:
@@ -204,22 +223,21 @@ func get_xp_multiplier() -> float:
 	return mult
 
 
-func _gain_prestige(amount: int) -> void:
-	prestige_xp += amount
-	while prestige_xp >= level_config.prestige_xp_threshold:
-		prestige_xp -= level_config.prestige_xp_threshold
-		prestige += 1
-		max_health += level_config.prestige_health_bonus
-		health = min(health + level_config.prestige_health_bonus, max_health)
-		base_attack_damage += level_config.prestige_attack_bonus
-		_apply_weapon()
-		level_move_bonus += level_config.prestige_speed_bonus
-		level_sprint_bonus += level_config.prestige_speed_bonus
-		_recalculate_speed()
-		health_changed.emit(health)
-		prestige_changed.emit(prestige)
-		_spawn_prestige_effect()
-	xp_changed.emit(prestige_xp, level)
+func _on_progression_xp_changed(current_xp: int, lvl: int) -> void:
+	xp_changed.emit(current_xp, lvl)
+
+
+func _on_progression_prestige_gained(_new_prestige: int) -> void:
+	max_health += level_config.prestige_health_bonus
+	health = min(health + level_config.prestige_health_bonus, max_health)
+	base_attack_damage += level_config.prestige_attack_bonus
+	_apply_weapon()
+	level_move_bonus += level_config.prestige_speed_bonus
+	level_sprint_bonus += level_config.prestige_speed_bonus
+	_recalculate_speed()
+	health_changed.emit(health)
+	prestige_changed.emit(prestige)
+	_spawn_prestige_effect()
 
 
 func _spawn_prestige_effect() -> void:
@@ -234,9 +252,7 @@ func _spawn_prestige_effect() -> void:
 	]
 	effect.setup(stats_text, "PRESTIGE " + stars, Color(1.0, 0.9, 0.4))
 
-func _level_up() -> void:
-	level += 1
-	xp_to_next_level = get_xp_for_level(level)
+func _on_progression_level_gained(_new_level: int) -> void:
 	max_health += level_config.health_gain_per_level
 	health = min(health + level_config.heal_on_level_up, max_health)
 	base_attack_damage += level_config.damage_gain_per_level
@@ -289,11 +305,7 @@ func _animate_level_scale() -> void:
 	create_tween().tween_property(self, "scale", Vector2(target_scale, target_scale), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 func get_xp_for_level(lvl: int) -> int:
-	if lvl > level_config.max_level:
-		return 0
-	if lvl - 1 < level_config.xp_curve.size():
-		return level_config.xp_curve[lvl - 1]
-	return 5 + lvl * 3
+	return xp_progression.get_xp_for_level(lvl)
 
 func get_rank_title() -> String:
 	return level_config.get_rank_title(level)
@@ -317,7 +329,7 @@ func _apply_weapon() -> void:
 	if equipped_weapon == null:
 		return
 	attack_damage = base_attack_damage + equipped_weapon.damage_bonus
-	attack_cooldown = base_attack_cooldown * equipped_weapon.cooldown_multiplier
+	attack_cooldown = base_attack_cooldown * equipped_weapon.cooldown_multiplier * attack_speed_multiplier
 	attack_timer.wait_time = attack_cooldown
 	if sword_visual:
 		sword_visual.color = equipped_weapon.trail_color
@@ -382,7 +394,30 @@ func apply_gear_up(gear_up: GearUp) -> void:
 			xp_bonus += float(gear_up.amount) * 0.1
 		GearUp.Stat.ARMOR:
 			gear_armor_reduction += gear_up.amount
+		GearUp.Stat.THORNS:
+			thorns_damage += gear_up.amount
+		GearUp.Stat.MAGNET:
+			magnet_radius_bonus += float(gear_up.amount) * 0.5
+		GearUp.Stat.REGEN:
+			regen_per_second += float(gear_up.amount) * 0.25
+		GearUp.Stat.FURY:
+			attack_speed_multiplier = maxf(attack_speed_multiplier - float(gear_up.amount) * 0.05, 0.4)
+			_apply_weapon()
+		GearUp.Stat.KNOCKBACK:
+			knockback_multiplier += float(gear_up.amount) * 0.25
+		GearUp.Stat.CRIT_DAMAGE:
+			crit_damage_multiplier = minf(crit_damage_multiplier + float(gear_up.amount) * 0.25, 4.0)
 	gear_up_applied.emit(gear_up)
+
+
+func get_xp_magnet_radius(base_radius: float) -> float:
+	return base_radius * (1.0 + magnet_radius_bonus)
+
+
+func _on_regen_timer_timeout() -> void:
+	if is_dead or regen_per_second <= 0.0:
+		return
+	heal(maxi(roundi(regen_per_second), 1))
 
 
 func _spawn_damage_number(amount: int) -> void:
@@ -407,18 +442,20 @@ func _on_hit_flash_timer_timeout() -> void:
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Enemy and not body in hit_enemies_this_attack:
 		hit_enemies_this_attack.append(body)
+		var enemy := body as Enemy
 		var damage := attack_damage
 		var is_crit := false
 		if crit_chance > 0.0 and randf() < crit_chance:
-			damage *= 2
+			damage = maxi(roundi(damage * crit_damage_multiplier), damage)
 			is_crit = true
-		body.take_damage(damage, global_position)
+		enemy.knockback_multiplier = knockback_multiplier
+		enemy.take_damage(damage, global_position, self)
 		if is_crit:
-			_spawn_crit_text(body)
+			_spawn_crit_text(enemy)
 		if lifesteal > 0.0:
 			heal(maxi(roundi(damage * lifesteal), 1))
-		if equipped_weapon and equipped_weapon.effect != Weapon.Effect.NONE and body.has_method("apply_status_from_weapon"):
-			body.apply_status_from_weapon(equipped_weapon)
+		if equipped_weapon and equipped_weapon.effect != Weapon.Effect.NONE and enemy.has_method("apply_status_from_weapon"):
+			enemy.apply_status_from_weapon(equipped_weapon)
 		if attack_sfx:
 			AudioManager.play_sfx(attack_sfx)
 

@@ -1,0 +1,7 @@
+[gd_resource type=Resource script=load("res://aarpg/config/gear_up.gd")]
+
+display_name = "Regen"
+stat = 10
+amount = 1
+stat_color = Color(0.45, 1.0, 0.75, 1)
+description = "Regenerate 0.25 HP every second."

@@ -82,6 +82,37 @@ func _draw() -> void:
 			draw_colored_polygon(PackedVector2Array(
 				Vector2(0, -7), Vector2(-6, -5), Vector2(-6, 1), Vector2(-3, 5), Vector2(0, 6)
 			), Color.WHITE.darkened(0.1))
+		GearUp.Stat.THORNS:
+			var star := PackedVector2Array()
+			for i in range(8):
+				var a := TAU / 8.0 * float(i)
+				var r := 6.5 if i % 2 == 0 else 2.5
+				star.append(Vector2.from_angle(a) * r)
+			draw_colored_polygon(star, Color.WHITE)
+		GearUp.Stat.MAGNET:
+			draw_arc(Vector2(0, 4), 4.0, PI, TAU, 16, Color.WHITE, 2.0)
+			draw_line(Vector2(-4, 4), Vector2(-4, -2), Color.WHITE, 2.0)
+			draw_line(Vector2(4, 4), Vector2(4, -2), Color.WHITE, 2.0)
+			draw_line(Vector2(-4, 1), Vector2(-4, 4), Color.RED, 1.0)
+			draw_line(Vector2(4, 1), Vector2(4, 4), Color(0.4, 0.6, 1.0), 1.0)
+		GearUp.Stat.REGEN:
+			draw_circle(Vector2.ZERO, 5.0, Color.WHITE.darkened(0.15))
+			draw_line(Vector2(0, -3), Vector2(0, 3), Color.WHITE, 1.5)
+			draw_line(Vector2(-3, 0), Vector2(3, 0), Color.WHITE, 1.5)
+		GearUp.Stat.FURY:
+			draw_polyline(PackedVector2Array(
+				Vector2(1, -6), Vector2(-2, -1), Vector2(1, -1), Vector2(-2, 5), Vector2(3, -3), Vector2(0, -3)
+			), Color.WHITE, 1.5)
+		GearUp.Stat.KNOCKBACK:
+			draw_arc(Vector2.ZERO, 5.0, 0.0, PI, 16, Color.WHITE, 1.5)
+			draw_line(Vector2(0, 5), Vector2(0, 8), Color.WHITE, 1.5)
+			draw_line(Vector2(-2, 7), Vector2(0, 8), Color.WHITE, 1.5)
+			draw_line(Vector2(2, 7), Vector2(0, 8), Color.WHITE, 1.5)
+		GearUp.Stat.CRIT_DAMAGE:
+			for i in range(3):
+				var a := -PI / 2.0 + TAU / 3.0 * float(i)
+				draw_line(Vector2.from_angle(a) * 2.0, Vector2.from_angle(a) * 6.0, Color.WHITE, 1.5)
+			draw_circle(Vector2.ZERO, 1.4, Color.WHITE)
 
 
 func _on_body_entered(body: Node2D) -> void:

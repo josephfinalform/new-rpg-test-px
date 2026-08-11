@@ -1,5 +1,10 @@
 [gd_resource type=Resource script=load("res://aarpg/config/level_config.gd")]
 
+starting_level = 1
+starting_xp = 0
+parchment_xp = 15
+parchment_xp_multiplier = true
+tome_levels = 1
 max_level = 100
 curve_base_xp = 8
 curve_phases = [{
