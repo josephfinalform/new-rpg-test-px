@@ -49,7 +49,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
-- **9 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → shadow keep)
+- **10 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → EXP grind arena → shadow keep)
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
@@ -94,6 +94,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Level settings (level setleme)**: `level_config.tres` now ships configurable `starting_level` / `starting_xp` plus a "Parchment" group (`parchment_xp`, `parchment_xp_multiplier`, `tome_levels`)
 - **XP Scroll & Level Tome pickups**: new parchment/book pickups (`scroll_pickup.tscn`) — the XP Scroll grants configurable XP (respects XP multipliers), the Level Tome grants +1 level instantly (converts to prestige past max level)
 - **Gear up v3**: 6 new permanent upgrades — Thorns (reflect damage to attackers), Magnet (wider XP gem vacuum), Regen (HP per second), Fury (faster attacks), Knockback (enemies pushed further), CRIT DMG (bigger crits) — spread across levels 1–9
+- **EXP Grind Arena (boss grind map)**: new post-Mystic-Grove level (`level_10_exp_grind.tscn`) with 40+ respawning enemies and a respawning Shadow Knight boss — grind mode in `level.gd` doubles all enemy/boss XP (`grind_xp_multiplier`), auto-respawns killed enemies (`enemy_respawn_delay`) and the boss (`boss_respawn_delay`), plus a boss-respawn countdown banner
 
 ### Level & XP System
 
@@ -192,7 +193,9 @@ new-rpg-test-px/
 │   │   ├── level_6_ice_arena.tscn # Ice Golem arena (locked gate)
 │   │   ├── level_8_ember_canyon.tscn # Ember Canyon: fire imps, lava tint
 │   │   ├── level_9_mystic_grove.tscn # Mystic Grove: crystal wisps, XP gems
-│   │   └── level_7_shadow_arena.tscn # Shadow Knight arena (final)
+│   │   ├── level_9_mystic_grove.tscn # Mystic Grove: crystal wisps, XP gems
+│   │   ├── level_7_shadow_arena.tscn # Shadow Knight arena (final)
+│   │   └── level_10_exp_grind.tscn   # EXP Grind Arena: respawning mobs + boss
 │   ├── Maps/
 │   │   ├── map_painter.gd         # Runtime tile painting + bounds
 │   │   ├── Scenes/                # grass_map.tscn, dungeon_map.tscn
@@ -250,6 +253,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-12 | EXP Grind Arena — boss grind map refactor: `level.gd` grind mode (XP çarpanı + düşman/boss respawn + boss respawn banner), level_10_exp_grind.tscn yerleşimi (40+ düşman, Shadow Knight grind boss, XP pickup'ları), kampanya zincirine eklendi (index 8) |
 | 2026-08-11 | XP/level refactor (XpProgression sınıfı), level setleme ayarları (starting_level/XP + parşömen XP/tome), XP Scroll & Level Tome pickup'ları, Gear up v3 (Thorns/Magnet/Regen/Fury/Knockback/CRIT DMG) + seviye yerleşimleri |
 | 2026-08-10 | EXP prestige sistemi (100 sonrası ★ prestij + kalıcı bonuslar), Armor v2 (XP/dash/hız çarpanları + Mystic Aegis & Stormlord Plate), Gear up v2 (CRIT/Lifesteal/XP/Armor) + seviye yerleşimleri |
 | 2026-08-09 | EXP rework v2: parametrized 4-phase XP curve to 100, 11 rank titles (persona) in HUD & level-up banner, scaling milestone bonuses every 10 levels |
@@ -273,4 +277,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-11*
+*Last updated: 2026-08-12*

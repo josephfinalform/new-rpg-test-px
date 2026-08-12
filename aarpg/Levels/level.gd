@@ -6,6 +6,16 @@ extends Node2D
 @export var boss: NodePath
 @export var boss_gate_portal: NodePath
 
+@export_group("EXP Grind Arena")
+@export var is_grind_level: bool = false
+@export var grind_xp_multiplier: float = 2.0
+@export var enemy_respawn_delay: float = 6.0
+@export var boss_respawn_delay: float = 25.0
+
+var _spawn_entries: Array[Dictionary] = []
+var _respawn_queue: Array[Dictionary] = []
+var _boss_respawn_banner: CanvasLayer = null
+
 
 func _ready() -> void:
 	var player := _get_player()
@@ -16,9 +26,80 @@ func _ready() -> void:
 		var boss_node := get_node_or_null(boss)
 		if boss_node:
 			boss_node.died.connect(_on_boss_died)
+	if is_grind_level:
+		_setup_grind_level()
 	_apply_difficulty_scaling()
 	if is_final_level:
 		_show_boss_banner()
+	elif is_grind_level:
+		_show_grind_banner()
+
+
+func _process(delta: float) -> void:
+	if not is_grind_level or _respawn_queue.is_empty():
+		return
+	for i in range(_respawn_queue.size() - 1, -1, -1):
+		var entry: Dictionary = _respawn_queue[i]
+		entry["time_left"] = float(entry["time_left"]) - delta
+		if entry["time_left"] <= 0.0:
+			_respawn_entry(entry)
+			_respawn_queue.remove_at(i)
+
+
+func _setup_grind_level() -> void:
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if not enemy is Enemy:
+			continue
+		var is_boss := enemy is BossEnemy
+		enemy.xp_reward = roundi(float(enemy.xp_reward) * grind_xp_multiplier)
+		if is_boss:
+			enemy.bonus_xp_reward = roundi(float(enemy.bonus_xp_reward) * grind_xp_multiplier)
+		var entry := {
+			"scene_path": enemy.scene_file_path,
+			"position": enemy.global_position,
+			"is_boss": is_boss,
+			"pending": false,
+		}
+		_spawn_entries.append(entry)
+		enemy.died.connect(_on_enemy_died.bind(entry))
+
+
+func _on_enemy_died(entry: Dictionary) -> void:
+	if entry.get("pending", false):
+		return
+	entry["pending"] = true
+	var delay := boss_respawn_delay if entry["is_boss"] else enemy_respawn_delay
+	entry["time_left"] = delay
+	_respawn_queue.append(entry)
+	if entry["is_boss"]:
+		_show_boss_respawn_banner(delay)
+
+
+func _respawn_entry(entry: Dictionary) -> void:
+	entry["pending"] = false
+	var scene_path: String = entry.get("scene_path", "")
+	if scene_path.is_empty():
+		_spawn_entries.erase(entry)
+		return
+	var scene := load(scene_path) as PackedScene
+	if scene == null:
+		_spawn_entries.erase(entry)
+		return
+	var container := get_node_or_null("Enemies")
+	if container == null:
+		container = self
+	var new_enemy: Enemy = scene.instantiate()
+	container.add_child(new_enemy)
+	new_enemy.global_position = entry["position"]
+	new_enemy.xp_reward = roundi(float(new_enemy.xp_reward) * grind_xp_multiplier)
+	if entry["is_boss"]:
+		var boss_enemy := new_enemy as BossEnemy
+		boss_enemy.bonus_xp_reward = roundi(float(boss_enemy.bonus_xp_reward) * grind_xp_multiplier)
+	new_enemy.died.connect(_on_enemy_died.bind(entry))
+	if new_enemy.has_method("apply_level_scaling"):
+		new_enemy.apply_level_scaling(GameManager.current_level_index)
+	if entry["is_boss"]:
+		_fade_out_respawn_banner()
 
 
 func _apply_difficulty_scaling() -> void:
@@ -28,6 +109,52 @@ func _apply_difficulty_scaling() -> void:
 	for enemy in get_tree().get_nodes_in_group("enemies"):
 		if enemy.has_method("apply_level_scaling"):
 			enemy.apply_level_scaling(index)
+
+
+func _show_grind_banner() -> void:
+	var overlay := CanvasLayer.new()
+	overlay.layer = 10
+	add_child(overlay)
+	var label := Label.new()
+	label.text = "EXP GRIND ARENA"
+	label.add_theme_font_size_override("font_size", 26)
+	label.add_theme_color_override("font_color", Color(0.6, 0.9, 1.0))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	label.modulate.a = 0.0
+	overlay.add_child(label)
+	var tween := label.create_tween()
+	tween.tween_property(label, "modulate:a", 1.0, 0.5)
+	tween.tween_interval(1.2)
+	tween.tween_property(label, "modulate:a", 0.0, 0.5)
+	await tween.finished
+	overlay.queue_free()
+
+
+func _show_boss_respawn_banner(delay: float) -> void:
+	if _boss_respawn_banner and is_instance_valid(_boss_respawn_banner):
+		_boss_respawn_banner.queue_free()
+	_boss_respawn_banner = CanvasLayer.new()
+	_boss_respawn_banner.layer = 10
+	add_child(_boss_respawn_banner)
+	var label := Label.new()
+	label.text = "BOSS SLAIN - RESPAWNING IN %d s" % int(delay)
+	label.add_theme_font_size_override("font_size", 20)
+	label.add_theme_color_override("font_color", Color(1.0, 0.7, 0.3))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	label.offset_bottom = -50
+	_boss_respawn_banner.add_child(label)
+
+
+func _fade_out_respawn_banner() -> void:
+	if _boss_respawn_banner and is_instance_valid(_boss_respawn_banner):
+		var tween := _boss_respawn_banner.create_tween()
+		tween.tween_property(_boss_respawn_banner, "modulate:a", 0.0, 0.5)
+		tween.tween_callback(_boss_respawn_banner.queue_free)
+		_boss_respawn_banner = null
 
 
 func _show_boss_banner() -> void:
