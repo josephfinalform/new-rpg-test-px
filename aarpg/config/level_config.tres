@@ -35,6 +35,9 @@ prestige_xp_threshold = 1000
 prestige_attack_bonus = 2
 prestige_health_bonus = 5
 prestige_speed_bonus = 3.0
+combo_window_time = 3.0
+combo_xp_per_step = 0.1
+combo_max_multiplier = 3.0
 ranks = [{
 "color": Color(0.7, 0.7, 0.75, 1),
 "level": 1,

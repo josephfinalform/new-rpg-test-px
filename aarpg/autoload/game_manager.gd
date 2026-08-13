@@ -2,6 +2,11 @@ extends Node
 
 signal level_changed(index: int)
 signal kills_changed(total: int)
+signal combo_changed(count: int, multiplier: float)
+signal combo_lost
+signal combo_milestone(count: int)
+
+const LEVEL_CONFIG = preload("res://aarpg/config/level_config.tres")
 
 @export var levels: Array[String] = [
 	"res://aarpg/Levels/level_1_meadow.tscn",
@@ -34,11 +39,24 @@ var current_level_index: int = 0
 var kills: int = 0
 var equipped_weapon: Weapon = null
 var equipped_armor: Armor = null
+var combo: int = 0
+var combo_time_left: float = 0.0
+
+
+func _process(delta: float) -> void:
+	if combo <= 0:
+		return
+	combo_time_left -= delta
+	if combo_time_left <= 0.0:
+		combo = 0
+		combo_lost.emit()
 
 
 func start_game() -> void:
 	current_level_index = 0
 	kills = 0
+	combo = 0
+	combo_time_left = 0.0
 	equipped_weapon = null
 	equipped_armor = null
 	kills_changed.emit(0)
@@ -55,6 +73,7 @@ func load_next_level() -> void:
 
 
 func restart_current_level() -> void:
+	reset_combo()
 	_load_level(current_level_index)
 
 
@@ -67,6 +86,23 @@ func get_level_name(index: int) -> String:
 func enemy_killed() -> void:
 	kills += 1
 	kills_changed.emit(kills)
+	combo += 1
+	combo_time_left = LEVEL_CONFIG.combo_window_time
+	combo_changed.emit(combo, get_combo_multiplier())
+	if combo > 0 and combo % 5 == 0:
+		combo_milestone.emit(combo)
+
+
+func get_combo_multiplier() -> float:
+	return minf(1.0 + float(combo) * LEVEL_CONFIG.combo_xp_per_step, LEVEL_CONFIG.combo_max_multiplier)
+
+
+func reset_combo() -> void:
+	if combo <= 0:
+		return
+	combo = 0
+	combo_time_left = 0.0
+	combo_lost.emit()
 
 
 func _load_level(index: int) -> void:

@@ -105,6 +105,7 @@ func _ready() -> void:
 	xp_progression.xp_changed.connect(_on_progression_xp_changed)
 	xp_progression.level_gained.connect(_on_progression_level_gained)
 	xp_progression.prestige_gained.connect(_on_progression_prestige_gained)
+	GameManager.combo_milestone.connect(_on_combo_milestone)
 	regen_timer.timeout.connect(_on_regen_timer_timeout)
 	state_machine.initialize(self)
 	health = max_health
@@ -172,6 +173,7 @@ func play_facing_animation(anim_prefix: String, dir: Vector2 = facing) -> void:
 func take_damage(amount: int, from_position: Vector2 = global_position, attacker: Node2D = null) -> void:
 	if is_invincible or is_dead:
 		return
+	GameManager.reset_combo()
 	if thorns_damage > 0 and attacker is Enemy:
 		var enemy := attacker as Enemy
 		if not enemy.is_dead:
@@ -220,6 +222,7 @@ func get_xp_multiplier() -> float:
 	var mult := 1.0 + xp_bonus
 	if equipped_armor:
 		mult *= equipped_armor.xp_multiplier
+	mult *= GameManager.get_combo_multiplier()
 	return mult
 
 
@@ -466,3 +469,13 @@ func _spawn_crit_text(enemy: Node2D) -> void:
 	popup.text = "CRIT!"
 	popup.modulate = Color(1.0, 0.9, 0.3)
 	popup.global_position = enemy.global_position + Vector2(randf_range(-6, 6), -18)
+
+
+func _on_combo_milestone(count: int) -> void:
+	if is_dead:
+		return
+	var popup := CRIT_POPUP.instantiate() as Label
+	get_tree().current_scene.add_child(popup)
+	popup.text = "COMBO x%d!" % count
+	popup.modulate = Color(1.0, 0.6, 0.2)
+	popup.global_position = global_position + Vector2(0, -24)

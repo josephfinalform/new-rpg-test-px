@@ -60,6 +60,11 @@ const DEFAULT_RANKS: Array[Dictionary] = [
 @export var prestige_health_bonus: int = 5
 @export var prestige_speed_bonus: float = 3.0
 
+@export_group("Combo (kill streak)")
+@export var combo_window_time: float = 3.0
+@export var combo_xp_per_step: float = 0.1
+@export var combo_max_multiplier: float = 3.0
+
 
 func build_xp_curve() -> Array[int]:
 	var result: Array[int] = []

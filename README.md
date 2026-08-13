@@ -95,6 +95,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **XP Scroll & Level Tome pickups**: new parchment/book pickups (`scroll_pickup.tscn`) — the XP Scroll grants configurable XP (respects XP multipliers), the Level Tome grants +1 level instantly (converts to prestige past max level)
 - **Gear up v3**: 6 new permanent upgrades — Thorns (reflect damage to attackers), Magnet (wider XP gem vacuum), Regen (HP per second), Fury (faster attacks), Knockback (enemies pushed further), CRIT DMG (bigger crits) — spread across levels 1–9
 - **EXP Grind Arena (boss grind map)**: new post-Mystic-Grove level (`level_10_exp_grind.tscn`) with 40+ respawning enemies and a respawning Shadow Knight boss — grind mode in `level.gd` doubles all enemy/boss XP (`grind_xp_multiplier`), auto-respawns killed enemies (`enemy_respawn_delay`) and the boss (`boss_respawn_delay`), plus a boss-respawn countdown banner
+- **Combo / kill-streak system**: back-to-back kills without taking damage build a combo counter (`GameManager`) — each kill grants an XP multiplier (`combo_xp_per_step`, capped at `combo_max_multiplier`) that decays after `combo_window_time` seconds; taking damage or dying resets the streak. The HUD shows `xN COMBO (Mx XP)` with a pulsing label, and every 5 kills pops a `COMBO xN!` effect
 
 ### Level & XP System
 
@@ -115,6 +116,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Start settings**: `starting_level` / `starting_xp` in `level_config.tres` let you set the player's starting progression.
 - **Parchment (XP scrolls)**: `parchment_xp` (default 15) is the XP granted by an XP Scroll pickup; `parchment_xp_multiplier` decides whether it benefits from the player's XP multiplier; `tome_levels` (default 1) is the number of levels a Level Tome grants instantly.
 - **Prestige (beyond 100)**: XP earned past max level fills a prestige bar (`prestige_xp_threshold`, 1000). Each full bar grants a Prestige point with permanent `+HP/+ATK/+SPD` bonuses (configurable in `level_config.tres`), a `★` suffix on the HUD rank/level label and a PRESTIGE banner effect. Prestige bonuses also benefit from the armor/gear XP multiplier.
+- **Combo (kill streak)**: every kill without taking damage bumps the combo counter in `GameManager`; XP gains are multiplied by `1 + combo × combo_xp_per_step` (capped at `combo_max_multiplier`, 3.0). The streak decays after `combo_window_time` (3 s) of no kills and resets on taking damage or restarting a level. Tuning lives in `level_config.tres`.
 - **UI**: Current level & XP shown in the health bar overlay with level-up feedback.
 - **XP gems**: Orc Brutes (35%) and Skeletons (20%) drop blue XP crystals worth 5 XP.
 - **Difficulty scaling**: Each campaign level past the first scales enemy HP (`+35%/level`), damage (`+20%/level`) and XP reward (`+25%/level`).
@@ -253,6 +255,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-13 | Combo/kill-streak sistemi — GameManager'da combo sayacı (arka arkaya öldürme → XP çarpanı, `combo_window_time` içinde düşmezse sıfırlanır, hasar alınca/respawn'da kaybolur), HUD'da pulsing `xN COMBO (Mx XP)` etiketi, her 5 öldürmede `COMBO xN!` popup efekt |
 | 2026-08-13 | Venom Cavern seviyesi — VenomKing boss-gate arenası (locked portal + gate açılış banner'ı), zehir temalı düşman yerleşimi (VenomSlime/Spider/VenomArcher/StoneBrute/Bat/Elite guard), Frost Sword & Mystic Aegis ödülleri, kampanya zincirine index 8 olarak eklendi (Mystic Grove → Venom Cavern → EXP Grind Arena → Shadow Keep) |
 | 2026-08-12 | EXP Grind Arena — boss grind map refactor: `level.gd` grind mode (XP çarpanı + düşman/boss respawn + boss respawn banner), level_10_exp_grind.tscn yerleşimi (40+ düşman, Shadow Knight grind boss, XP pickup'ları), kampanya zincirine eklendi (index 8) |
 | 2026-08-11 | XP/level refactor (XpProgression sınıfı), level setleme ayarları (starting_level/XP + parşömen XP/tome), XP Scroll & Level Tome pickup'ları, Gear up v3 (Thorns/Magnet/Regen/Fury/Knockback/CRIT DMG) + seviye yerleşimleri |

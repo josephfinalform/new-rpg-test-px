@@ -12,10 +12,12 @@ extends CanvasLayer
 @onready var gear_up_label: Label = get_node_or_null("MarginContainer/VBoxContainer/GearUpLabel")
 @onready var season_label: Label = get_node_or_null("MarginContainer/VBoxContainer/SeasonLabel")
 @onready var kills_label: Label = get_node_or_null("MarginContainer/VBoxContainer/KillsLabel")
+@onready var combo_label: Label = get_node_or_null("MarginContainer/VBoxContainer/ComboLabel")
 @onready var xp_text_label: Label = get_node_or_null("MarginContainer/VBoxContainer/XPTextLabel")
 
 var hearts: Array[TextureRect] = []
 var _xp_tween: Tween = null
+var _combo_tween: Tween = null
 
 func _ready() -> void:
 	var players = get_tree().get_nodes_in_group("player")
@@ -40,6 +42,8 @@ func _ready() -> void:
 	_on_level_changed(GameManager.current_level_index)
 	GameManager.kills_changed.connect(_on_kills_changed)
 	_on_kills_changed(GameManager.kills)
+	GameManager.combo_changed.connect(_on_combo_changed)
+	GameManager.combo_lost.connect(_on_combo_lost)
 	SeasonManager.season_changed.connect(_on_season_changed)
 	_on_season_changed(SeasonManager.current_season)
 
@@ -50,6 +54,30 @@ func _on_level_changed(index: int) -> void:
 func _on_kills_changed(total: int) -> void:
 	if kills_label:
 		kills_label.text = "Kills: " + str(total)
+
+func _on_combo_changed(count: int, multiplier: float) -> void:
+	if not combo_label:
+		return
+	combo_label.text = "x%d COMBO  (%.1fx XP)" % [count, multiplier]
+	var intensity := 1.0
+	var max_mult := GameManager.LEVEL_CONFIG.combo_max_multiplier
+	if max_mult > 1.0:
+		intensity = clampf((multiplier - 1.0) / (max_mult - 1.0), 0.2, 1.0)
+	combo_label.add_theme_color_override("font_color", Color(1.0, 0.4 + 0.5 * intensity, 0.2))
+	combo_label.modulate.a = 1.0
+	if _combo_tween and _combo_tween.is_valid():
+		_combo_tween.kill()
+	_combo_tween = combo_label.create_tween()
+	_combo_tween.tween_property(combo_label, "scale", Vector2(1.4, 1.4), 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_combo_tween.tween_property(combo_label, "scale", Vector2(1.0, 1.0), 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+
+func _on_combo_lost() -> void:
+	if not combo_label:
+		return
+	if _combo_tween and _combo_tween.is_valid():
+		_combo_tween.kill()
+	_combo_tween = combo_label.create_tween()
+	_combo_tween.tween_property(combo_label, "modulate:a", 0.0, 0.4)
 
 func _on_weapon_changed(weapon: Weapon) -> void:
 	if weapon_label:
