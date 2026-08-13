@@ -12,6 +12,7 @@ signal kills_changed(total: int)
 	"res://aarpg/Levels/level_6_ice_arena.tscn",
 	"res://aarpg/Levels/level_8_ember_canyon.tscn",
 	"res://aarpg/Levels/level_9_mystic_grove.tscn",
+	"res://aarpg/Levels/level_11_venom_cavern.tscn",
 	"res://aarpg/Levels/level_10_exp_grind.tscn",
 	"res://aarpg/Levels/level_7_shadow_arena.tscn",
 ]
@@ -24,6 +25,7 @@ signal kills_changed(total: int)
 	"Ice Cavern",
 	"Ember Canyon",
 	"Mystic Grove",
+	"Venom Cavern",
 	"EXP Grind Arena",
 	"Shadow Keep",
 ]

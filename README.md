@@ -253,6 +253,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-13 | Venom Cavern seviyesi — VenomKing boss-gate arenası (locked portal + gate açılış banner'ı), zehir temalı düşman yerleşimi (VenomSlime/Spider/VenomArcher/StoneBrute/Bat/Elite guard), Frost Sword & Mystic Aegis ödülleri, kampanya zincirine index 8 olarak eklendi (Mystic Grove → Venom Cavern → EXP Grind Arena → Shadow Keep) |
 | 2026-08-12 | EXP Grind Arena — boss grind map refactor: `level.gd` grind mode (XP çarpanı + düşman/boss respawn + boss respawn banner), level_10_exp_grind.tscn yerleşimi (40+ düşman, Shadow Knight grind boss, XP pickup'ları), kampanya zincirine eklendi (index 8) |
 | 2026-08-11 | XP/level refactor (XpProgression sınıfı), level setleme ayarları (starting_level/XP + parşömen XP/tome), XP Scroll & Level Tome pickup'ları, Gear up v3 (Thorns/Magnet/Regen/Fury/Knockback/CRIT DMG) + seviye yerleşimleri |
 | 2026-08-10 | EXP prestige sistemi (100 sonrası ★ prestij + kalıcı bonuslar), Armor v2 (XP/dash/hız çarpanları + Mystic Aegis & Stormlord Plate), Gear up v2 (CRIT/Lifesteal/XP/Armor) + seviye yerleşimleri |
@@ -277,4 +278,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-12*
+*Last updated: 2026-08-13*

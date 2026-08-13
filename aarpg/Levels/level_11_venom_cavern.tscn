@@ -1,0 +1,205 @@
+[gd_scene load_steps=28 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_slime.tscn" id="4_vslime"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/shadow_spider.tscn" id="5_spider"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_archer.tscn" id="6_varcher"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/stone_brute.tscn" id="7_sbrute"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/bat.tscn" id="8_bat"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_elite.tscn" id="9_elite"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_king.tscn" id="10_vking"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="11_portal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="12_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_gem.tscn" id="13_gem"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/potion_pickup.tscn" id="14_potion"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/scroll_pickup.tscn" id="15_scroll"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/gear_up_pickup.tscn" id="16_gearup"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/weapon_pickup.tscn" id="17_weapon"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/armor_pickup.tscn" id="18_armor"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/torch.tscn" id="19_torch"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="20_hud"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="21_crit"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/lifesteal_up.tres" id="22_lifesteal"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/thorns_up.tres" id="23_thorns"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/fury_up.tres" id="24_fury"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/knockback_up.tres" id="25_knockback"]
+[ext_resource type="Resource" path="res://aarpg/config/weapons/frost_sword.tres" id="26_frost"]
+[ext_resource type="Resource" path="res://aarpg/config/armors/mystic_aegis.tres" id="27_aegis"]
+
+[node name="Level11" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 320)
+boss = NodePath("VenomKing")
+boss_gate_portal = NodePath("Portal")
+
+[node name="DungeonMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(50, 24)
+decoration_density = 0.04
+tint = Color(0.32, 0.52, 0.42, 1)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 320)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="VenomSlime1" parent="Enemies" instance=ExtResource("4_vslime")]
+position = Vector2(260, 200)
+
+[node name="VenomSlime2" parent="Enemies" instance=ExtResource("4_vslime")]
+position = Vector2(320, 480)
+
+[node name="VenomSlime3" parent="Enemies" instance=ExtResource("4_vslime")]
+position = Vector2(460, 260)
+
+[node name="VenomSlime4" parent="Enemies" instance=ExtResource("4_vslime")]
+position = Vector2(520, 620)
+
+[node name="VenomSlime5" parent="Enemies" instance=ExtResource("4_vslime")]
+position = Vector2(980, 160)
+
+[node name="VenomSlime6" parent="Enemies" instance=ExtResource("4_vslime")]
+position = Vector2(1240, 560)
+
+[node name="Spider1" parent="Enemies" instance=ExtResource("5_spider")]
+position = Vector2(200, 400)
+
+[node name="Spider2" parent="Enemies" instance=ExtResource("5_spider")]
+position = Vector2(380, 140)
+
+[node name="Spider3" parent="Enemies" instance=ExtResource("5_spider")]
+position = Vector2(660, 560)
+
+[node name="Spider4" parent="Enemies" instance=ExtResource("5_spider")]
+position = Vector2(1120, 220)
+
+[node name="VenomArcher1" parent="Enemies" instance=ExtResource("6_varcher")]
+position = Vector2(560, 360)
+
+[node name="VenomArcher2" parent="Enemies" instance=ExtResource("6_varcher")]
+position = Vector2(860, 480)
+
+[node name="VenomArcher3" parent="Enemies" instance=ExtResource("6_varcher")]
+position = Vector2(1280, 320)
+
+[node name="StoneBrute1" parent="Enemies" instance=ExtResource("7_sbrute")]
+position = Vector2(720, 200)
+
+[node name="StoneBrute2" parent="Enemies" instance=ExtResource("7_sbrute")]
+position = Vector2(1040, 500)
+
+[node name="Bat1" parent="Enemies" instance=ExtResource("8_bat")]
+position = Vector2(420, 320)
+
+[node name="Bat2" parent="Enemies" instance=ExtResource("8_bat")]
+position = Vector2(900, 260)
+
+[node name="Bat3" parent="Enemies" instance=ExtResource("8_bat")]
+position = Vector2(1360, 160)
+
+[node name="EliteGuard1" parent="Enemies" instance=ExtResource("9_elite")]
+position = Vector2(580, 480)
+
+[node name="EliteGuard2" parent="Enemies" instance=ExtResource("9_elite")]
+position = Vector2(780, 380)
+
+[node name="VenomKing" parent="." instance=ExtResource("10_vking")]
+position = Vector2(720, 320)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("12_chest")]
+position = Vector2(180, 220)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("12_chest")]
+position = Vector2(600, 120)
+
+[node name="Chest3" parent="Pickups" instance=ExtResource("12_chest")]
+position = Vector2(1480, 560)
+
+[node name="Gem1" parent="Pickups" instance=ExtResource("13_gem")]
+position = Vector2(300, 300)
+
+[node name="Gem2" parent="Pickups" instance=ExtResource("13_gem")]
+position = Vector2(480, 460)
+
+[node name="Gem3" parent="Pickups" instance=ExtResource("13_gem")]
+position = Vector2(680, 640)
+
+[node name="Gem4" parent="Pickups" instance=ExtResource("13_gem")]
+position = Vector2(920, 360)
+xp_amount = 10
+
+[node name="Gem5" parent="Pickups" instance=ExtResource("13_gem")]
+position = Vector2(1180, 280)
+xp_amount = 10
+
+[node name="Gem6" parent="Pickups" instance=ExtResource("13_gem")]
+position = Vector2(1420, 440)
+xp_amount = 10
+
+[node name="Potion1" parent="Pickups" instance=ExtResource("14_potion")]
+position = Vector2(380, 560)
+
+[node name="Potion2" parent="Pickups" instance=ExtResource("14_potion")]
+position = Vector2(820, 160)
+
+[node name="Potion3" parent="Pickups" instance=ExtResource("14_potion")]
+position = Vector2(1300, 620)
+
+[node name="XpScroll" parent="Pickups" instance=ExtResource("15_scroll")]
+position = Vector2(500, 200)
+
+[node name="LevelTome" parent="Pickups" instance=ExtResource("15_scroll")]
+position = Vector2(1100, 600)
+kind = 1
+
+[node name="CritUp" parent="Pickups" instance=ExtResource("16_gearup")]
+position = Vector2(240, 520)
+gear_up = ExtResource("21_crit")
+
+[node name="LifestealUp" parent="Pickups" instance=ExtResource("16_gearup")]
+position = Vector2(420, 120)
+gear_up = ExtResource("22_lifesteal")
+
+[node name="ThornsUp" parent="Pickups" instance=ExtResource("16_gearup")]
+position = Vector2(700, 460)
+gear_up = ExtResource("23_thorns")
+
+[node name="FuryUp" parent="Pickups" instance=ExtResource("16_gearup")]
+position = Vector2(1180, 440)
+gear_up = ExtResource("24_fury")
+
+[node name="KnockbackUp" parent="Pickups" instance=ExtResource("16_gearup")]
+position = Vector2(1420, 240)
+gear_up = ExtResource("25_knockback")
+
+[node name="FrostSword" parent="Pickups" instance=ExtResource("17_weapon")]
+position = Vector2(860, 620)
+weapon = ExtResource("26_frost")
+
+[node name="MysticAegis" parent="Pickups" instance=ExtResource("18_armor")]
+position = Vector2(1000, 120)
+armor = ExtResource("27_aegis")
+
+[node name="Torches" type="Node2D" parent="."]
+
+[node name="Torch1" parent="Torches" instance=ExtResource("19_torch")]
+position = Vector2(160, 120)
+
+[node name="Torch2" parent="Torches" instance=ExtResource("19_torch")]
+position = Vector2(1460, 120)
+
+[node name="Torch3" parent="Torches" instance=ExtResource("19_torch")]
+position = Vector2(600, 700)
+
+[node name="Torch4" parent="Torches" instance=ExtResource("19_torch")]
+position = Vector2(1500, 700)
+
+[node name="Portal" parent="." instance=ExtResource("11_portal")]
+position = Vector2(1480, 320)
+target_level_index = 9
+locked = true
+
+[node name="HealthBar" parent="." instance=ExtResource("20_hud")]
