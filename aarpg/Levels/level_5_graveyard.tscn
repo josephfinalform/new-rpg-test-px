@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/gear_up_pickup.tscn" id="14_gearup"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="15_crit"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/fury_up.tres" id="16_fury"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_slime.tscn" id="17_vslime"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/shadow_spider.tscn" id="18_spider"]
 
 [node name="Level5" type="Node2D"]
 script = ExtResource("1_level")
@@ -73,6 +75,24 @@ position = Vector2(980, 480)
 
 [node name="Archer1" parent="Enemies" instance=ExtResource("12_archer")]
 position = Vector2(1160, 400)
+
+[node name="VenomSlime1" parent="Enemies" instance=ExtResource("17_vslime")]
+position = Vector2(480, 460)
+
+[node name="VenomSlime2" parent="Enemies" instance=ExtResource("17_vslime")]
+position = Vector2(700, 520)
+
+[node name="VenomSlime3" parent="Enemies" instance=ExtResource("17_vslime")]
+position = Vector2(980, 560)
+
+[node name="Spider1" parent="Enemies" instance=ExtResource("18_spider")]
+position = Vector2(360, 500)
+
+[node name="Spider2" parent="Enemies" instance=ExtResource("18_spider")]
+position = Vector2(860, 360)
+
+[node name="Spider3" parent="Enemies" instance=ExtResource("18_spider")]
+position = Vector2(1240, 480)
 
 [node name="Pickups" type="Node2D" parent="."]
 

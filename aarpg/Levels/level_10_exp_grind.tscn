@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3]
+[gd_scene load_steps=40 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -34,6 +34,11 @@
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/knockback_up.tres" id="32_knockback"]
 [ext_resource type="Resource" path="res://aarpg/config/weapons/cyan_stormblade.tres" id="33_blade"]
 [ext_resource type="Resource" path="res://aarpg/config/armors/stormlord_plate.tres" id="34_plate"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_slime.tscn" id="35_vslime"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/stone_brute.tscn" id="36_sbrute"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/shadow_spider.tscn" id="37_spider"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_archer.tscn" id="38_varcher"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_king.tscn" id="39_vking"]
 
 [node name="Level10" type="Node2D"]
 script = ExtResource("1_level")
@@ -224,6 +229,57 @@ position = Vector2(1440, 560)
 
 [node name="Wisp6" parent="Enemies" instance=ExtResource("13_wisp")]
 position = Vector2(1540, 200)
+
+[node name="VenomSlime1" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(240, 240)
+
+[node name="VenomSlime2" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(460, 620)
+
+[node name="VenomSlime3" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(620, 80)
+
+[node name="VenomSlime4" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(1120, 80)
+
+[node name="VenomSlime5" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(1520, 120)
+
+[node name="StoneBrute1" parent="Enemies" instance=ExtResource("36_sbrute")]
+position = Vector2(320, 520)
+
+[node name="StoneBrute2" parent="Enemies" instance=ExtResource("36_sbrute")]
+position = Vector2(1080, 180)
+
+[node name="StoneBrute3" parent="Enemies" instance=ExtResource("36_sbrute")]
+position = Vector2(1400, 80)
+
+[node name="Spider1" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(220, 120)
+
+[node name="Spider2" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(520, 200)
+
+[node name="Spider3" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(740, 620)
+
+[node name="Spider4" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(1120, 460)
+
+[node name="Spider5" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(1400, 480)
+
+[node name="VenomArcher1" parent="Enemies" instance=ExtResource("38_varcher")]
+position = Vector2(400, 80)
+
+[node name="VenomArcher2" parent="Enemies" instance=ExtResource("38_varcher")]
+position = Vector2(900, 600)
+
+[node name="VenomArcher3" parent="Enemies" instance=ExtResource("38_varcher")]
+position = Vector2(1500, 220)
+
+[node name="VenomKing" parent="Enemies" instance=ExtResource("39_vking")]
+position = Vector2(860, 80)
 
 [node name="GrindBoss" parent="." instance=ExtResource("14_boss")]
 position = Vector2(1150, 400)
