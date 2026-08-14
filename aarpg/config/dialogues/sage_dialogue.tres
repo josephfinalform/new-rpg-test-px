@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Old Sage"
+npc_color = Color(0.95, 0.85, 0.6, 1)
+lines = PackedStringArray("Welcome, wanderer. The meadow is calm, but darkness spreads across the realm.", "Hold SPACE or X to strike. Press F or C to dash. Press Q to cycle the seasons.", "Slay the slimes to earn XP. Step into the glowing portal when you are ready.")

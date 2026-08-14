@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Grind Herald"
+npc_color = Color(0.6, 1.0, 0.8, 1)
+lines = PackedStringArray("The Crystal Grind Pit echoes with the shatter of a thousand guardians.", "The Guardian reforms endlessly. Slay it again and again for double XP.", "Keep your COMBO alive, watch your health, and grow strong enough for the Shadow Keep.")

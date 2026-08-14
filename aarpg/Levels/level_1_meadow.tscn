@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/grass_map.tscn" id="2_map"]
@@ -14,6 +14,8 @@
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/atk_up.tres" id="12_atk"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/scroll_pickup.tscn" id="13_scroll"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/thorns_up.tres" id="14_thorns"]
+[ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="15_npc"]
+[ext_resource type="Resource" path="res://aarpg/config/dialogues/sage_dialogue.tres" id="16_dlg"]
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_level")
@@ -86,5 +88,13 @@ position = Vector2(760, 320)
 [node name="Portal" parent="." instance=ExtResource("6_portal")]
 position = Vector2(1380, 400)
 target_level_index = 1
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="OldSage" parent="NPCs" instance=ExtResource("15_npc")]
+position = Vector2(200, 500)
+npc_name = "Old Sage"
+dialogue = ExtResource("16_dlg")
+npc_color = Color(0.95, 0.85, 0.6, 1)
 
 [node name="HealthBar" parent="." instance=ExtResource("8_hud")]

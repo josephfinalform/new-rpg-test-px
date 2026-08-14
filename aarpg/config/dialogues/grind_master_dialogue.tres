@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Grind Master"
+npc_color = Color(1.0, 0.7, 0.3, 1)
+lines = PackedStringArray("Welcome to the EXP Grind Arena! Here, the dead do not stay dead.", "Every enemy and boss respawns after a short while. Kill them all, again and again.", "Every kill grants double XP. Chain kills without taking a hit to build your COMBO multiplier!", "Grind your levels to the max, then step into the portal to the Crystal Cavern.")

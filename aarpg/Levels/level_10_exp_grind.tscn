@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3]
+[gd_scene load_steps=42 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -39,6 +39,8 @@
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/shadow_spider.tscn" id="37_spider"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_archer.tscn" id="38_varcher"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_king.tscn" id="39_vking"]
+[ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="40_npc"]
+[ext_resource type="Resource" path="res://aarpg/config/dialogues/grind_master_dialogue.tres" id="41_dlg"]
 
 [node name="Level10" type="Node2D"]
 script = ExtResource("1_level")
@@ -417,5 +419,13 @@ position = Vector2(1560, 700)
 [node name="Portal" parent="." instance=ExtResource("15_portal")]
 position = Vector2(1560, 300)
 target_level_index = 10
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="GrindMaster" parent="NPCs" instance=ExtResource("40_npc")]
+position = Vector2(200, 420)
+npc_name = "Grind Master"
+dialogue = ExtResource("41_dlg")
+npc_color = Color(1, 0.7, 0.3, 1)
 
 [node name="HealthBar" parent="." instance=ExtResource("24_hud")]

@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Crystal Sage"
+npc_color = Color(0.5, 0.9, 1.0, 1)
+lines = PackedStringArray("You have reached the Crystal Cavern, a hall of frozen light and shattered stars.", "The Crystal Guardian hoards its shards jealously. Frost and Shock hurt it most.", "Defeat the Guardian to open the locked gate and reach the Crystal Grind Pit beyond.")

@@ -31,6 +31,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 | Sprint | Hold Shift |
 | Attack | Space / X |
 | Dash | F / C |
+| Talk / Interact | E |
 | Cycle Season | Q |
 
 ## Features
@@ -49,7 +50,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
-- **10 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → EXP grind arena → shadow keep)
+- **13 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → venom cavern → EXP grind arena → crystal cavern → crystal grind pit → shadow keep)
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
@@ -96,6 +97,11 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Gear up v3**: 6 new permanent upgrades — Thorns (reflect damage to attackers), Magnet (wider XP gem vacuum), Regen (HP per second), Fury (faster attacks), Knockback (enemies pushed further), CRIT DMG (bigger crits) — spread across levels 1–9
 - **EXP Grind Arena (boss grind map)**: new post-Mystic-Grove level (`level_10_exp_grind.tscn`) with 40+ respawning enemies and a respawning Shadow Knight boss — grind mode in `level.gd` doubles all enemy/boss XP (`grind_xp_multiplier`), auto-respawns killed enemies (`enemy_respawn_delay`) and the boss (`boss_respawn_delay`), plus a boss-respawn countdown banner
 - **Combo / kill-streak system**: back-to-back kills without taking damage build a combo counter (`GameManager`) — each kill grants an XP multiplier (`combo_xp_per_step`, capped at `combo_max_multiplier`) that decays after `combo_window_time` seconds; taking damage or dying resets the streak. The HUD shows `xN COMBO (Mx XP)` with a pulsing label, and every 5 kills pops a `COMBO xN!` effect
+- **NPC & Dialogue system**: `Dialogue` resources + `npc.tscn` (Area2D with drawn body, name & `[E]` prompt) + a `DialogueManager` autoload that pauses the game and shows a typewriter dialogue box (advance with `E`, skip with `E`/`ESC`, auto-restores pause state). NPCs: Old Sage (Meadow), Grind Master (EXP Grind Arena), Crystal Sage (Crystal Cavern), Grind Herald (Crystal Grind Pit)
+- **New enemy**: Crystal Slime — ice-crystal-tinted tank slime (higher HP/knockback resistance, 35% XP gem drop) used in the Crystal Cavern & Crystal Grind Pit
+- **New boss**: Crystal Guardian — 3-phase crystal boss that fires shard fans, charges the player and summons crystal slimes; guards the Crystal Cavern gate
+- **New level**: Crystal Cavern — ice-blue crystal-themed boss-gate arena between the EXP Grind Arena and the Shadow Keep (frost sword / shock blade friendly, new pickups & gear ups)
+- **New level**: Crystal Grind Pit — second grind arena (`is_grind_level`) with 30+ respawning enemies plus both a respawning Crystal Guardian grind boss and a Venom King; double XP, tomes and gear ups
 
 ### Level & XP System
 
@@ -130,7 +136,6 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 | Feature | Status |
 |---|---|
 | Combat (boomerang, bow, bombs) | Assets ready |
-| NPC & Dialogue system | Assets ready |
 | Quest system | Assets ready |
 | Shop system | Assets ready |
 | Equipment system | Assets ready |
@@ -177,11 +182,15 @@ new-rpg-test-px/
 │   │   ├── shadow_knight.gd / shadow_knight.tscn # Final boss: dash, whirlwind
 │   │   ├── fire_imp.gd / fire_imp.tscn # Fast ember goblin, XP gem drops
 │   │   ├── crystal_wisp.gd / crystal_wisp.tscn # Floating mystic crystal, XP gem drops
+│   │   ├── crystal_slime.gd / crystal_slime.tscn # Ice-crystal tank slime
+│   │   ├── crystal_guardian.gd / crystal_guardian.tscn # Crystal Cavern boss: shard fan, charge, summons
 │   │   ├── boss_projectile.gd
 │   │   └── boss_projectile.tscn
 │   ├── config/
 │   │   ├── level_config.gd
 │   │   ├── level_config.tres
+│   │   ├── dialogue.gd               # Dialogue resource (name, color, lines)
+│   │   ├── dialogues/                # Dialogue .tres files (4 NPCs)
 │   │   └── weapons/                 # Weapon resource + sword .tres files
 │   ├── Levels/
 │   │   ├── level.gd               # Level flow (spawn, death, victory)
@@ -197,7 +206,10 @@ new-rpg-test-px/
 │   │   ├── level_9_mystic_grove.tscn # Mystic Grove: crystal wisps, XP gems
 │   │   ├── level_9_mystic_grove.tscn # Mystic Grove: crystal wisps, XP gems
 │   │   ├── level_7_shadow_arena.tscn # Shadow Knight arena (final)
-│   │   └── level_10_exp_grind.tscn   # EXP Grind Arena: respawning mobs + boss
+│   │   ├── level_10_exp_grind.tscn   # EXP Grind Arena: respawning mobs + boss
+│   │   ├── level_11_venom_cavern.tscn # Venom King boss-gate arena
+│   │   ├── level_12_crystal_cavern.tscn # Crystal Guardian boss-gate arena
+│   │   └── level_13_crystal_grind.tscn # Crystal Grind Pit: double XP grind arena
 │   ├── Maps/
 │   │   ├── map_painter.gd         # Runtime tile painting + bounds
 │   │   ├── Scenes/                # grass_map.tscn, dungeon_map.tscn
@@ -213,6 +225,9 @@ new-rpg-test-px/
 │   │   ├── xp_gem.tscn            # Enemy drop, +5 XP
 │   │   ├── weapon_pickup.gd
 │   │   └── weapon_pickup.tscn     # Sword drop, equips Weapon resource
+│   ├── NPC/
+│   │   ├── npc.gd                   # Interactable NPC (Area2D + prompt)
+│   │   └── npc.tscn
 │   ├── Effects/
 │   │   ├── floating_text.gd
 │   │   └── floating_text.tscn     # "+XP" popup on kill
@@ -222,6 +237,7 @@ new-rpg-test-px/
 │       ├── health_bar.gd
 │       ├── health_bar.tscn
 │       ├── title_screen.gd / title_screen.tscn
+│       ├── dialogue_manager.gd / dialogue_box.tscn # Typewriter dialogue (autoload)
 │       └── pause_menu.gd / pause_menu.tscn
 ├── assets/
 │   ├── sprites/               # Textures & spritesheets (14 sprites)
@@ -255,6 +271,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-14 | NPC & Dialogue sistemi — Dialogue resource + npc.tscn (Area2D + `[E]` prompt) + DialogueManager autoload (pause'lı typewriter kutu, E/ESC ile ilerletme, pause durumunu geri yükleme), 4 NPC (Old Sage, Grind Master, Crystal Sage, Grind Herald) seviyelere yerleştirildi |
+| 2026-08-14 | Crystal Cavern seviyesi — Crystal Guardian boss-gate arenası (locked portal + faz saldırıları: shard fan/charge/summon), Crystal Slime düşmanı, cyan Stormblade & Mystic Aegis ödülleri, kampanya zincirine index 10 olarak eklendi (EXP Grind Arena → Crystal Cavern → Crystal Grind Pit → Shadow Keep) |
+| 2026-08-14 | Crystal Grind Pit seviyesi — ikinci grind arena (`is_grind_level`, 2.0× XP), 30+ respawn düşman + Crystal Guardian grind boss + Venom King, tomes & gear up'lar, kampanya zincirine index 11 olarak eklendi |
 | 2026-08-13 | Combo/kill-streak sistemi — GameManager'da combo sayacı (arka arkaya öldürme → XP çarpanı, `combo_window_time` içinde düşmezse sıfırlanır, hasar alınca/respawn'da kaybolur), HUD'da pulsing `xN COMBO (Mx XP)` etiketi, her 5 öldürmede `COMBO xN!` popup efekt |
 | 2026-08-13 | Venom Cavern seviyesi — VenomKing boss-gate arenası (locked portal + gate açılış banner'ı), zehir temalı düşman yerleşimi (VenomSlime/Spider/VenomArcher/StoneBrute/Bat/Elite guard), Frost Sword & Mystic Aegis ödülleri, kampanya zincirine index 8 olarak eklendi (Mystic Grove → Venom Cavern → EXP Grind Arena → Shadow Keep) |
 | 2026-08-12 | EXP Grind Arena — boss grind map refactor: `level.gd` grind mode (XP çarpanı + düşman/boss respawn + boss respawn banner), level_10_exp_grind.tscn yerleşimi (40+ düşman, Shadow Knight grind boss, XP pickup'ları), kampanya zincirine eklendi (index 8) |
@@ -281,4 +300,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-13*
+*Last updated: 2026-08-14*

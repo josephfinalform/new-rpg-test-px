@@ -1,0 +1,123 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Texture2D" uid="uid://bogus_slime" path="res://assets/sprites/characters/slime.png" id="1_guard"]
+[ext_resource type="Script" path="res://aarpg/Enemies/crystal_guardian.gd" id="2_guard"]
+[ext_resource type="AudioStream" path="res://assets/sprites/characters/wizard_boss/boss_hurt.wav" id="3_hurt"]
+[ext_resource type="AudioStream" path="res://assets/sprites/characters/wizard_boss/boss_destroy.wav" id="4_die"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
+size = Vector2(22, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(28, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_det"]
+size = Vector2(190, 190)
+
+[sub_resource type="Animation" id="Animation_guard_idle"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_guard_move"]
+resource_name = "move"
+length = 0.45
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.225, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_guard_cast"]
+resource_name = "cast"
+length = 0.4
+loop_mode = 0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 2, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_guard"]
+_data = {
+&"idle": SubResource("Animation_guard_idle"),
+&"move": SubResource("Animation_guard_move"),
+&"cast": SubResource("Animation_guard_cast")
+}
+
+[node name="CrystalGuardian" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("2_guard")
+max_health = 34
+move_speed = 40.0
+damage = 2
+knockback_resistance = 0.7
+knockback_force = 90.0
+attack_range = 26.0
+attack_cooldown_time = 0.5
+xp_reward = 32
+hit_sfx = ExtResource("3_hurt")
+death_sfx = ExtResource("4_die")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_col")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_guard")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_guard")
+}
+
+[node name="BossHealthBar" type="ProgressBar" parent="."]
+position = Vector2(0, -28)
+custom_minimum_size = Vector2(46, 5)
+max_value = 34.0
+value = 34.0
+show_percentage = false
+
+[node name="HitboxArea" type="Area2D" parent="."]
+position = Vector2(0, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("RectangleShape2D_det")
+
+[node name="SpawnMarker" type="Marker2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="HurtTimer" type="Timer" parent="."]
+
+[node name="InvincibilityTimer" type="Timer" parent="."]

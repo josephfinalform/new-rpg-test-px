@@ -19,6 +19,8 @@ const LEVEL_CONFIG = preload("res://aarpg/config/level_config.tres")
 	"res://aarpg/Levels/level_9_mystic_grove.tscn",
 	"res://aarpg/Levels/level_11_venom_cavern.tscn",
 	"res://aarpg/Levels/level_10_exp_grind.tscn",
+	"res://aarpg/Levels/level_12_crystal_cavern.tscn",
+	"res://aarpg/Levels/level_13_crystal_grind.tscn",
 	"res://aarpg/Levels/level_7_shadow_arena.tscn",
 ]
 @export var level_names: Array[String] = [
@@ -32,6 +34,8 @@ const LEVEL_CONFIG = preload("res://aarpg/config/level_config.tres")
 	"Mystic Grove",
 	"Venom Cavern",
 	"EXP Grind Arena",
+	"Crystal Cavern",
+	"Crystal Grind Pit",
 	"Shadow Keep",
 ]
 
