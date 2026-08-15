@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Pickups/scroll_pickup.gd" id="1_scroll"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="2_xpscroll"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_body"]
 radius = 10.0
 
 [node name="ScrollPickup" type="Area2D"]
 script = ExtResource("1_scroll")
+scroll = ExtResource("2_xpscroll")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_body")

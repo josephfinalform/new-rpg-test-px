@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/scroll.gd")]
+
+display_name = "Level Tome"
+kind = 1
+xp_amount = 15
+respects_xp_multiplier = true
+levels_granted = 1
+scroll_color = Color(1.0, 0.85, 0.4, 1)
+description = "A weighty tome bound in gold. Instantly grants 1 level."

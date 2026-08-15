@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/grass_map.tscn" id="2_map"]
@@ -16,6 +16,7 @@
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/thorns_up.tres" id="14_thorns"]
 [ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="15_npc"]
 [ext_resource type="Resource" path="res://aarpg/config/dialogues/sage_dialogue.tres" id="16_dlg"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="17_xpscroll"]
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_level")
@@ -84,6 +85,7 @@ gear_up = ExtResource("14_thorns")
 
 [node name="XpScroll" parent="Pickups" instance=ExtResource("13_scroll")]
 position = Vector2(760, 320)
+scroll = ExtResource("17_xpscroll")
 
 [node name="Portal" parent="." instance=ExtResource("6_portal")]
 position = Vector2(1380, 400)

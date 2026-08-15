@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3]
+[gd_scene load_steps=39 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -35,6 +35,9 @@
 [ext_resource type="Resource" path="res://aarpg/config/armors/stormlord_plate.tres" id="33_plate"]
 [ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="34_npc"]
 [ext_resource type="Resource" path="res://aarpg/config/dialogues/grind_herald_dialogue.tres" id="35_dlg"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="36_xpscroll"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/level_tome.tres" id="37_tome"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/ancient_scroll.tres" id="38_ancient"]
 
 [node name="Level13" type="Node2D"]
 script = ExtResource("1_level")
@@ -238,17 +241,23 @@ position = Vector2(1460, 440)
 
 [node name="XpScroll1" parent="Pickups" instance=ExtResource("17_scroll")]
 position = Vector2(660, 460)
+scroll = ExtResource("36_xpscroll")
 
 [node name="XpScroll2" parent="Pickups" instance=ExtResource("17_scroll")]
 position = Vector2(1320, 300)
+scroll = ExtResource("36_xpscroll")
 
 [node name="Tome1" parent="Pickups" instance=ExtResource("17_scroll")]
 position = Vector2(940, 220)
-kind = 1
+scroll = ExtResource("37_tome")
 
 [node name="Tome2" parent="Pickups" instance=ExtResource("17_scroll")]
 position = Vector2(1500, 300)
-kind = 1
+scroll = ExtResource("37_tome")
+
+[node name="AncientScroll" parent="Pickups" instance=ExtResource("17_scroll")]
+position = Vector2(820, 520)
+scroll = ExtResource("38_ancient")
 
 [node name="XpUp" parent="Pickups" instance=ExtResource("18_gearup")]
 position = Vector2(220, 360)

@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/scroll.gd")]
+
+display_name = "Ancient Scroll"
+kind = 0
+xp_amount = 200
+respects_xp_multiplier = true
+levels_granted = 1
+scroll_color = Color(1.0, 0.55, 0.85, 1)
+description = "A legendary scroll from a bygone age. Grants 200 XP."

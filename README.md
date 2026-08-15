@@ -94,6 +94,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **EXP refactor**: level / XP / prestige logic extracted from the player into a dedicated `XpProgression` class (`aarpg/Player/Scripts/xp_progression.gd`) — the player keeps read-only `level` / `xp` / `prestige` properties and applies stat bonuses via signals
 - **Level settings (level setleme)**: `level_config.tres` now ships configurable `starting_level` / `starting_xp` plus a "Parchment" group (`parchment_xp`, `parchment_xp_multiplier`, `tome_levels`)
 - **XP Scroll & Level Tome pickups**: new parchment/book pickups (`scroll_pickup.tscn`) — the XP Scroll grants configurable XP (respects XP multipliers), the Level Tome grants +1 level instantly (converts to prestige past max level)
+- **Scroll system refactor**: pickups are now data-driven via a `Scroll` resource (`aarpg/config/scroll.gd` + `.tres` files in `aarpg/config/scrolls/`) — 5 scroll types (XP Scroll, Great Parchment, Ancient Scroll, Level Tome, Wisdom Tome), each with configurable XP / levels / colors / names, scattered through the campaign; `respects_xp_multiplier` lets a scroll ignore XP multipliers via the new `Player.gain_xp_flat()`
 - **Gear up v3**: 6 new permanent upgrades — Thorns (reflect damage to attackers), Magnet (wider XP gem vacuum), Regen (HP per second), Fury (faster attacks), Knockback (enemies pushed further), CRIT DMG (bigger crits) — spread across levels 1–9
 - **EXP Grind Arena (boss grind map)**: new post-Mystic-Grove level (`level_10_exp_grind.tscn`) with 40+ respawning enemies and a respawning Shadow Knight boss — grind mode in `level.gd` doubles all enemy/boss XP (`grind_xp_multiplier`), auto-respawns killed enemies (`enemy_respawn_delay`) and the boss (`boss_respawn_delay`), plus a boss-respawn countdown banner
 - **Combo / kill-streak system**: back-to-back kills without taking damage build a combo counter (`GameManager`) — each kill grants an XP multiplier (`combo_xp_per_step`, capped at `combo_max_multiplier`) that decays after `combo_window_time` seconds; taking damage or dying resets the streak. The HUD shows `xN COMBO (Mx XP)` with a pulsing label, and every 5 kills pops a `COMBO xN!` effect
@@ -120,7 +121,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Scaling milestone bonuses**: every 10 levels the milestone reward grows with `milestone_bonus_growth` (`+0.5` per tier) — e.g. ATK/HP/SPD at level 20 are `1.5×`, at level 100 `5.5×` the base bonus.
 - **Max level**: Leveling stops at `max_level` (100); further XP is ignored.
 - **Start settings**: `starting_level` / `starting_xp` in `level_config.tres` let you set the player's starting progression.
-- **Parchment (XP scrolls)**: `parchment_xp` (default 15) is the XP granted by an XP Scroll pickup; `parchment_xp_multiplier` decides whether it benefits from the player's XP multiplier; `tome_levels` (default 1) is the number of levels a Level Tome grants instantly.
+- **Parchment (XP scrolls)**: scroll pickups are defined as data-driven `Scroll` resources (`aarpg/config/scrolls/`) — `parchment_xp` / `tome_levels` in `level_config.tres` serve as the fallback defaults for the default XP Scroll / Level Tome resources.
 - **Prestige (beyond 100)**: XP earned past max level fills a prestige bar (`prestige_xp_threshold`, 1000). Each full bar grants a Prestige point with permanent `+HP/+ATK/+SPD` bonuses (configurable in `level_config.tres`), a `★` suffix on the HUD rank/level label and a PRESTIGE banner effect. Prestige bonuses also benefit from the armor/gear XP multiplier.
 - **Combo (kill streak)**: every kill without taking damage bumps the combo counter in `GameManager`; XP gains are multiplied by `1 + combo × combo_xp_per_step` (capped at `combo_max_multiplier`, 3.0). The streak decays after `combo_window_time` (3 s) of no kills and resets on taking damage or restarting a level. Tuning lives in `level_config.tres`.
 - **UI**: Current level & XP shown in the health bar overlay with level-up feedback.
@@ -130,6 +131,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Gear up v2**: 8 permanent upgrades — ATK, HP, SPD, Dash cooldown, CRIT (2× damage chance), Lifesteal, XP boost and flat Armor reduction — dropped in levels 1–9 and shown on the HUD.
 - **Gear up v3**: 14 permanent upgrades total — adds Thorns (reflect), Magnet (wider gem vacuum), Regen (HP/sec), Fury (attack speed), Knockback (knockback force) and CRIT DMG (crit multiplier) on top of the previous 8, dropped across levels 1–9.
 - **XP Scrolls**: XP Scroll (grants `parchment_xp`, respects XP multiplier) and Level Tome (grants `tome_levels` instantly) pickups found in levels 1, 2, 3, 7 and 9.
+- **Scroll resources**: the two legacy scroll kinds are now data-driven `Scroll` resources (`aarpg/config/scrolls/`). The XP Scroll → `xp_scroll.tres`, Level Tome → `level_tome.tres`, plus new drops: Great Parchment (`great_parchment.tres`, 60 XP), Ancient Scroll (`ancient_scroll.tres`, 200 XP, Crystal Grind Pit) and Wisdom Tome (`wisdom_tome.tres`, +2 levels, EXP Grind Arena). Each scroll carries its own name, color, XP/level values and an `respects_xp_multiplier` flag; `ScrollPickup` falls back to the default XP Scroll if no resource is assigned.
 
 ### Planned
 
@@ -191,6 +193,8 @@ new-rpg-test-px/
 │   │   ├── level_config.tres
 │   │   ├── dialogue.gd               # Dialogue resource (name, color, lines)
 │   │   ├── dialogues/                # Dialogue .tres files (4 NPCs)
+│   │   ├── scroll.gd                 # Scroll resource (name, kind, XP/levels, color)
+│   │   ├── scrolls/                  # Scroll .tres files (5 scrolls)
 │   │   └── weapons/                 # Weapon resource + sword .tres files
 │   ├── Levels/
 │   │   ├── level.gd               # Level flow (spawn, death, victory)
@@ -271,6 +275,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-08-15 | Scroll sistemi refactor — `Scroll` Resource (`aarpg/config/scroll.gd` + `scrolls/` klasörü) data-driven yapıya geçirildi; `ScrollPickup` artık `kind` enum yerine `scroll` resource kullanıyor. 5 scroll tipi: XP Scroll, Great Parchment (60 XP), Ancient Scroll (200 XP), Level Tome, Wisdom Tome (+2 seviye). `respects_xp_multiplier` + `Player.gain_xp_flat()` ile çarpanı yok sayan scroll desteği. Yeni parşömenler seviyelere yerleştirildi (lvl 9/10/11/12/13). |
 | 2026-08-14 | NPC & Dialogue sistemi — Dialogue resource + npc.tscn (Area2D + `[E]` prompt) + DialogueManager autoload (pause'lı typewriter kutu, E/ESC ile ilerletme, pause durumunu geri yükleme), 4 NPC (Old Sage, Grind Master, Crystal Sage, Grind Herald) seviyelere yerleştirildi |
 | 2026-08-14 | Crystal Cavern seviyesi — Crystal Guardian boss-gate arenası (locked portal + faz saldırıları: shard fan/charge/summon), Crystal Slime düşmanı, cyan Stormblade & Mystic Aegis ödülleri, kampanya zincirine index 10 olarak eklendi (EXP Grind Arena → Crystal Cavern → Crystal Grind Pit → Shadow Keep) |
 | 2026-08-14 | Crystal Grind Pit seviyesi — ikinci grind arena (`is_grind_level`, 2.0× XP), 30+ respawn düşman + Crystal Guardian grind boss + Venom King, tomes & gear up'lar, kampanya zincirine index 11 olarak eklendi |
@@ -300,4 +305,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-14*
+*Last updated: 2026-08-15*

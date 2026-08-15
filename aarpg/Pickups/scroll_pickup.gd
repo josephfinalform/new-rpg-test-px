@@ -1,12 +1,11 @@
 class_name ScrollPickup
 extends Area2D
 
-enum Kind { XP_PARCHMENT, LEVEL_TOME }
-
 const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
 
-@export var kind: Kind = Kind.XP_PARCHMENT
-@export var xp_amount: int = -1
+const DEFAULT_SCROLL = preload("res://aarpg/config/scrolls/xp_scroll.tres")
+
+@export var scroll: Scroll = DEFAULT_SCROLL
 
 var collected: bool = false
 var _bob_time: float = 0.0
@@ -26,12 +25,16 @@ func _process(delta: float) -> void:
 	rotation += delta * 0.8
 
 
+func get_active_scroll() -> Scroll:
+	return scroll if scroll != null else DEFAULT_SCROLL
+
+
 func get_display_name() -> String:
-	return "XP Scroll" if kind == Kind.XP_PARCHMENT else "Level Tome"
+	return get_active_scroll().display_name
 
 
 func get_scroll_color() -> Color:
-	return Color(0.85, 0.75, 0.55) if kind == Kind.XP_PARCHMENT else Color(1.0, 0.85, 0.4)
+	return get_active_scroll().scroll_color
 
 
 func _apply_visual() -> void:
@@ -45,7 +48,7 @@ func _apply_visual() -> void:
 
 func _draw() -> void:
 	var c := get_scroll_color()
-	if kind == Kind.XP_PARCHMENT:
+	if get_active_scroll().kind == Scroll.Kind.XP_PARCHMENT:
 		draw_colored_polygon(PackedVector2Array(
 			Vector2(-4, -7), Vector2(4, -7), Vector2(4, 7), Vector2(-4, 7)
 		), c.darkened(0.25))
@@ -80,14 +83,18 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	collected = true
 	set_deferred("monitoring", false)
+	var active := get_active_scroll()
 	var popup_text := ""
-	var popup_color := get_scroll_color()
-	if kind == Kind.XP_PARCHMENT:
-		var amount := xp_amount if xp_amount > 0 else player.level_config.parchment_xp
-		player.gain_xp(amount)
+	var popup_color := active.scroll_color
+	if active.kind == Scroll.Kind.XP_PARCHMENT:
+		var amount := maxi(active.xp_amount, 0)
+		if active.respects_xp_multiplier:
+			player.gain_xp(amount)
+		else:
+			player.gain_xp_flat(amount)
 		popup_text = "+%d XP" % amount
 	else:
-		var levels := maxi(player.level_config.tome_levels, 1)
+		var levels := maxi(active.levels_granted, 1)
 		for i in range(levels):
 			player.gain_level()
 		popup_text = "LEVEL UP!"

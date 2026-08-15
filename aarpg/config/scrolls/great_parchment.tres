@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/scroll.gd")]
+
+display_name = "Great Parchment"
+kind = 0
+xp_amount = 60
+respects_xp_multiplier = true
+levels_granted = 1
+scroll_color = Color(0.55, 0.9, 0.75, 1)
+description = "A rare masterwork parchment. Grants 60 XP."

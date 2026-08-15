@@ -214,6 +214,10 @@ func gain_xp(amount: int) -> void:
 	xp_progression.gain_xp(amount)
 
 
+func gain_xp_flat(amount: int) -> void:
+	xp_progression.gain_xp(maxi(amount, 0))
+
+
 func gain_level() -> void:
 	xp_progression.gain_level()
 
