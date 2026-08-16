@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3]
+[gd_scene load_steps=32 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -30,6 +30,7 @@
 [ext_resource type="Resource" path="res://aarpg/config/dialogues/crystal_sage_dialogue.tres" id="28_dlg"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="29_xpscroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/great_parchment.tres" id="30_great"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/epic_tome.tres" id="31_epic"]
 
 [node name="Level12" type="Node2D"]
 script = ExtResource("1_level")
@@ -148,6 +149,10 @@ scroll = ExtResource("29_xpscroll")
 [node name="GreatParchment" parent="Pickups" instance=ExtResource("13_scroll")]
 position = Vector2(1160, 460)
 scroll = ExtResource("30_great")
+
+[node name="EpicTome" parent="Pickups" instance=ExtResource("13_scroll")]
+position = Vector2(1060, 380)
+scroll = ExtResource("31_epic")
 
 [node name="HpUp" parent="Pickups" instance=ExtResource("14_gearup")]
 position = Vector2(240, 520)

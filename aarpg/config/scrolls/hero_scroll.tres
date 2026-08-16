@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/scroll.gd")]
+
+display_name = "Hero's Scroll"
+kind = 2
+xp_amount = 100
+respects_xp_multiplier = true
+levels_granted = 1
+scroll_color = Color(1.0, 0.6, 0.2, 1)
+description = "A scroll blessed by heroes of old. Grants 100 XP and 1 level."

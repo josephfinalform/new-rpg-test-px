@@ -1,7 +1,7 @@
 class_name Scroll
 extends Resource
 
-enum Kind { XP_PARCHMENT, LEVEL_TOME }
+enum Kind { XP_PARCHMENT, LEVEL_TOME, HYBRID }
 
 @export var display_name: String = "XP Scroll"
 @export var kind: Kind = Kind.XP_PARCHMENT

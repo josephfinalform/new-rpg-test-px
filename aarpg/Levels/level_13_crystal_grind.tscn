@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3]
+[gd_scene load_steps=40 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -38,6 +38,7 @@
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="36_xpscroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/level_tome.tres" id="37_tome"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/ancient_scroll.tres" id="38_ancient"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/divine_scroll.tres" id="39_divine"]
 
 [node name="Level13" type="Node2D"]
 script = ExtResource("1_level")
@@ -258,6 +259,10 @@ scroll = ExtResource("37_tome")
 [node name="AncientScroll" parent="Pickups" instance=ExtResource("17_scroll")]
 position = Vector2(820, 520)
 scroll = ExtResource("38_ancient")
+
+[node name="DivineScroll" parent="Pickups" instance=ExtResource("17_scroll")]
+position = Vector2(1000, 520)
+scroll = ExtResource("39_divine")
 
 [node name="XpUp" parent="Pickups" instance=ExtResource("18_gearup")]
 position = Vector2(220, 360)

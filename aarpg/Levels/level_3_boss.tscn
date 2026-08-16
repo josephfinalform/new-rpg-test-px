@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="9_portal"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/scroll_pickup.tscn" id="10_scroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="11_xpscroll"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/minor_parchment.tres" id="12_minorparch"]
 
 [node name="Level3" type="Node2D"]
 script = ExtResource("1_level")
@@ -52,6 +53,10 @@ position = Vector2(180, 420)
 [node name="XpScroll" parent="Pickups" instance=ExtResource("10_scroll")]
 position = Vector2(320, 320)
 scroll = ExtResource("11_xpscroll")
+
+[node name="MinorParchment" parent="Pickups" instance=ExtResource("10_scroll")]
+position = Vector2(420, 380)
+scroll = ExtResource("12_minorparch")
 
 [node name="Portal" parent="." instance=ExtResource("9_portal")]
 position = Vector2(1100, 320)

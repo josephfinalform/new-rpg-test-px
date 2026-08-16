@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/scroll.gd")]
+
+display_name = "Epic Tome"
+kind = 1
+xp_amount = 15
+respects_xp_multiplier = true
+levels_granted = 3
+scroll_color = Color(0.5, 0.2, 0.8, 1)
+description = "A massive tome pulsing with arcane power. Instantly grants 3 levels."

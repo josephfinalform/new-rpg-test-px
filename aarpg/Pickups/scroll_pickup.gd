@@ -48,7 +48,22 @@ func _apply_visual() -> void:
 
 func _draw() -> void:
 	var c := get_scroll_color()
-	if get_active_scroll().kind == Scroll.Kind.XP_PARCHMENT:
+	if get_active_scroll().kind == Scroll.Kind.HYBRID:
+		draw_colored_polygon(PackedVector2Array(
+			Vector2(0, -7), Vector2(5, -3), Vector2(5, 5), Vector2(0, 7)
+		), c.darkened(0.15))
+		draw_colored_polygon(PackedVector2Array(
+			Vector2(0, -7), Vector2(-5, -3), Vector2(-5, 5), Vector2(0, 7)
+		), c)
+		draw_line(Vector2(0, -7), Vector2(0, 7), Color.WHITE, 1.2)
+		for i in range(2):
+			var y := -2 + i * 3
+			draw_line(Vector2(2, y), Vector2(4, y), Color.WHITE, 0.8)
+			draw_line(Vector2(-2, y), Vector2(-4, y), Color.WHITE, 0.8)
+		draw_circle(Vector2(0, -10), 1.8, Color(1.0, 0.9, 0.4))
+		draw_circle(Vector2(-3, -10), 1.0, Color(1.0, 0.9, 0.4))
+		draw_circle(Vector2(3, -10), 1.0, Color(1.0, 0.9, 0.4))
+	elif get_active_scroll().kind == Scroll.Kind.XP_PARCHMENT:
 		draw_colored_polygon(PackedVector2Array(
 			Vector2(-4, -7), Vector2(4, -7), Vector2(4, 7), Vector2(-4, 7)
 		), c.darkened(0.25))
@@ -93,6 +108,17 @@ func _on_body_entered(body: Node2D) -> void:
 		else:
 			player.gain_xp_flat(amount)
 		popup_text = "+%d XP" % amount
+	elif active.kind == Scroll.Kind.HYBRID:
+		var amount := maxi(active.xp_amount, 0)
+		if active.respects_xp_multiplier:
+			player.gain_xp(amount)
+		else:
+			player.gain_xp_flat(amount)
+		var levels := maxi(active.levels_granted, 1)
+		for i in range(levels):
+			player.gain_level()
+		popup_text = "+%d XP & LEVEL UP!" % amount
+		popup_color = Color(1.0, 0.9, 0.4)
 	else:
 		var levels := maxi(active.levels_granted, 1)
 		for i in range(levels):

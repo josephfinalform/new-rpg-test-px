@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -20,6 +20,8 @@
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_dmg_up.tres" id="18_critdmg"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/stone_brute.tscn" id="19_sbrute"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_archer.tscn" id="20_varcher"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/scroll_pickup.tscn" id="21_scroll"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/hero_scroll.tres" id="22_hero"]
 
 [node name="Level8" type="Node2D"]
 script = ExtResource("1_level")
@@ -109,6 +111,10 @@ gear_up = ExtResource("17_crit")
 [node name="CritDmgUp" parent="Pickups" instance=ExtResource("16_gearup")]
 position = Vector2(860, 320)
 gear_up = ExtResource("18_critdmg")
+
+[node name="HeroScroll" parent="Pickups" instance=ExtResource("21_scroll")]
+position = Vector2(1060, 320)
+scroll = ExtResource("22_hero")
 
 [node name="Torches" type="Node2D" parent="."]
 

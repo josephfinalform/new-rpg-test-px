@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/scroll.gd")]
+
+display_name = "Divine Scroll"
+kind = 0
+xp_amount = 500
+respects_xp_multiplier = true
+levels_granted = 1
+scroll_color = Color(1.0, 0.9, 0.3, 1)
+description = "A radiant scroll infused with divine energy. Grants 500 XP."
