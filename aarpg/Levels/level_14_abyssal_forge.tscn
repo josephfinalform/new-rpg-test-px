@@ -1,0 +1,271 @@
+[gd_scene load_steps=45 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/abyssal_wraith.tscn" id="4_wraith"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/skeleton.tscn" id="5_skel"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/bat.tscn" id="6_bat"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/stone_brute.tscn" id="7_sbrute"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_elite.tscn" id="8_elite"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/abyss_lord.tscn" id="9_lord"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="10_portal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="11_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_gem.tscn" id="12_gem"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/potion_pickup.tscn" id="13_potion"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/scroll_pickup.tscn" id="14_scroll"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/gear_up_pickup.tscn" id="15_gearup"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/weapon_pickup.tscn" id="16_weapon"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/armor_pickup.tscn" id="17_armor"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/torch.tscn" id="18_torch"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="19_hud"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="20_crit"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/lifesteal_up.tres" id="21_lifesteal"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/thorns_up.tres" id="22_thorns"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/fury_up.tres" id="23_fury"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/knockback_up.tres" id="24_knockback"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_dmg_up.tres" id="25_critdmg"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/xp_up.tres" id="26_xp"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/regen_up.tres" id="27_regen"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/magnet_up.tres" id="28_magnet"]
+[ext_resource type="Resource" path="res://aarpg/config/weapons/royal_sword.tres" id="29_rsword"]
+[ext_resource type="Resource" path="res://aarpg/config/armors/royal_cyan_guard.tres" id="30_rcguard"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/mythic_scroll.tres" id="31_mythic"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/eternal_tome.tres" id="32_eternal"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/celestial_parchment.tres" id="33_celestial"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/ancient_scroll.tres" id="34_ancient"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/divine_scroll.tres" id="35_divine"]
+
+[node name="Level14" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 128)
+boss = NodePath("AbyssLord")
+boss_gate_portal = NodePath("Portal")
+is_grind_level = true
+grind_xp_multiplier = 2.5
+enemy_respawn_delay = 5.0
+boss_respawn_delay = 22.0
+
+[node name="DungeonMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(52, 28)
+decoration_density = 0.05
+tint = Color(0.35, 0.15, 0.5, 1)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 128)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Wraith1" parent="Enemies" instance=ExtResource("4_wraith")]
+position = Vector2(220, 200)
+
+[node name="Wraith2" parent="Enemies" instance=ExtResource("4_wraith")]
+position = Vector2(380, 440)
+
+[node name="Wraith3" parent="Enemies" instance=ExtResource("4_wraith")]
+position = Vector2(560, 180)
+
+[node name="Wraith4" parent="Enemies" instance=ExtResource("4_wraith")]
+position = Vector2(740, 520)
+
+[node name="Wraith5" parent="Enemies" instance=ExtResource("4_wraith")]
+position = Vector2(960, 160)
+
+[node name="Wraith6" parent="Enemies" instance=ExtResource("4_wraith")]
+position = Vector2(1180, 340)
+
+[node name="Wraith7" parent="Enemies" instance=ExtResource("4_wraith")]
+position = Vector2(1400, 180)
+
+[node name="Wraith8" parent="Enemies" instance=ExtResource("4_wraith")]
+position = Vector2(1540, 420)
+
+[node name="Skel1" parent="Enemies" instance=ExtResource("5_skel")]
+position = Vector2(300, 320)
+
+[node name="Skel2" parent="Enemies" instance=ExtResource("5_skel")]
+position = Vector2(660, 380)
+
+[node name="Skel3" parent="Enemies" instance=ExtResource("5_skel")]
+position = Vector2(1060, 520)
+
+[node name="Skel4" parent="Enemies" instance=ExtResource("5_skel")]
+position = Vector2(1340, 280)
+
+[node name="Bat1" parent="Enemies" instance=ExtResource("6_bat")]
+position = Vector2(240, 440)
+
+[node name="Bat2" parent="Enemies" instance=ExtResource("6_bat")]
+position = Vector2(480, 260)
+
+[node name="Bat3" parent="Enemies" instance=ExtResource("6_bat")]
+position = Vector2(860, 440)
+
+[node name="Bat4" parent="Enemies" instance=ExtResource("6_bat")]
+position = Vector2(1260, 160)
+
+[node name="SBrute1" parent="Enemies" instance=ExtResource("7_sbrute")]
+position = Vector2(420, 520)
+
+[node name="SBrute2" parent="Enemies" instance=ExtResource("7_sbrute")]
+position = Vector2(1100, 240)
+
+[node name="Elite1" parent="Enemies" instance=ExtResource("8_elite")]
+position = Vector2(780, 300)
+
+[node name="Elite2" parent="Enemies" instance=ExtResource("8_elite")]
+position = Vector2(1460, 520)
+
+[node name="AbyssLord" parent="." instance=ExtResource("9_lord")]
+position = Vector2(800, 360)
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("11_chest")]
+position = Vector2(180, 200)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("11_chest")]
+position = Vector2(700, 160)
+
+[node name="Chest3" parent="Pickups" instance=ExtResource("11_chest")]
+position = Vector2(1520, 560)
+
+[node name="Gem1" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(260, 120)
+
+[node name="Gem2" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(500, 140)
+
+[node name="Gem3" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(780, 120)
+
+[node name="Gem4" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(1060, 120)
+
+[node name="Gem5" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(1380, 140)
+
+[node name="Gem6" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(340, 640)
+
+[node name="Gem7" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(620, 640)
+
+[node name="Gem8" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(1020, 640)
+
+[node name="Gem9" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(1440, 640)
+
+[node name="Gem10" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(460, 400)
+xp_amount = 10
+
+[node name="Gem11" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(1300, 340)
+xp_amount = 10
+
+[node name="Gem12" parent="Pickups" instance=ExtResource("12_gem")]
+position = Vector2(920, 480)
+xp_amount = 10
+
+[node name="Potion1" parent="Pickups" instance=ExtResource("13_potion")]
+position = Vector2(420, 200)
+
+[node name="Potion2" parent="Pickups" instance=ExtResource("13_potion")]
+position = Vector2(840, 640)
+
+[node name="Potion3" parent="Pickups" instance=ExtResource("13_potion")]
+position = Vector2(1140, 300)
+
+[node name="Potion4" parent="Pickups" instance=ExtResource("13_potion")]
+position = Vector2(1480, 400)
+
+[node name="MythicScroll" parent="Pickups" instance=ExtResource("14_scroll")]
+position = Vector2(620, 420)
+scroll = ExtResource("31_mythic")
+
+[node name="EternalTome" parent="Pickups" instance=ExtResource("14_scroll")]
+position = Vector2(1000, 300)
+scroll = ExtResource("32_eternal")
+
+[node name="CelestialParchment" parent="Pickups" instance=ExtResource("14_scroll")]
+position = Vector2(1200, 500)
+scroll = ExtResource("33_celestial")
+
+[node name="AncientScroll" parent="Pickups" instance=ExtResource("14_scroll")]
+position = Vector2(360, 520)
+scroll = ExtResource("34_ancient")
+
+[node name="DivineScroll" parent="Pickups" instance=ExtResource("14_scroll")]
+position = Vector2(1460, 260)
+scroll = ExtResource("35_divine")
+
+[node name="CritUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(220, 360)
+gear_up = ExtResource("20_crit")
+
+[node name="LifestealUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(540, 300)
+gear_up = ExtResource("21_lifesteal")
+
+[node name="ThornsUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(860, 560)
+gear_up = ExtResource("22_thorns")
+
+[node name="FuryUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(1140, 200)
+gear_up = ExtResource("23_fury")
+
+[node name="KnockbackUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(1380, 440)
+gear_up = ExtResource("24_knockback")
+
+[node name="CritDmgUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(700, 480)
+gear_up = ExtResource("25_critdmg")
+
+[node name="XpUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(1500, 180)
+gear_up = ExtResource("26_xp")
+
+[node name="RegenUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(1040, 640)
+gear_up = ExtResource("27_regen")
+
+[node name="MagnetUp" parent="Pickups" instance=ExtResource("15_gearup")]
+position = Vector2(300, 600)
+gear_up = ExtResource("28_magnet")
+
+[node name="RoyalSword" parent="Pickups" instance=ExtResource("16_weapon")]
+position = Vector2(1240, 140)
+weapon = ExtResource("29_rsword")
+
+[node name="RoyalCyanGuard" parent="Pickups" instance=ExtResource("17_armor")]
+position = Vector2(1080, 600)
+armor = ExtResource("30_rcguard")
+
+[node name="Torches" type="Node2D" parent="."]
+
+[node name="Torch1" parent="Torches" instance=ExtResource("18_torch")]
+position = Vector2(160, 100)
+
+[node name="Torch2" parent="Torches" instance=ExtResource("18_torch")]
+position = Vector2(1560, 100)
+
+[node name="Torch3" parent="Torches" instance=ExtResource("18_torch")]
+position = Vector2(600, 700)
+
+[node name="Torch4" parent="Torches" instance=ExtResource("18_torch")]
+position = Vector2(1100, 700)
+
+[node name="Torch5" parent="Torches" instance=ExtResource("18_torch")]
+position = Vector2(1560, 700)
+
+[node name="Portal" parent="." instance=ExtResource("10_portal")]
+position = Vector2(1560, 340)
+target_level_index = 13
+
+[node name="HealthBar" parent="." instance=ExtResource("19_hud")]

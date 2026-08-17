@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/scroll.gd")]
+
+display_name = "Eternal Tome"
+kind = 1
+xp_amount = 15
+respects_xp_multiplier = true
+levels_granted = 4
+scroll_color = Color(0.7, 0.6, 0.15, 1)
+description = "An ancient tome bound in eternity. Instantly grants 4 levels."
