@@ -23,6 +23,7 @@ const LEVEL_CONFIG = preload("res://aarpg/config/level_config.tres")
 	"res://aarpg/Levels/level_13_crystal_grind.tscn",
 	"res://aarpg/Levels/level_14_abyssal_forge.tscn",
 	"res://aarpg/Levels/level_7_shadow_arena.tscn",
+	"res://aarpg/Levels/level_15_sunken_abyss.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
@@ -39,6 +40,7 @@ const LEVEL_CONFIG = preload("res://aarpg/config/level_config.tres")
 	"Crystal Grind Pit",
 	"Abyssal Forge",
 	"Shadow Keep",
+	"Sunken Abyss",
 ]
 
 var current_level_index: int = 0
