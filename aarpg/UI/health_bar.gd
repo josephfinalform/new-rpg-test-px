@@ -14,6 +14,7 @@ extends CanvasLayer
 @onready var kills_label: Label = get_node_or_null("MarginContainer/VBoxContainer/KillsLabel")
 @onready var combo_label: Label = get_node_or_null("MarginContainer/VBoxContainer/ComboLabel")
 @onready var xp_text_label: Label = get_node_or_null("MarginContainer/VBoxContainer/XPTextLabel")
+@onready var prestige_label: Label = get_node_or_null("MarginContainer/VBoxContainer/PrestigeLabel")
 
 var hearts: Array[TextureRect] = []
 var _xp_tween: Tween = null
@@ -38,6 +39,9 @@ func _ready() -> void:
 			_on_weapon_changed(player.equipped_weapon)
 		if player.equipped_armor:
 			_on_armor_changed(player.equipped_armor)
+		if player.xp_progression:
+			player.xp_progression.prestige_points_changed.connect(_on_prestige_points_changed)
+			_update_prestige_label(player.xp_progression)
 	GameManager.level_changed.connect(_on_level_changed)
 	_on_level_changed(GameManager.current_level_index)
 	GameManager.kills_changed.connect(_on_kills_changed)
@@ -181,3 +185,31 @@ func _update_rank(new_level: int) -> void:
 		title += "  " + stars
 	rank_label.text = title
 	rank_label.add_theme_color_override("font_color", player.get_rank_color())
+
+
+func _on_prestige_points_changed(total_points: int, tree_hp: int, tree_atk: int, tree_spd: int) -> void:
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() == 0:
+		return
+	var player = players[0] as Player
+	_update_prestige_label(player.xp_progression)
+
+
+func _update_prestige_label(progression) -> void:
+	if not prestige_label:
+		return
+	var points: int = progression.prestige_points
+	var hp_pts: int = progression.prestige_tree_hp
+	var atk_pts: int = progression.prestige_tree_atk
+	var spd_pts: int = progression.prestige_tree_spd
+	if points > 0 or hp_pts > 0 or atk_pts > 0 or spd_pts > 0:
+		var text := ""
+		if points > 0:
+			text += "Points: %d  " % points
+		if hp_pts > 0 or atk_pts > 0 or spd_pts > 0:
+			text += "HP:%d ATK:%d SPD:%d" % [hp_pts, atk_pts, spd_pts]
+		prestige_label.text = text
+		prestige_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4))
+		prestige_label.visible = true
+	else:
+		prestige_label.visible = false

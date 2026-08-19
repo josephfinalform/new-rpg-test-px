@@ -85,6 +85,16 @@ var attack_speed_multiplier: float = 1.0
 var knockback_multiplier: float = 1.0
 var crit_damage_multiplier: float = 2.0
 
+var prestige_hp_bonus: int = 0
+var prestige_atk_bonus: int = 0
+var prestige_spd_bonus: int = 0
+var prestige_regen_bonus: float = 0.0
+var prestige_lifesteal_bonus: float = 0.0
+var prestige_crit_bonus: float = 0.0
+var prestige_crit_damage_bonus: float = 0.0
+var prestige_dash_reduction_bonus: float = 0.0
+var prestige_magnet_bonus: float = 0.0
+
 var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as LevelConfig
 
 @onready var sprite: Sprite2D = $Sprite2D
@@ -227,6 +237,7 @@ func get_xp_multiplier() -> float:
 	if equipped_armor:
 		mult *= equipped_armor.xp_multiplier
 	mult *= GameManager.get_combo_multiplier()
+	mult *= xp_progression.get_xp_multiplier()
 	return mult
 
 
@@ -235,16 +246,8 @@ func _on_progression_xp_changed(current_xp: int, lvl: int) -> void:
 
 
 func _on_progression_prestige_gained(_new_prestige: int) -> void:
-	max_health += level_config.prestige_health_bonus
-	health = min(health + level_config.prestige_health_bonus, max_health)
-	base_attack_damage += level_config.prestige_attack_bonus
-	_apply_weapon()
-	level_move_bonus += level_config.prestige_speed_bonus
-	level_sprint_bonus += level_config.prestige_speed_bonus
-	_recalculate_speed()
-	health_changed.emit(health)
-	prestige_changed.emit(prestige)
 	_spawn_prestige_effect()
+	prestige_changed.emit(prestige)
 
 
 func _spawn_prestige_effect() -> void:
@@ -252,12 +255,73 @@ func _spawn_prestige_effect() -> void:
 	get_tree().current_scene.add_child(effect)
 	effect.global_position = global_position
 	var stars := level_config.get_prestige_title(prestige)
-	var stats_text := "HP +%d  ATK +%d  SPD +%d" % [
-		level_config.prestige_health_bonus,
-		level_config.prestige_attack_bonus,
-		int(level_config.prestige_speed_bonus),
-	]
-	effect.setup(stats_text, "PRESTIGE " + stars, Color(1.0, 0.9, 0.4))
+	var points_text := "Points: %d available" % xp_progression.prestige_points
+	effect.setup(points_text, "PRESTIGE " + stars, Color(1.0, 0.9, 0.4))
+
+
+func allocate_prestige_point(tree: LevelConfig.PrestigeTree) -> bool:
+	if not xp_progression.allocate_prestige_point(tree):
+		return false
+	_apply_prestige_tree_bonuses()
+	return true
+
+
+func _apply_prestige_tree_bonuses() -> void:
+	var hp_stats: Dictionary = level_config.apply_prestige_point(LevelConfig.PrestigeTree.HP, xp_progression.prestige_tree_hp)
+	prestige_hp_bonus = hp_stats.get("max_health", 0)
+	prestige_regen_bonus = hp_stats.get("regen", 0.0)
+	prestige_lifesteal_bonus = hp_stats.get("lifesteal", 0.0)
+
+	var atk_stats: Dictionary = level_config.apply_prestige_point(LevelConfig.PrestigeTree.ATK, xp_progression.prestige_tree_atk)
+	prestige_atk_bonus = atk_stats.get("attack", 0)
+	prestige_crit_bonus = atk_stats.get("crit_chance", 0.0)
+	prestige_crit_damage_bonus = atk_stats.get("crit_damage", 0.0)
+
+	var spd_stats: Dictionary = level_config.apply_prestige_point(LevelConfig.PrestigeTree.SPD, xp_progression.prestige_tree_spd)
+	prestige_spd_bonus = spd_stats.get("speed", 0)
+	prestige_dash_reduction_bonus = spd_stats.get("dash_reduction", 0.0)
+	prestige_magnet_bonus = spd_stats.get("magnet", 0.0)
+
+	max_health = base_max_health() + prestige_hp_bonus
+	health = min(health, max_health)
+	_apply_weapon()
+	level_move_bonus += prestige_spd_bonus
+	level_sprint_bonus += prestige_spd_bonus
+	crit_chance = minf(crit_chance + prestige_crit_bonus, 0.5)
+	lifesteal = minf(lifesteal + prestige_lifesteal_bonus, 0.5)
+	crit_damage_multiplier = minf(crit_damage_multiplier + prestige_crit_damage_bonus, 4.0)
+	regen_per_second += prestige_regen_bonus
+	gear_dash_reduction += prestige_dash_reduction_bonus
+	magnet_radius_bonus += prestige_magnet_bonus
+	_apply_dash_cooldown()
+	_recalculate_speed()
+	health_changed.emit(health)
+
+
+func base_max_health() -> int:
+	var hp := 6
+	hp += level_config.health_gain_per_level * (level - 1)
+	if level_config.milestone_interval > 0:
+		var milestones := (level - 1) / level_config.milestone_interval
+		for i in range(1, milestones + 1):
+			var mult := maxf(level_config.get_milestone_multiplier(i * level_config.milestone_interval), 1.0)
+			hp += maxi(roundi(level_config.milestone_max_health_bonus * mult), 1)
+	return hp
+
+
+func get_prestige_points() -> int:
+	return xp_progression.prestige_points
+
+
+func get_prestige_tree_points(tree: LevelConfig.PrestigeTree) -> int:
+	match tree:
+		LevelConfig.PrestigeTree.HP:
+			return xp_progression.prestige_tree_hp
+		LevelConfig.PrestigeTree.ATK:
+			return xp_progression.prestige_tree_atk
+		LevelConfig.PrestigeTree.SPD:
+			return xp_progression.prestige_tree_spd
+	return 0
 
 func _on_progression_level_gained(_new_level: int) -> void:
 	max_health += level_config.health_gain_per_level
