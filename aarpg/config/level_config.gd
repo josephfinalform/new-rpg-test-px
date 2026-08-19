@@ -2,18 +2,20 @@ class_name LevelConfig
 extends Resource
 
 const DEFAULT_RANKS: Array[Dictionary] = [
-	{ "level": 1, "title": "ROOKIE", "color": Color(0.7, 0.7, 0.75) },
-	{ "level": 10, "title": "ADVENTURER", "color": Color(0.4, 1.0, 0.5) },
-	{ "level": 20, "title": "VETERAN", "color": Color(0.4, 0.7, 1.0) },
-	{ "level": 30, "title": "KNIGHT", "color": Color(0.75, 0.5, 1.0) },
-	{ "level": 40, "title": "WARRIOR", "color": Color(1.0, 0.6, 0.3) },
-	{ "level": 50, "title": "CHAMPION", "color": Color(1.0, 0.85, 0.3) },
-	{ "level": 60, "title": "HERO", "color": Color(0.4, 0.9, 1.0) },
-	{ "level": 70, "title": "LEGEND", "color": Color(1.0, 0.4, 0.9) },
-	{ "level": 80, "title": "MYTHIC", "color": Color(1.0, 0.3, 0.3) },
-	{ "level": 90, "title": "DIVINE", "color": Color(1.0, 1.0, 1.0) },
-	{ "level": 100, "title": "GODLIKE", "color": Color(1.0, 0.9, 0.5) },
+	{ "level": 1, "title": "NOVICE", "color": Color(0.6, 0.65, 0.7) },
+	{ "level": 5, "title": "APPRENTICE", "color": Color(0.3, 0.9, 0.4) },
+	{ "level": 12, "title": "JOURNEYMAN", "color": Color(0.3, 0.6, 1.0) },
+	{ "level": 20, "title": "EXPERT", "color": Color(0.7, 0.4, 1.0) },
+	{ "level": 30, "title": "MASTER", "color": Color(1.0, 0.55, 0.2) },
+	{ "level": 42, "title": "GRANDMASTER", "color": Color(1.0, 0.85, 0.2) },
+	{ "level": 55, "title": "OVERLORD", "color": Color(0.2, 0.85, 1.0) },
+	{ "level": 70, "title": "MYTHIC", "color": Color(1.0, 0.3, 0.8) },
+	{ "level": 85, "title": "LEGENDARY", "color": Color(1.0, 0.25, 0.25) },
+	{ "level": 95, "title": "ETERNAL", "color": Color(1.0, 1.0, 1.0) },
+	{ "level": 100, "title": "TRANSCENDENT", "color": Color(1.0, 0.92, 0.45) },
 ]
+
+enum PrestigeTree { HP, ATK, SPD }
 
 @export_group("Start Settings")
 @export var starting_level: int = 1
@@ -27,38 +29,54 @@ const DEFAULT_RANKS: Array[Dictionary] = [
 @export_group("Level Cap")
 @export var max_level: int = 100
 
-@export_group("XP Curve Design (phases)")
-@export var curve_base_xp: int = 8
+@export_group("XP Curve Design (5 phases - slower grind)")
+@export var curve_base_xp: int = 12
 @export var curve_phases: Array[Dictionary] = [
-	{ "end_level": 20, "growth": 3 },
-	{ "end_level": 50, "growth": 5 },
-	{ "end_level": 80, "growth": 12 },
-	{ "end_level": 100, "growth": 35 },
+	{ "end_level": 15, "growth": 4 },
+	{ "end_level": 35, "growth": 8 },
+	{ "end_level": 60, "growth": 18 },
+	{ "end_level": 85, "growth": 40 },
+	{ "end_level": 100, "growth": 80 },
 ]
 @export var xp_curve: Array[int] = []
 
-@export_group("Per-Level Bonuses")
-@export var health_gain_per_level: int = 2
-@export var heal_on_level_up: int = 3
-@export var damage_gain_per_level: int = 1
-@export var move_speed_gain: float = 5.0
-@export var sprint_speed_gain: float = 8.0
+@export_group("Per-Level Bonuses (higher)")
+@export var health_gain_per_level: int = 4
+@export var heal_on_level_up: int = 6
+@export var damage_gain_per_level: int = 2
+@export var move_speed_gain: float = 10.0
+@export var sprint_speed_gain: float = 15.0
 
 @export_group("Milestone Bonuses (every N levels)")
 @export var milestone_interval: int = 10
-@export var milestone_damage_bonus: int = 2
-@export var milestone_max_health_bonus: int = 5
-@export var milestone_speed_bonus: float = 10.0
+@export var milestone_damage_bonus: int = 4
+@export var milestone_max_health_bonus: int = 10
+@export var milestone_speed_bonus: float = 20.0
 @export var milestone_bonus_growth: float = 0.5
 
 @export_group("Ranks (persona titles)")
 @export var ranks: Array[Dictionary] = DEFAULT_RANKS
 
-@export_group("Prestige (beyond max level)")
-@export var prestige_xp_threshold: int = 1000
-@export var prestige_attack_bonus: int = 2
-@export var prestige_health_bonus: int = 5
-@export var prestige_speed_bonus: float = 3.0
+@export_group("Prestige System (new: points + escalation)")
+@export var prestige_base_threshold: int = 1000
+@export var prestige_threshold_growth: float = 1.5
+@export var prestige_max_threshold: int = 10000
+@export var prestige_xp_multiplier_per_rank: float = 0.05
+@export var prestige_hp_per_point: int = 5
+@export var prestige_regen_per_point: float = 0.2
+@export var prestige_lifesteal_per_point: float = 0.01
+@export var prestige_atk_per_point: int = 3
+@export var prestige_crit_per_point: float = 0.05
+@export var prestige_crit_damage_per_point: float = 0.10
+@export var prestige_speed_per_point: int = 10
+@export var prestige_dash_reduction_per_point: float = 0.1
+@export var prestige_magnet_per_point: float = 0.15
+@export var prestige_title_tiers: Array[Dictionary] = [
+	{ "min_prestige": 1, "max_prestige": 2, "stars": "\u2605", "title_suffix": "" },
+	{ "min_prestige": 3, "max_prestige": 5, "stars": "\u2605\u2605", "title_suffix": "" },
+	{ "min_prestige": 6, "max_prestige": 9, "stars": "\u2605\u2605\u2605", "title_suffix": "" },
+	{ "min_prestige": 10, "max_prestige": 999, "stars": "\u2605\u2605\u2605\u2605", "title_suffix": " ASCENDED" },
+]
 
 @export_group("Combo (kill streak)")
 @export var combo_window_time: float = 3.0
@@ -74,9 +92,9 @@ func build_xp_curve() -> Array[int]:
 		result.append(current)
 		while phase_index < curve_phases.size() and lvl >= int(curve_phases[phase_index].get("end_level", max_level)):
 			phase_index += 1
-		var growth := 3
+		var growth := 4
 		if phase_index < curve_phases.size():
-			growth = int(curve_phases[phase_index].get("growth", 3))
+			growth = int(curve_phases[phase_index].get("growth", 4))
 		current += growth
 	return result
 
@@ -117,12 +135,42 @@ func get_rank_color(lvl: int) -> Color:
 	return ranks[get_rank_index(lvl)].get("color", Color.WHITE)
 
 
+func get_prestige_threshold(current_prestige: int) -> int:
+	var threshold := prestige_base_threshold
+	for i in range(current_prestige):
+		threshold = mini(roundi(float(threshold) * prestige_threshold_growth), prestige_max_threshold)
+	return threshold
+
+
+func get_prestige_xp_multiplier(total_prestige: int) -> float:
+	return 1.0 + total_prestige * prestige_xp_multiplier_per_rank
+
+
 func get_prestige_title(prestige: int) -> String:
 	if prestige <= 0:
 		return ""
-	var stars := ""
-	for i in range(mini(prestige, 5)):
-		stars += "★"
-	if prestige > 5:
-		stars += " x" + str(prestige)
-	return stars
+	for tier in prestige_title_tiers:
+		if prestige >= int(tier.get("min_prestige", 1)) and prestige <= int(tier.get("max_prestige", 1)):
+			var stars: String = str(tier.get("stars", ""))
+			var suffix: String = str(tier.get("title_suffix", ""))
+			return stars + suffix
+	var last_tier: Dictionary = prestige_title_tiers[prestige_title_tiers.size() - 1]
+	return str(last_tier.get("stars", "\u2605")) + str(prestige) + str(last_tier.get("title_suffix", ""))
+
+
+func apply_prestige_point(tree: PrestigeTree, points: int) -> Dictionary:
+	var result := {}
+	match tree:
+		PrestigeTree.HP:
+			result["max_health"] = prestige_hp_per_point * points
+			result["regen"] = prestige_regen_per_point * points
+			result["lifesteal"] = prestige_lifesteal_per_point * points
+		PrestigeTree.ATK:
+			result["attack"] = prestige_atk_per_point * points
+			result["crit_chance"] = prestige_crit_per_point * points
+			result["crit_damage"] = prestige_crit_damage_per_point * points
+		PrestigeTree.SPD:
+			result["speed"] = prestige_speed_per_point * points
+			result["dash_reduction"] = prestige_dash_reduction_per_point * points
+			result["magnet"] = prestige_magnet_per_point * points
+	return result
