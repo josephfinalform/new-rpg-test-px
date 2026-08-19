@@ -4,6 +4,7 @@ extends RefCounted
 signal xp_changed(current_xp: int, level: int)
 signal level_gained(new_level: int)
 signal prestige_gained(new_prestige: int)
+signal prestige_points_changed(total_points: int, tree_hp: int, tree_atk: int, tree_spd: int)
 
 var level_config: LevelConfig
 var level: int = 1
@@ -11,6 +12,10 @@ var xp: int = 0
 var xp_to_next_level: int = 10
 var prestige: int = 0
 var prestige_xp: int = 0
+var prestige_points: int = 0
+var prestige_tree_hp: int = 0
+var prestige_tree_atk: int = 0
+var prestige_tree_spd: int = 0
 
 
 func _init(config: LevelConfig) -> void:
@@ -56,10 +61,33 @@ func _grant_level() -> void:
 func _gain_prestige(amount: int) -> void:
 	prestige_xp += amount
 	xp_changed.emit(prestige_xp, level)
-	while prestige_xp >= level_config.prestige_xp_threshold:
-		prestige_xp -= level_config.prestige_xp_threshold
+	var threshold := level_config.get_prestige_threshold(prestige)
+	while prestige_xp >= threshold:
+		prestige_xp -= threshold
 		prestige += 1
+		prestige_points += 1
 		prestige_gained.emit(prestige)
+		prestige_points_changed.emit(prestige_points, prestige_tree_hp, prestige_tree_atk, prestige_tree_spd)
+		threshold = level_config.get_prestige_threshold(prestige)
+
+
+func allocate_prestige_point(tree: LevelConfig.PrestigeTree, amount: int = 1) -> bool:
+	if prestige_points < amount:
+		return false
+	prestige_points -= amount
+	match tree:
+		LevelConfig.PrestigeTree.HP:
+			prestige_tree_hp += amount
+		LevelConfig.PrestigeTree.ATK:
+			prestige_tree_atk += amount
+		LevelConfig.PrestigeTree.SPD:
+			prestige_tree_spd += amount
+	prestige_points_changed.emit(prestige_points, prestige_tree_hp, prestige_tree_atk, prestige_tree_spd)
+	return true
+
+
+func get_xp_multiplier() -> float:
+	return level_config.get_prestige_xp_multiplier(prestige)
 
 
 func get_xp_for_level(lvl: int) -> int:
