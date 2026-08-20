@@ -1,10 +1,9 @@
 class_name Bat
 extends Enemy
 
-const TINT := Color(0.55, 0.45, 0.85)
+const DATA = preload("res://aarpg/config/enemies/bat_data.tres")
 
 
 func _ready() -> void:
-	sprite.self_modulate = TINT
-	sprite.scale = Vector2(0.8, 0.8)
+	enemy_data = DATA
 	super()

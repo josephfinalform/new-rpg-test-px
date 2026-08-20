@@ -1,9 +1,9 @@
 class_name Skeleton
 extends Enemy
 
-const TINT := Color(0.82, 0.82, 0.72)
+const DATA = preload("res://aarpg/config/enemies/skeleton_data.tres")
 
 
 func _ready() -> void:
-	sprite.self_modulate = TINT
+	enemy_data = DATA
 	super()

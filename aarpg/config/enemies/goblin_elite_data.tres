@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Goblin Elite"
+max_health = 12
+move_speed = 65.0
+damage = 3
+xp_reward = 20
+attack_range = 26.0
+attack_cooldown_time = 0.5
+potion_drop_chance = 0.08

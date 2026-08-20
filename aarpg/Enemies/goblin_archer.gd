@@ -2,7 +2,6 @@ class_name GoblinArcher
 extends Enemy
 
 const ARROW_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
-const TINT := Color(0.95, 0.85, 0.55)
 
 @export var shoot_range: float = 170.0
 @export var keep_distance: float = 130.0
@@ -12,8 +11,11 @@ const TINT := Color(0.95, 0.85, 0.55)
 var shoot_timer: float = 0.0
 
 
+const DATA = preload("res://aarpg/config/enemies/goblin_archer_data.tres")
+
+
 func _ready() -> void:
-	sprite.self_modulate = TINT
+	enemy_data = DATA
 	super()
 
 
@@ -52,6 +54,6 @@ func _shoot_arrow(dir: Vector2) -> void:
 	arrow.direction = dir
 	arrow.speed = arrow_speed
 	arrow.damage = damage
-	arrow.projectile_tint = TINT
+	arrow.projectile_tint = enemy_data.tint if enemy_data else Color.WHITE
 	arrow.scale = Vector2(0.7, 0.7)
 	get_parent().add_child(arrow)

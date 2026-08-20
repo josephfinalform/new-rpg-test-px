@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Fire Imp"
+max_health = 3
+move_speed = 50.0
+damage = 2
+xp_reward = 8
+knockback_resistance = 0.2
+knockback_force = 170.0
+attack_range = 18.0
+attack_cooldown_time = 0.45
+heart_drop_chance = 0.12
+tint = Color(1.0, 0.55, 0.15)
+sprite_scale = Vector2(0.7, 0.7)

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Goblin Archer"
+max_health = 4
+move_speed = 45.0
+damage = 2
+xp_reward = 12
+knockback_resistance = 0.25
+knockback_force = 160.0
+attack_range = 20.0
+attack_cooldown_time = 0.5
+heart_drop_chance = 0.12
+tint = Color(0.95, 0.85, 0.55)

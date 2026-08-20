@@ -1,10 +1,9 @@
 class_name FireImp
 extends Enemy
 
-const TINT := Color(1.0, 0.5, 0.2)
+const DATA = preload("res://aarpg/config/enemies/fire_imp_data.tres")
 
 
 func _ready() -> void:
-	sprite.self_modulate = TINT
-	sprite.scale = Vector2(0.7, 0.7)
+	enemy_data = DATA
 	super()

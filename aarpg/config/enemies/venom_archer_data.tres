@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Venom Archer"
+max_health = 8
+move_speed = 42.0
+damage = 2
+xp_reward = 16
+knockback_resistance = 0.25
+knockback_force = 160.0
+attack_range = 20.0
+attack_cooldown_time = 0.5
+potion_drop_chance = 0.05
+tint = Color(0.3, 0.6, 0.28)

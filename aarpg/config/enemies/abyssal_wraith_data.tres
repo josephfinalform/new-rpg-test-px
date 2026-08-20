@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Abyssal Wraith"
+max_health = 8
+move_speed = 58.0
+damage = 2
+xp_reward = 18
+knockback_resistance = 0.3
+knockback_force = 120.0
+attack_range = 24.0
+attack_cooldown_time = 0.45
+xp_gem_drop_chance = 0.25
+potion_drop_chance = 0.05
+tint = Color(0.45, 0.15, 0.65)
+sprite_scale = Vector2(1.1, 1.1)

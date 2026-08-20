@@ -11,6 +11,7 @@ const XP_GEM_SCENE = preload("res://aarpg/Pickups/xp_gem.tscn")
 const POTION_SCENE = preload("res://aarpg/Pickups/potion_pickup.tscn")
 const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
 
+@export var enemy_data: EnemyData
 @export var max_health: int = 3
 @export var move_speed: float = 40.0
 @export var damage: int = 1
@@ -61,7 +62,33 @@ var stun_remaining: float = 0.0
 @onready var hurt_timer: Timer = $HurtTimer
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 
+func _apply_data(data: EnemyData) -> void:
+	max_health = data.max_health
+	move_speed = data.move_speed
+	damage = data.damage
+	xp_reward = data.xp_reward
+	knockback_resistance = data.knockback_resistance
+	knockback_force = data.knockback_force
+	idle_speed_ratio = data.idle_speed_ratio
+	idle_duration_min = data.idle_duration_min
+	idle_duration_max = data.idle_duration_max
+	attack_range = data.attack_range
+	attack_cooldown_time = data.attack_cooldown_time
+	heart_drop_chance = data.heart_drop_chance
+	xp_gem_drop_chance = data.xp_gem_drop_chance
+	potion_drop_chance = data.potion_drop_chance
+	xp_popup_enabled = data.xp_popup_enabled
+	death_sfx = data.death_sfx
+	hit_sfx = data.hit_sfx
+	if data.tint != Color.WHITE:
+		sprite.self_modulate = data.tint
+	if data.sprite_scale != Vector2.ONE:
+		sprite.scale = data.sprite_scale
+
+
 func _ready() -> void:
+	if enemy_data:
+		_apply_data(enemy_data)
 	health = max_health
 	hurt_timer.wait_time = 0.3
 	invincibility_timer.wait_time = 0.5

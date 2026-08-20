@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Wolf"
+max_health = 4
+move_speed = 100.0
+damage = 1
+xp_reward = 9
+knockback_resistance = 0.2
+knockback_force = 200.0
+idle_speed_ratio = 0.5
+attack_range = 22.0
+attack_cooldown_time = 0.6
+heart_drop_chance = 0.1
+tint = Color(0.58, 0.52, 0.62)
+sprite_scale = Vector2(0.9, 0.9)

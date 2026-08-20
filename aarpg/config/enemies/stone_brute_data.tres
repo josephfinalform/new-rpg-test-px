@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Stone Brute"
+max_health = 26
+move_speed = 26.0
+damage = 4
+xp_reward = 26
+knockback_resistance = 0.85
+knockback_force = 100.0
+attack_range = 30.0
+attack_cooldown_time = 1.1
+heart_drop_chance = 0.25
+tint = Color(0.52, 0.55, 0.6)
+sprite_scale = Vector2(1.5, 1.5)

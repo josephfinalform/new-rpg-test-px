@@ -1,19 +1,9 @@
 class_name StoneBrute
 extends Enemy
 
-const TINT := Color(0.52, 0.55, 0.6)
+const DATA = preload("res://aarpg/config/enemies/stone_brute_data.tres")
 
 
 func _ready() -> void:
-	max_health = 26
-	move_speed = 26.0
-	damage = 4
-	xp_reward = 26
-	knockback_resistance = 0.85
-	knockback_force = 100.0
-	attack_range = 30.0
-	attack_cooldown_time = 1.1
-	heart_drop_chance = 0.25
-	sprite.self_modulate = TINT
-	sprite.scale = Vector2(1.5, 1.5)
+	enemy_data = DATA
 	super()

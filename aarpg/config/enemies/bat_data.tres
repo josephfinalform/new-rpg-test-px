@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Bat"
+max_health = 2
+move_speed = 60.0
+damage = 1
+xp_reward = 6
+knockback_resistance = 0.1
+knockback_force = 200.0
+attack_range = 16.0
+attack_cooldown_time = 0.4
+heart_drop_chance = 0.1
+tint = Color(0.55, 0.25, 0.8)
+sprite_scale = Vector2(0.8, 0.8)
