@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3]
 
 [ext_resource type="Texture2D" uid="uid://bogus_goblin" path="res://assets/sprites/characters/goblin.png" id="1_goblin"]
-[ext_resource type="Script" path="res://aarpg/Enemies/goblin.gd" id="2_goblin"]
+[ext_resource type="Script" path="res://aarpg/Enemies/enemy.gd" id="2_goblin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
 size = Vector2(12, 8)

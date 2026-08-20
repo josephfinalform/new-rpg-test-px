@@ -1,5 +1,5 @@
 class_name VenomSlime
-extends Slime
+extends Enemy
 
 const TINT := Color(0.35, 0.8, 0.4)
 

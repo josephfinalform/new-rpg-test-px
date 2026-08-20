@@ -1,5 +1,5 @@
 class_name CrystalSlime
-extends Slime
+extends Enemy
 
 const TINT := Color(0.5, 0.9, 1.0)
 

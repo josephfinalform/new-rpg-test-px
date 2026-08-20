@@ -1,5 +1,5 @@
 class_name AbyssalWraith
-extends Goblin
+extends Enemy
 
 const TINT := Color(0.45, 0.15, 0.65)
 

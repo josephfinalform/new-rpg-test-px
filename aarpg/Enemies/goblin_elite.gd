@@ -1,5 +1,5 @@
 class_name GoblinElite
-extends Goblin
+extends Enemy
 
 
 func _ready() -> void:

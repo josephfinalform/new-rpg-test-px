@@ -1,5 +1,5 @@
 class_name Wolf
-extends Goblin
+extends Enemy
 
 const TINT := Color(0.58, 0.52, 0.62)
 

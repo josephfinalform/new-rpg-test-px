@@ -1,5 +1,5 @@
 class_name OrcBrute
-extends Goblin
+extends Enemy
 
 const TINT := Color(0.32, 0.55, 0.3)
 

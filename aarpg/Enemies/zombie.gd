@@ -1,5 +1,5 @@
 class_name Zombie
-extends Goblin
+extends Enemy
 
 const TINT := Color(0.42, 0.68, 0.38)
 
