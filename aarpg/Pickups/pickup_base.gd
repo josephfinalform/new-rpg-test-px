@@ -2,13 +2,13 @@ class_name PickupBase
 extends Area2D
 
 const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
+const DEFAULT_SFX = preload("res://assets/audio/sfx/item_pickup.wav")
 
 @export var lifetime: float = 12.0
 @export var bob_speed: float = 4.0
 @export var bob_amplitude: float = 2.0
 @export var bob_base_y: float = -4.0
 @export var rotation_speed: float = 0.0
-@export var sfx_path: String = "res://assets/audio/sfx/item_pickup.wav"
 
 var collected: bool = false
 var _bob_time: float = 0.0
@@ -44,7 +44,7 @@ func _apply_effect(_player: Player) -> void:
 
 
 func _play_collect_feedback() -> void:
-	AudioManager.play_sfx_from_path(sfx_path)
+	AudioManager.play_sfx(DEFAULT_SFX)
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(self, "modulate:a", 0.0, 0.3)

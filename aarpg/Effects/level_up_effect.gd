@@ -1,7 +1,7 @@
 class_name LevelUpEffect
 extends Node2D
 
-const LEVEL_UP_JINGLE := "res://assets/audio/music/level_up_jingle.wav"
+const LEVEL_UP_JINGLE = preload("res://assets/audio/music/level_up_jingle.wav")
 
 @onready var particles: CPUParticles2D = $Burst
 @onready var title_label: Label = $CanvasLayer/CenterContainer/VBoxContainer/TitleLabel
@@ -10,7 +10,7 @@ const LEVEL_UP_JINGLE := "res://assets/audio/music/level_up_jingle.wav"
 
 
 func _ready() -> void:
-	AudioManager.play_sfx_from_path(LEVEL_UP_JINGLE)
+	AudioManager.play_sfx(LEVEL_UP_JINGLE)
 	particles.position = Vector2.ZERO
 	particles.amount = 32
 	particles.lifetime = 0.7

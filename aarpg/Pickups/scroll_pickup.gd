@@ -88,27 +88,28 @@ func _apply_effect(player: Player) -> void:
 	var popup_text := ""
 	var popup_color := active.scroll_color
 	if active.kind == Scroll.Kind.XP_PARCHMENT:
-		var amount := maxi(active.xp_amount, 0)
-		if active.respects_xp_multiplier:
-			player.gain_xp(amount)
-		else:
-			player.gain_xp_flat(amount)
-		popup_text = "+%d XP" % amount
+		_grant_xp(player, active)
+		popup_text = "+%d XP" % active.xp_amount
 	elif active.kind == Scroll.Kind.HYBRID:
-		var amount := maxi(active.xp_amount, 0)
-		if active.respects_xp_multiplier:
-			player.gain_xp(amount)
-		else:
-			player.gain_xp_flat(amount)
-		var levels := maxi(active.levels_granted, 1)
-		for i in range(levels):
-			player.gain_level()
-		popup_text = "+%d XP & LEVEL UP!" % amount
+		_grant_xp(player, active)
+		_grant_levels(player, active.levels_granted)
+		popup_text = "+%d XP & LEVEL UP!" % active.xp_amount
 		popup_color = Color(1.0, 0.9, 0.4)
 	else:
-		var levels := maxi(active.levels_granted, 1)
-		for i in range(levels):
-			player.gain_level()
+		_grant_levels(player, active.levels_granted)
 		popup_text = "LEVEL UP!"
 		popup_color = Color(1.0, 0.9, 0.4)
 	_spawn_popup(popup_text, popup_color, Vector2(0, -22))
+
+
+func _grant_xp(player: Player, active: Scroll) -> void:
+	var amount := maxi(active.xp_amount, 0)
+	if active.respects_xp_multiplier:
+		player.gain_xp(amount)
+	else:
+		player.gain_xp_flat(amount)
+
+
+func _grant_levels(player: Player, count: int) -> void:
+	for i in range(maxi(count, 1)):
+		player.gain_level()

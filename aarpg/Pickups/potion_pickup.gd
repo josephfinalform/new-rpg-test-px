@@ -1,6 +1,8 @@
 class_name PotionPickup
 extends PickupBase
 
+const SFX_HEAL = preload("res://assets/audio/sfx/hp_up.wav")
+
 @export var heal_amount: int = 4
 
 
@@ -9,13 +11,12 @@ func _ready() -> void:
 	bob_amplitude = 2.5
 	bob_base_y = -6.0
 	rotation_speed = 0.8
-	sfx_path = "res://assets/audio/sfx/hp_up.wav"
 	lifetime = 15.0
 	super._ready()
 
 
 func _play_collect_feedback() -> void:
-	AudioManager.play_sfx_from_path(sfx_path)
+	AudioManager.play_sfx(SFX_HEAL)
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(self, "modulate:a", 0.0, 0.3)
