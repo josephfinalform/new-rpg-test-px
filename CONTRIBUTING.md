@@ -36,7 +36,7 @@ Open the project in **Godot 4.4+** and start developing.
 ### Development Workflow
 
 1. Scripts go in the appropriate `Scripts/` subdirectories
-2. Test changes in the main scene (`aarpg/playground.tscn`)
+2. Test changes in the main scene (`aarpg/UI/title_screen.tscn` → campaign levels)
 3. Ensure zero errors in the Godot console before submitting
 
 ## Reporting Issues

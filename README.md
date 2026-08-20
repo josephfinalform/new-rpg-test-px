@@ -151,7 +151,6 @@ new-rpg-test-px/
 ├── project.godot              # Project config (input maps, display)
 ├── CONTRIBUTING.md
 ├── aarpg/                     # Main game directory
-│   ├── playground.tscn        # Entry point scene
 │   ├── Player/
 │   │   ├── player.tscn
 │   │   └── Scripts/
