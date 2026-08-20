@@ -9,6 +9,7 @@ extends PickupBase
 @export var magnet_accel: float = 900.0
 
 var _magnet_velocity: Vector2 = Vector2.ZERO
+var _target_player: Player = null
 
 
 func _ready() -> void:
@@ -20,6 +21,13 @@ func _ready() -> void:
 	var size_scale := 1.0 + 0.04 * float(xp_amount)
 	scale = Vector2(size_scale, size_scale)
 	super._ready()
+	_cache_player()
+
+
+func _cache_player() -> void:
+	var players := get_tree().get_nodes_in_group("player")
+	if not players.is_empty():
+		_target_player = players[0] as Player
 
 
 func _process(delta: float) -> void:
@@ -28,17 +36,13 @@ func _process(delta: float) -> void:
 
 
 func _process_magnet(delta: float) -> void:
-	if collected:
+	if collected or _target_player == null or not is_instance_valid(_target_player):
 		return
-	var players := get_tree().get_nodes_in_group("player")
-	if players.is_empty():
+	if _target_player.is_dead:
 		return
-	var player := players[0] as Player
-	if player.is_dead:
-		return
-	var to_player: Vector2 = player.global_position - global_position
+	var to_player: Vector2 = _target_player.global_position - global_position
 	var dist: float = to_player.length()
-	if dist > player.get_xp_magnet_radius(magnet_radius):
+	if dist > _target_player.get_xp_magnet_radius(magnet_radius):
 		return
 	var dir := to_player / maxf(dist, 0.001)
 	_magnet_velocity = _magnet_velocity.move_toward(dir * magnet_speed, magnet_accel * delta)

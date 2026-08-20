@@ -56,7 +56,7 @@ func _find_npc_in_range() -> NPC:
 
 
 func open_dialogue(npc: NPC) -> void:
-	if active_dialogue != null or npc == null or npc.dialogue == null:
+	if active_dialogue != null or npc == null or not npc.has_dialogue():
 		return
 	active_dialogue = npc.dialogue
 	_line_index = 0

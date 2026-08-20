@@ -1,6 +1,7 @@
 class_name GoblinArcher
 extends Enemy
 
+const DATA = preload("res://aarpg/config/enemies/goblin_archer_data.tres")
 const ARROW_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
 
 @export var shoot_range: float = 170.0
@@ -9,9 +10,6 @@ const ARROW_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
 @export var arrow_speed: float = 115.0
 
 var shoot_timer: float = 0.0
-
-
-const DATA = preload("res://aarpg/config/enemies/goblin_archer_data.tres")
 
 
 func _ready() -> void:

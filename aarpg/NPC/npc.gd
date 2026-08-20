@@ -40,6 +40,10 @@ func _draw() -> void:
 	draw_arc(Vector2(0, -3.5), 2.4, 0.15 * PI, 0.85 * PI, 8, npc_color.darkened(0.5), 0.8)
 
 
+func has_dialogue() -> bool:
+	return dialogue != null and dialogue.lines.size() > 0
+
+
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		player_in_range = true
