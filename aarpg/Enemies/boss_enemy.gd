@@ -109,11 +109,8 @@ func _die() -> void:
 	if boss_health_bar:
 		boss_health_bar.hide()
 	super()
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player = players[0] as Player
-		if player and not player.is_dead:
-			player.gain_xp(bonus_xp_reward)
+	if _cached_player and not _cached_player.is_dead:
+		_cached_player.gain_xp(bonus_xp_reward)
 
 
 func _play_death_effect() -> void:

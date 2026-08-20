@@ -15,14 +15,14 @@ const LEVEL_CONFIG = preload("res://aarpg/config/level_config.tres")
 	"res://aarpg/Levels/level_4_forest.tscn",
 	"res://aarpg/Levels/level_5_graveyard.tscn",
 	"res://aarpg/Levels/level_6_ice_arena.tscn",
+	"res://aarpg/Levels/level_7_shadow_arena.tscn",
 	"res://aarpg/Levels/level_8_ember_canyon.tscn",
 	"res://aarpg/Levels/level_9_mystic_grove.tscn",
-	"res://aarpg/Levels/level_11_venom_cavern.tscn",
 	"res://aarpg/Levels/level_10_exp_grind.tscn",
+	"res://aarpg/Levels/level_11_venom_cavern.tscn",
 	"res://aarpg/Levels/level_12_crystal_cavern.tscn",
 	"res://aarpg/Levels/level_13_crystal_grind.tscn",
 	"res://aarpg/Levels/level_14_abyssal_forge.tscn",
-	"res://aarpg/Levels/level_7_shadow_arena.tscn",
 	"res://aarpg/Levels/level_15_sunken_abyss.tscn",
 ]
 @export var level_names: Array[String] = [
@@ -32,14 +32,14 @@ const LEVEL_CONFIG = preload("res://aarpg/config/level_config.tres")
 	"Forest",
 	"Graveyard",
 	"Ice Cavern",
+	"Shadow Keep",
 	"Ember Canyon",
 	"Mystic Grove",
-	"Venom Cavern",
 	"EXP Grind Arena",
+	"Venom Cavern",
 	"Crystal Cavern",
 	"Crystal Grind Pit",
 	"Abyssal Forge",
-	"Shadow Keep",
 	"Sunken Abyss",
 ]
 

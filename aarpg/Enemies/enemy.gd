@@ -43,6 +43,7 @@ var knockback_multiplier: float = 1.0
 
 var current_state: int = State.IDLE
 var chase_target: Player = null
+var _cached_player: Player = null
 var idle_timer: float = 0.0
 var idle_duration: float = 2.0
 var idle_direction: Vector2 = Vector2.ZERO
@@ -61,6 +62,12 @@ var stun_remaining: float = 0.0
 @onready var detection_area: Area2D = $DetectionArea
 @onready var hurt_timer: Timer = $HurtTimer
 @onready var invincibility_timer: Timer = $InvincibilityTimer
+
+func _cache_player() -> void:
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() > 0:
+		_cached_player = players[0] as Player
+
 
 func _apply_data(data: EnemyData) -> void:
 	max_health = data.max_health
@@ -95,6 +102,7 @@ func _ready() -> void:
 	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
+	_cache_player()
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -206,11 +214,8 @@ func _die() -> void:
 	died.emit()
 	current_state = State.IDLE
 	hitbox_area.set_deferred("monitoring", false)
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player = players[0] as Player
-		if player and not player.is_dead:
-			player.gain_xp(xp_reward)
+	if _cached_player and not _cached_player.is_dead:
+		_cached_player.gain_xp(xp_reward)
 	GameManager.enemy_killed()
 	if heart_drop_chance > 0.0 and randf() < heart_drop_chance:
 		_spawn_heart_drop()

@@ -19,29 +19,29 @@ extends CanvasLayer
 var hearts: Array[TextureRect] = []
 var _xp_tween: Tween = null
 var _combo_tween: Tween = null
+var _player: Player = null
 
 func _ready() -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player = players[0] as Player
-		player.health_changed.connect(_on_health_changed)
-		player.xp_changed.connect(_on_xp_changed)
-		player.level_up.connect(_on_level_up)
-		player.prestige_changed.connect(_on_prestige_changed)
-		player.weapon_changed.connect(_on_weapon_changed)
-		player.armor_changed.connect(_on_armor_changed)
-		player.gear_up_applied.connect(_on_gear_up_applied)
-		_setup_hearts(player.max_health)
-		_on_health_changed(player.health)
-		_on_xp_changed(player.xp, player.level)
-		_on_level_up(player.level)
-		if player.equipped_weapon:
-			_on_weapon_changed(player.equipped_weapon)
-		if player.equipped_armor:
-			_on_armor_changed(player.equipped_armor)
-		if player.xp_progression:
-			player.xp_progression.prestige_points_changed.connect(_on_prestige_points_changed)
-			_update_prestige_label(player.xp_progression)
+	_player = _find_player()
+	if _player:
+		_player.health_changed.connect(_on_health_changed)
+		_player.xp_changed.connect(_on_xp_changed)
+		_player.level_up.connect(_on_level_up)
+		_player.prestige_changed.connect(_on_prestige_changed)
+		_player.weapon_changed.connect(_on_weapon_changed)
+		_player.armor_changed.connect(_on_armor_changed)
+		_player.gear_up_applied.connect(_on_gear_up_applied)
+		_setup_hearts(_player.max_health)
+		_on_health_changed(_player.health)
+		_on_xp_changed(_player.xp, _player.level)
+		_on_level_up(_player.level)
+		if _player.equipped_weapon:
+			_on_weapon_changed(_player.equipped_weapon)
+		if _player.equipped_armor:
+			_on_armor_changed(_player.equipped_armor)
+		if _player.xp_progression:
+			_player.xp_progression.prestige_points_changed.connect(_on_prestige_points_changed)
+			_update_prestige_label(_player.xp_progression)
 	GameManager.level_changed.connect(_on_level_changed)
 	_on_level_changed(GameManager.current_level_index)
 	GameManager.kills_changed.connect(_on_kills_changed)
@@ -50,6 +50,10 @@ func _ready() -> void:
 	GameManager.combo_lost.connect(_on_combo_lost)
 	SeasonManager.season_changed.connect(_on_season_changed)
 	_on_season_changed(SeasonManager.current_season)
+
+func _find_player() -> Player:
+	var players = get_tree().get_nodes_in_group("player")
+	return players[0] as Player if players.size() > 0 else null
 
 func _on_level_changed(index: int) -> void:
 	if level_name_label:
@@ -129,21 +133,20 @@ func _on_health_changed(new_health: int) -> void:
 			hearts[i].modulate = Color(0.3, 0.3, 0.3)
 
 func _on_xp_changed(new_xp: int, _new_level: int) -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player = players[0] as Player
-		if player.level >= player.level_config.max_level:
-			xp_bar.max_value = float(player.level_config.prestige_xp_threshold)
-			if xp_text_label:
-				xp_text_label.text = "★ %d / %d" % [player.prestige_xp, player.level_config.prestige_xp_threshold]
-		else:
-			xp_bar.max_value = player.xp_to_next_level
-			if xp_text_label:
-				xp_text_label.text = str(new_xp) + " / " + str(player.xp_to_next_level)
-		if _xp_tween and _xp_tween.is_valid():
-			_xp_tween.kill()
-		_xp_tween = create_tween()
-		_xp_tween.tween_property(xp_bar, "value", float(new_xp), 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	if _player == null:
+		return
+	if _player.level >= _player.level_config.max_level:
+		xp_bar.max_value = float(_player.level_config.prestige_xp_threshold)
+		if xp_text_label:
+			xp_text_label.text = "★ %d / %d" % [_player.prestige_xp, _player.level_config.prestige_xp_threshold]
+	else:
+		xp_bar.max_value = _player.xp_to_next_level
+		if xp_text_label:
+			xp_text_label.text = str(new_xp) + " / " + str(_player.xp_to_next_level)
+	if _xp_tween and _xp_tween.is_valid():
+		_xp_tween.kill()
+	_xp_tween = create_tween()
+	_xp_tween.tween_property(xp_bar, "value", float(new_xp), 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func _on_level_up(new_level: int) -> void:
 	_update_level_label()
@@ -155,45 +158,34 @@ func _on_level_up(new_level: int) -> void:
 
 func _on_prestige_changed(_prestige: int) -> void:
 	_update_level_label()
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		_update_rank((players[0] as Player).level)
+	if _player:
+		_update_rank(_player.level)
 	if level_label:
 		level_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4))
 
 func _update_level_label() -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() == 0:
+	if _player == null:
 		return
-	var player = players[0] as Player
-	var text := "Lv." + str(player.level)
-	if player.prestige > 0:
-		text += "  ★" + str(player.prestige)
+	var text := "Lv." + str(_player.level)
+	if _player.prestige > 0:
+		text += "  ★" + str(_player.prestige)
 	level_label.text = text
-	level_label.add_theme_color_override("font_color", Color(1, 0.9, 0.3) if player.prestige > 0 else Color.WHITE)
+	level_label.add_theme_color_override("font_color", Color(1, 0.9, 0.3) if _player.prestige > 0 else Color.WHITE)
 
 func _update_rank(new_level: int) -> void:
-	if not rank_label:
+	if not rank_label or _player == null:
 		return
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() == 0:
-		return
-	var player = players[0] as Player
-	var title := player.get_rank_title()
-	var stars := player.level_config.get_prestige_title(player.prestige)
+	var title := _player.get_rank_title()
+	var stars := _player.level_config.get_prestige_title(_player.prestige)
 	if not stars.is_empty():
 		title += "  " + stars
 	rank_label.text = title
-	rank_label.add_theme_color_override("font_color", player.get_rank_color())
-
+	rank_label.add_theme_color_override("font_color", _player.get_rank_color())
 
 func _on_prestige_points_changed(total_points: int, tree_hp: int, tree_atk: int, tree_spd: int) -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() == 0:
+	if _player == null:
 		return
-	var player = players[0] as Player
-	_update_prestige_label(player.xp_progression)
-
+	_update_prestige_label(_player.xp_progression)
 
 func _update_prestige_label(progression) -> void:
 	if not prestige_label:

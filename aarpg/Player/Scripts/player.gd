@@ -41,7 +41,6 @@ var base_move_speed: float = 100.0
 var base_sprint_speed: float = 180.0
 var equipped_weapon: Weapon = null
 var equipped_armor: Armor = null
-
 var combat: PlayerCombatHandler
 var progression: PlayerProgressionHandler
 var effects: PlayerEffectsHandler
