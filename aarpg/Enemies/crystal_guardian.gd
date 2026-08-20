@@ -87,23 +87,8 @@ func _cast_shards() -> void:
 
 
 func _start_charge() -> void:
-	if is_casting:
-		return
-	is_casting = true
-	charge_timer = 0.0
-	current_state = State.ATTACK
-	play_animation("cast")
-	await get_tree().create_timer(0.35).timeout
-	if is_dead:
-		is_casting = false
-		return
-	if chase_target and is_instance_valid(chase_target):
+	if await start_dash(&"charge_timer", charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging"):
 		charge_direction = (chase_target.global_position - global_position).normalized()
-		is_charging = true
-		charge_time = 0.0
-		charge_hit_cd = 0.0
-		play_animation("move")
-		current_state = State.CHASE
 
 
 func _play_phase_effect() -> void:

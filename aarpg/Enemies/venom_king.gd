@@ -81,23 +81,8 @@ func _cast_spit() -> void:
 
 
 func _start_dash() -> void:
-	if is_casting:
-		return
-	is_casting = true
-	dash_timer = 0.0
-	current_state = State.ATTACK
-	play_animation("cast")
-	await get_tree().create_timer(0.35).timeout
-	if is_dead:
-		is_casting = false
-		return
-	if chase_target and is_instance_valid(chase_target):
+	if await start_dash(&"dash_timer", dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing"):
 		dash_direction = (chase_target.global_position - global_position).normalized()
-		is_dashing = true
-		dash_time = 0.0
-		dash_hit_cd = 0.0
-		play_animation("move")
-		current_state = State.CHASE
 
 
 func _play_phase_effect() -> void:

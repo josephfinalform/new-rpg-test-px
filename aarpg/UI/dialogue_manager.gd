@@ -4,6 +4,8 @@ signal dialogue_started(dialogue: Dialogue)
 signal dialogue_finished
 
 const TYPE_SPEED := 0.03
+const SFX_OPEN = preload("res://assets/audio/sfx/lever_01.wav")
+const SFX_CLOSE = preload("res://assets/audio/sfx/lever_02.wav")
 
 var active_dialogue: Dialogue = null
 var _line_index: int = 0
@@ -65,7 +67,7 @@ func open_dialogue(npc: NPC) -> void:
 	panel.visible = true
 	_start_typewriter()
 	get_tree().paused = true
-	AudioManager.play_sfx_from_path("res://assets/audio/sfx/lever_01.wav")
+	AudioManager.play_sfx(SFX_OPEN)
 	dialogue_started.emit(active_dialogue)
 
 
@@ -115,5 +117,5 @@ func _close_dialogue() -> void:
 	panel.visible = false
 	if _resume_after_close:
 		get_tree().paused = false
-	AudioManager.play_sfx_from_path("res://assets/audio/sfx/lever_02.wav")
+	AudioManager.play_sfx(SFX_CLOSE)
 	dialogue_finished.emit()

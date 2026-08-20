@@ -15,13 +15,14 @@ extends Node2D
 var _spawn_entries: Array[Dictionary] = []
 var _respawn_queue: Array[Dictionary] = []
 var _boss_respawn_banner: CanvasLayer = null
+var _player: Player = null
 
 
 func _ready() -> void:
-	var player := _get_player()
-	if player:
-		player.died.connect(_on_player_died)
-		player.global_position = player_spawn
+	_player = _find_player()
+	if _player:
+		_player.died.connect(_on_player_died)
+		_player.global_position = player_spawn
 	if not boss.is_empty():
 		var boss_node := get_node_or_null(boss)
 		if boss_node:
@@ -30,9 +31,10 @@ func _ready() -> void:
 		_setup_grind_level()
 	_apply_difficulty_scaling()
 	if is_final_level:
-		_show_boss_banner()
+		_show_banner("BOSS", Color(1, 0.3, 0.3), 28, 1.2, 0.5)
+		_show_boss_banner_text()
 	elif is_grind_level:
-		_show_grind_banner()
+		_show_banner("EXP GRIND ARENA", Color(0.6, 0.9, 1.0), 26, 1.2, 0.5)
 
 
 func _process(delta: float) -> void:
@@ -72,7 +74,7 @@ func _on_enemy_died(entry: Dictionary) -> void:
 	entry["time_left"] = delay
 	_respawn_queue.append(entry)
 	if entry["is_boss"]:
-		_show_boss_respawn_banner(delay)
+		_show_respawn_banner(delay)
 
 
 func _respawn_entry(entry: Dictionary) -> void:
@@ -111,28 +113,35 @@ func _apply_difficulty_scaling() -> void:
 			enemy.apply_level_scaling(index)
 
 
-func _show_grind_banner() -> void:
+func _show_banner(text: String, color: Color, font_size: int = 28, hold_time: float = 1.2, fade_in: float = 0.5) -> void:
 	var overlay := CanvasLayer.new()
 	overlay.layer = 10
 	add_child(overlay)
 	var label := Label.new()
-	label.text = "EXP GRIND ARENA"
-	label.add_theme_font_size_override("font_size", 26)
-	label.add_theme_color_override("font_color", Color(0.6, 0.9, 1.0))
+	label.text = text
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	label.modulate.a = 0.0
 	overlay.add_child(label)
 	var tween := label.create_tween()
-	tween.tween_property(label, "modulate:a", 1.0, 0.5)
-	tween.tween_interval(1.2)
+	tween.tween_property(label, "modulate:a", 1.0, fade_in)
+	tween.tween_interval(hold_time)
 	tween.tween_property(label, "modulate:a", 0.0, 0.5)
 	await tween.finished
 	overlay.queue_free()
 
 
-func _show_boss_respawn_banner(delay: float) -> void:
+func _show_boss_banner_text() -> void:
+	if not boss.is_empty():
+		var boss_node := get_node_or_null(boss)
+		if boss_node and boss_node.has_method("get_boss_name"):
+			_show_banner(boss_node.get_boss_name(), Color(1, 0.3, 0.3), 28, 1.2, 0.5)
+
+
+func _show_respawn_banner(delay: float) -> void:
 	if _boss_respawn_banner and is_instance_valid(_boss_respawn_banner):
 		_boss_respawn_banner.queue_free()
 	_boss_respawn_banner = CanvasLayer.new()
@@ -157,36 +166,27 @@ func _fade_out_respawn_banner() -> void:
 		_boss_respawn_banner = null
 
 
-func _show_boss_banner() -> void:
+func _show_gate_opened_banner() -> void:
+	_show_banner("THE GATE IS OPEN!", Color(0.6, 1.0, 0.6), 22, 1.5, 0.4)
+
+
+func _show_victory() -> void:
 	var overlay := CanvasLayer.new()
 	overlay.layer = 10
 	add_child(overlay)
 	var label := Label.new()
-	label.text = _get_boss_banner_text()
-	label.add_theme_font_size_override("font_size", 28)
-	label.add_theme_color_override("font_color", Color(1, 0.3, 0.3))
+	label.text = "VICTORY!"
+	label.add_theme_font_size_override("font_size", 36)
+	label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.0))
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	label.modulate.a = 0.0
 	overlay.add_child(label)
-	var tween := label.create_tween()
-	tween.tween_property(label, "modulate:a", 1.0, 0.5)
-	tween.tween_interval(1.2)
-	tween.tween_property(label, "modulate:a", 0.0, 0.5)
-	await tween.finished
-	overlay.queue_free()
+	await get_tree().create_timer(3.0).timeout
+	GameManager.start_game()
 
 
-func _get_boss_banner_text() -> String:
-	if not boss.is_empty():
-		var boss_node := get_node_or_null(boss)
-		if boss_node and boss_node.has_method("get_boss_name"):
-			return boss_node.get_boss_name()
-	return "BOSS"
-
-
-func _get_player() -> Player:
+func _find_player() -> Player:
 	var players := get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		return players[0] as Player
@@ -206,41 +206,3 @@ func _on_boss_died() -> void:
 		if portal_node and portal_node.has_method("unlock"):
 			portal_node.unlock()
 			_show_gate_opened_banner()
-
-
-func _show_victory() -> void:
-	var overlay := CanvasLayer.new()
-	overlay.layer = 10
-	add_child(overlay)
-	var label := Label.new()
-	label.text = "VICTORY!"
-	label.add_theme_font_size_override("font_size", 36)
-	label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.0))
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.add_child(label)
-	await get_tree().create_timer(3.0).timeout
-	GameManager.start_game()
-
-
-func _show_gate_opened_banner() -> void:
-	var overlay := CanvasLayer.new()
-	overlay.layer = 10
-	add_child(overlay)
-	var label := Label.new()
-	label.text = "THE GATE IS OPEN!"
-	label.add_theme_font_size_override("font_size", 22)
-	label.add_theme_color_override("font_color", Color(0.6, 1.0, 0.6))
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	label.offset_bottom = -40
-	label.modulate.a = 0.0
-	overlay.add_child(label)
-	var tween := label.create_tween()
-	tween.tween_property(label, "modulate:a", 1.0, 0.4)
-	tween.tween_interval(1.5)
-	tween.tween_property(label, "modulate:a", 0.0, 0.5)
-	await tween.finished
-	overlay.queue_free()

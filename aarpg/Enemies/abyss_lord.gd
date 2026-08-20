@@ -86,23 +86,8 @@ func _cast_void_beam() -> void:
 
 
 func _start_shadow_step() -> void:
-	if is_casting:
-		return
-	is_casting = true
-	step_timer = 0.0
-	current_state = State.ATTACK
-	play_animation("cast")
-	await get_tree().create_timer(0.25).timeout
-	if is_dead:
-		is_casting = false
-		return
-	if chase_target and is_instance_valid(chase_target):
+	if await start_dash(&"step_timer", step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping"):
 		step_direction = (chase_target.global_position - global_position).normalized()
-		is_stepping = true
-		step_time = 0.0
-		step_hit_cd = 0.0
-		play_animation("move")
-		current_state = State.CHASE
 
 
 func _play_phase_effect() -> void:

@@ -228,3 +228,23 @@ func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Co
 		projectile.projectile_tint = tint
 		projectile.scale = proj_scale
 		get_parent().add_child(projectile)
+
+
+func start_dash(attack_timer_ref: StringName, speed: float, duration: float, damage: int, hit_cd_ref: StringName, time_ref: StringName, active_ref: StringName, attack_anim: String = "cast") -> bool:
+	if is_casting:
+		return false
+	is_casting = true
+	set(attack_timer_ref, 0.0)
+	current_state = State.ATTACK
+	play_animation(attack_anim)
+	await get_tree().create_timer(0.3).timeout
+	if is_dead:
+		is_casting = false
+		return false
+	if chase_target and is_instance_valid(chase_target):
+		set(active_ref, true)
+		set(time_ref, 0.0)
+		set(hit_cd_ref, 0.0)
+		play_animation("move")
+		current_state = State.CHASE
+	return true

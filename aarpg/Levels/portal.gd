@@ -1,6 +1,9 @@
 class_name Portal
 extends Area2D
 
+const SFX_UNLOCK = preload("res://assets/audio/sfx/lever_02.wav")
+const SFX_LOCKED = preload("res://assets/audio/sfx/locked_door.wav")
+
 @export var target_level_index: int = 1
 @export var locked: bool = false
 
@@ -21,7 +24,7 @@ func unlock() -> void:
 	locked = false
 	is_open = true
 	_apply_visual_state()
-	AudioManager.play_sfx_from_path("res://assets/audio/sfx/lever_02.wav")
+	AudioManager.play_sfx(SFX_UNLOCK)
 
 
 func _apply_visual_state() -> void:
@@ -35,7 +38,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if not body is Player:
 		return
 	if not is_open:
-		AudioManager.play_sfx_from_path("res://assets/audio/sfx/locked_door.wav")
+		AudioManager.play_sfx(SFX_LOCKED)
 		return
-	AudioManager.play_sfx_from_path("res://assets/audio/sfx/lever_02.wav")
+	AudioManager.play_sfx(SFX_UNLOCK)
 	GameManager.load_level(target_level_index)
