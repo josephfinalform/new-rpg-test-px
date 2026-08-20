@@ -3,54 +3,42 @@ extends BossEnemy
 
 enum SpecialAttack { SHARD, SUMMON, CHARGE }
 
-const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
-const MINION_SCENE = preload("res://aarpg/Enemies/crystal_slime.tscn")
-const BOSS_NAME := "CRYSTAL GUARDIAN"
-
 @export_group("Crystal Guardian Attacks")
 @export var shard_cooldown: float = 2.0
-@export var summon_cooldown: float = 10.0
 @export var charge_cooldown: float = 5.5
 @export var shard_speed: float = 115.0
 @export var shard_count: int = 3
 @export var charge_speed: float = 240.0
 @export var charge_duration: float = 0.55
 @export var charge_damage: int = 2
-@export var minion_count: int = 2
 
 var shard_timer: float = 0.0
-var summon_timer: float = 0.0
 var charge_timer: float = 0.0
-var is_casting: bool = false
 var is_charging: bool = false
 var charge_direction: Vector2 = Vector2.ZERO
 var charge_time: float = 0.0
 var charge_hit_cd: float = 0.0
-var base_sprite_scale: Vector2 = Vector2(2.2, 2.2)
 
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
 
 func _ready() -> void:
-	super()
+	boss_name = "CRYSTAL GUARDIAN"
 	max_health = 34
-	health = max_health
-	move_speed = 40.0
-	damage = 2
 	xp_reward = 32
 	bonus_xp_reward = 90
 	attack_range = 26.0
-	phase_health_thresholds = [0.66, 0.33]
-	sprite.self_modulate = Color(0.5, 0.88, 1.0)
+	boss_tint = Color(0.5, 0.88, 1.0)
+	base_sprite_scale = Vector2(2.2, 2.2)
+	minion_scene = preload("res://aarpg/Enemies/crystal_slime.tscn")
+	minion_tint = Color(0.5, 0.9, 1.0)
+	sprite.self_modulate = boss_tint
 	sprite.scale = base_sprite_scale
 	if boss_health_bar:
 		boss_health_bar.max_value = max_health
 		boss_health_bar.value = health
-		boss_health_bar.modulate = Color(0.5, 0.88, 1.0)
-
-
-func get_boss_name() -> String:
-	return BOSS_NAME
+		boss_health_bar.modulate = boss_tint
+	super()
 
 
 func _physics_process(delta: float) -> void:
@@ -73,21 +61,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _process_charge(delta: float) -> void:
-	charge_time += delta
-	charge_hit_cd = max(0.0, charge_hit_cd - delta)
-	velocity = charge_direction * charge_speed
-	move_and_slide()
-	if charge_hit_cd <= 0.0 and chase_target and is_instance_valid(chase_target):
-		if global_position.distance_to(chase_target.global_position) < 24.0:
-			chase_target.take_damage(charge_damage, global_position)
-			charge_hit_cd = 0.4
-	if charge_time >= charge_duration:
-		is_charging = false
-		play_animation("move")
-		if chase_target and is_instance_valid(chase_target):
-			current_state = State.CHASE
-		else:
-			current_state = State.IDLE
+	process_dash(delta, charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging", charge_direction)
 
 
 func _evaluate_special_attacks() -> void:
@@ -95,7 +69,7 @@ func _evaluate_special_attacks() -> void:
 		return
 	var dist = global_position.distance_to(chase_target.global_position)
 	if current_phase >= 1 and summon_timer >= summon_cooldown and dist < 160:
-		_summon_minions()
+		summon_minions()
 		return
 	if charge_timer >= charge_cooldown and dist < 110 and dist > 45:
 		_start_charge()
@@ -106,35 +80,10 @@ func _evaluate_special_attacks() -> void:
 
 
 func _cast_shards() -> void:
-	if is_casting:
+	if not await _begin_cast(&"shard_timer", shard_cooldown):
 		return
-	is_casting = true
-	shard_timer = 0.0
-	current_state = State.ATTACK
-	play_animation("cast")
-	await get_tree().create_timer(0.3).timeout
-	if is_dead:
-		is_casting = false
-		return
-	if chase_target and is_instance_valid(chase_target):
-		var dir: Vector2 = (chase_target.global_position - global_position).normalized()
-		var base_angle := dir.angle()
-		for i in range(shard_count):
-			var angle := base_angle + deg_to_rad((i - (shard_count - 1) / 2.0) * 14.0)
-			var projectile := PROJECTILE_SCENE.instantiate()
-			projectile.global_position = spawn_marker.global_position if spawn_marker else global_position
-			projectile.direction = Vector2.from_angle(angle)
-			projectile.speed = shard_speed
-			projectile.damage = damage
-			projectile.projectile_tint = Color(0.5, 0.9, 1.0)
-			projectile.scale = Vector2(1.2, 1.2)
-			get_parent().add_child(projectile)
-	play_animation("move")
-	is_casting = false
-	if chase_target and is_instance_valid(chase_target):
-		current_state = State.CHASE
-	else:
-		current_state = State.IDLE
+	shoot_fan_projectiles(shard_count, shard_speed, 14.0, Color(0.5, 0.9, 1.0), Vector2(1.2, 1.2), spawn_marker)
+	_end_cast()
 
 
 func _start_charge() -> void:
@@ -157,37 +106,8 @@ func _start_charge() -> void:
 		current_state = State.CHASE
 
 
-func _summon_minions() -> void:
-	if is_casting:
-		return
-	is_casting = true
-	summon_timer = 0.0
-	current_state = State.ATTACK
-	play_animation("cast")
-	await get_tree().create_timer(0.5).timeout
-	if is_dead:
-		is_casting = false
-		return
-	for i in range(minion_count):
-		var slime = MINION_SCENE.instantiate()
-		var offset = Vector2(randf_range(-40, 40), randf_range(-40, 40))
-		get_parent().add_child(slime)
-		slime.global_position = global_position + offset
-		slime.sprite.self_modulate = Color(0.5, 0.9, 1.0)
-	play_animation("move")
-	is_casting = false
-	if chase_target and is_instance_valid(chase_target):
-		current_state = State.CHASE
-	else:
-		current_state = State.IDLE
-
-
 func _play_phase_effect() -> void:
 	super()
-	sprite.modulate = Color(0.7, 0.95, 1.0)
-	var tween = create_tween()
-	tween.tween_property(sprite, "scale", base_sprite_scale * 1.5, 0.25).set_trans(Tween.TRANS_ELASTIC)
-	tween.tween_property(sprite, "scale", base_sprite_scale, 0.3).set_trans(Tween.TRANS_BACK)
 	if current_phase == 1:
 		shard_cooldown = max(1.0, shard_cooldown * 0.8)
 		charge_cooldown = max(3.0, charge_cooldown * 0.8)
@@ -200,9 +120,7 @@ func _play_phase_effect() -> void:
 func _apply_phase_scaling() -> void:
 	super()
 	if current_phase >= 1:
-		minion_count = 2
 		shard_count = 4
 	if current_phase >= 2:
-		minion_count = 3
 		shard_count = 5
 		charge_damage = 3
