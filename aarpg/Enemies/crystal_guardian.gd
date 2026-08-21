@@ -32,31 +32,17 @@ func _ready() -> void:
 	base_sprite_scale = Vector2(2.2, 2.2)
 	minion_scene = preload("res://aarpg/Enemies/crystal_slime.tscn")
 	minion_tint = Color(0.5, 0.9, 1.0)
-	sprite.self_modulate = boss_tint
-	sprite.scale = base_sprite_scale
 	if boss_health_bar:
-		boss_health_bar.max_value = max_health
-		boss_health_bar.value = health
 		boss_health_bar.modulate = boss_tint
 	super()
 
 
 func _physics_process(delta: float) -> void:
-	if is_dead or is_transitioning:
-		return
-	if is_casting:
-		velocity = Vector2.ZERO
-		base_velocity = Vector2.ZERO
-		move_and_slide()
-		return
 	if is_charging:
 		_process_charge(delta)
 		return
 	shard_timer += delta
-	summon_timer += delta
 	charge_timer += delta
-	if current_state == State.CHASE or current_state == State.ATTACK:
-		_evaluate_special_attacks()
 	super(delta)
 
 
@@ -72,7 +58,7 @@ func _evaluate_special_attacks() -> void:
 		summon_minions()
 		return
 	if charge_timer >= charge_cooldown and dist < 110 and dist > 45:
-		_start_charge()
+		begin_chase_dash(&"charge_direction", &"charge_timer", charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging")
 		return
 	if shard_timer >= shard_cooldown and dist < 160:
 		_cast_shards()
@@ -84,11 +70,6 @@ func _cast_shards() -> void:
 		return
 	shoot_fan_projectiles(shard_count, shard_speed, 14.0, Color(0.5, 0.9, 1.0), Vector2(1.2, 1.2), spawn_marker)
 	_end_cast()
-
-
-func _start_charge() -> void:
-	if await start_dash(&"charge_timer", charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging"):
-		charge_direction = (chase_target.global_position - global_position).normalized()
 
 
 func _play_phase_effect() -> void:

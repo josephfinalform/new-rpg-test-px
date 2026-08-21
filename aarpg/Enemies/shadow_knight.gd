@@ -34,19 +34,10 @@ func _ready() -> void:
 	minion_scene = preload("res://aarpg/Enemies/bat.tscn")
 	minion_tint = Color(0.28, 0.18, 0.5)
 	minion_spawn_radius = 50.0
-	sprite.self_modulate = boss_tint
-	sprite.scale = base_sprite_scale
 	super()
 
 
 func _physics_process(delta: float) -> void:
-	if is_dead or is_transitioning:
-		return
-	if is_casting:
-		velocity = Vector2.ZERO
-		base_velocity = Vector2.ZERO
-		move_and_slide()
-		return
 	if is_dashing:
 		process_dash(delta, dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing", dash_direction, 26.0, 0.35)
 		return
@@ -55,9 +46,6 @@ func _physics_process(delta: float) -> void:
 		return
 	dash_timer += delta
 	whirlwind_timer += delta
-	summon_timer += delta
-	if current_state == State.CHASE or current_state == State.ATTACK:
-		_evaluate_special_attacks()
 	super(delta)
 
 
@@ -94,13 +82,8 @@ func _evaluate_special_attacks() -> void:
 		_start_whirlwind()
 		return
 	if dash_timer >= dash_cooldown and dist < 110 and dist > 45:
-		_start_dash()
+		begin_chase_dash(&"dash_direction", &"dash_timer", dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing")
 		return
-
-
-func _start_dash() -> void:
-	if await start_dash(&"dash_timer", dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing"):
-		dash_direction = (chase_target.global_position - global_position).normalized()
 
 
 func _start_whirlwind() -> void:

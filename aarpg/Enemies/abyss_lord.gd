@@ -31,31 +31,17 @@ func _ready() -> void:
 	minion_scene = preload("res://aarpg/Enemies/abyssal_wraith.tscn")
 	minion_tint = Color(0.55, 0.1, 0.7)
 	minion_spawn_radius = 45.0
-	sprite.self_modulate = boss_tint
-	sprite.scale = base_sprite_scale
 	if boss_health_bar:
-		boss_health_bar.max_value = max_health
-		boss_health_bar.value = health
 		boss_health_bar.modulate = boss_tint
 	super()
 
 
 func _physics_process(delta: float) -> void:
-	if is_dead or is_transitioning:
-		return
-	if is_casting:
-		velocity = Vector2.ZERO
-		base_velocity = Vector2.ZERO
-		move_and_slide()
-		return
 	if is_stepping:
 		_process_step(delta)
 		return
 	beam_timer += delta
 	step_timer += delta
-	summon_timer += delta
-	if current_state == State.CHASE or current_state == State.ATTACK:
-		_evaluate_special_attacks()
 	super(delta)
 
 
@@ -71,7 +57,7 @@ func _evaluate_special_attacks() -> void:
 		summon_minions()
 		return
 	if step_timer >= step_cooldown and dist < 120 and dist > 40:
-		_start_shadow_step()
+		begin_chase_dash(&"step_direction", &"step_timer", step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping")
 		return
 	if beam_timer >= beam_cooldown and dist < 160:
 		_cast_void_beam()
@@ -83,11 +69,6 @@ func _cast_void_beam() -> void:
 		return
 	shoot_fan_projectiles(beam_count, beam_speed, 12.0, Color(0.55, 0.1, 0.7), Vector2(1.3, 1.3))
 	_end_cast()
-
-
-func _start_shadow_step() -> void:
-	if await start_dash(&"step_timer", step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping"):
-		step_direction = (chase_target.global_position - global_position).normalized()
 
 
 func _play_phase_effect() -> void:

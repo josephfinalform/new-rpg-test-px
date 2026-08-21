@@ -18,7 +18,6 @@ var charge_direction: Vector2 = Vector2.ZERO
 var charge_time: float = 0.0
 var charge_hit_cd: float = 0.0
 
-@onready var hand_sprite: Sprite2D = $Hand
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
 
@@ -32,29 +31,17 @@ func _ready() -> void:
 	base_sprite_scale = Vector2(1.4, 1.4)
 	minion_scene = preload("res://aarpg/Enemies/slime.tscn")
 	minion_tint = Color(0.55, 0.8, 1.0)
-	sprite.self_modulate = boss_tint
-	sprite.scale = base_sprite_scale
 	if boss_health_bar:
 		boss_health_bar.modulate = boss_tint
 	super()
 
 
 func _physics_process(delta: float) -> void:
-	if is_dead or is_transitioning:
-		return
-	if is_casting:
-		velocity = Vector2.ZERO
-		base_velocity = Vector2.ZERO
-		move_and_slide()
-		return
 	if is_charging:
 		_process_charge(delta)
 		return
 	iceball_timer += delta
 	charge_timer += delta
-	summon_timer += delta
-	if current_state == State.CHASE or current_state == State.ATTACK:
-		_evaluate_special_attacks()
 	super(delta)
 
 
@@ -70,7 +57,7 @@ func _evaluate_special_attacks() -> void:
 		summon_minions()
 		return
 	if charge_timer >= charge_cooldown and dist < 100 and dist > 40:
-		_start_charge()
+		begin_chase_dash(&"charge_direction", &"charge_timer", charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging")
 		return
 	if iceball_timer >= iceball_cooldown and dist < 150:
 		_cast_iceball()
@@ -82,7 +69,7 @@ func _cast_iceball() -> void:
 		return
 	if chase_target and is_instance_valid(chase_target):
 		var dir = (chase_target.global_position - global_position).normalized()
-		var fireball = preload("res://aarpg/Enemies/boss_projectile.tscn").instantiate()
+		var fireball = PROJECTILE_SCENE.instantiate()
 		fireball.global_position = spawn_marker.global_position if spawn_marker else global_position
 		fireball.direction = dir
 		fireball.speed = iceball_speed
@@ -91,11 +78,6 @@ func _cast_iceball() -> void:
 		fireball.scale = Vector2(1.3, 1.3)
 		get_parent().add_child(fireball)
 	_end_cast()
-
-
-func _start_charge() -> void:
-	if await start_dash(&"charge_timer", charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging"):
-		charge_direction = (chase_target.global_position - global_position).normalized()
 
 
 func _play_phase_effect() -> void:

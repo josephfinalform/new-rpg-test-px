@@ -17,7 +17,6 @@ var beam_timer: float = 0.0
 var beam_target: Vector2 = Vector2.ZERO
 var beam_active: bool = false
 
-@onready var hand_sprite: Sprite2D = $Hand
 @onready var beam_area: Area2D = $BeamArea
 @onready var beam_collision: CollisionShape2D = $BeamArea/BeamCollision
 @onready var beam_sprite: Sprite2D = $BeamSprite
@@ -42,19 +41,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if is_dead or is_transitioning:
-		return
-	if is_casting:
-		velocity = Vector2.ZERO
-		base_velocity = Vector2.ZERO
-		move_and_slide()
-		return
 	fireball_timer += delta
 	teleport_timer += delta
 	beam_timer += delta
-	summon_timer += delta
-	if current_state == State.CHASE or current_state == State.ATTACK:
-		_evaluate_special_attacks()
 	super(delta)
 
 
@@ -81,7 +70,7 @@ func _cast_fireball() -> void:
 		return
 	if chase_target and is_instance_valid(chase_target):
 		var dir = (chase_target.global_position - global_position).normalized()
-		var fireball = preload("res://aarpg/Enemies/boss_projectile.tscn").instantiate()
+		var fireball = PROJECTILE_SCENE.instantiate()
 		fireball.global_position = spawn_marker.global_position if spawn_marker else global_position
 		fireball.direction = dir
 		fireball.speed = fireball_speed

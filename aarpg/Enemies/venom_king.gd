@@ -32,29 +32,17 @@ func _ready() -> void:
 	base_sprite_scale = Vector2(2.0, 2.0)
 	minion_scene = preload("res://aarpg/Enemies/venom_slime.tscn")
 	minion_tint = Color(0.45, 0.8, 0.4)
-	sprite.self_modulate = boss_tint
-	sprite.scale = base_sprite_scale
 	if boss_health_bar:
 		boss_health_bar.modulate = boss_tint
 	super()
 
 
 func _physics_process(delta: float) -> void:
-	if is_dead or is_transitioning:
-		return
-	if is_casting:
-		velocity = Vector2.ZERO
-		base_velocity = Vector2.ZERO
-		move_and_slide()
-		return
 	if is_dashing:
 		process_dash(delta, dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing", dash_direction)
 		return
 	spit_timer += delta
-	summon_timer += delta
 	dash_timer += delta
-	if current_state == State.CHASE or current_state == State.ATTACK:
-		_evaluate_special_attacks()
 	super(delta)
 
 
@@ -66,7 +54,7 @@ func _evaluate_special_attacks() -> void:
 		summon_minions()
 		return
 	if dash_timer >= dash_cooldown and dist < 110 and dist > 45:
-		_start_dash()
+		begin_chase_dash(&"dash_direction", &"dash_timer", dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing")
 		return
 	if spit_timer >= spit_cooldown and dist < 150:
 		_cast_spit()
@@ -78,11 +66,6 @@ func _cast_spit() -> void:
 		return
 	shoot_fan_projectiles(spit_count, spit_speed, 12.0, Color(0.45, 0.85, 0.4), Vector2(1.1, 1.1), spawn_marker)
 	_end_cast()
-
-
-func _start_dash() -> void:
-	if await start_dash(&"dash_timer", dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing"):
-		dash_direction = (chase_target.global_position - global_position).normalized()
 
 
 func _play_phase_effect() -> void:

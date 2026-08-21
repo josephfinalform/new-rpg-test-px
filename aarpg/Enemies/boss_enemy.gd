@@ -3,6 +3,8 @@ extends Enemy
 
 signal phase_changed(new_phase: int)
 
+const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
+
 @export_group("Boss Settings")
 @export var boss_name: String = "BOSS"
 @export var phase_health_thresholds: Array[float] = [0.66, 0.33]
@@ -38,6 +40,27 @@ func _ready() -> void:
 	if boss_health_bar:
 		boss_health_bar.max_value = max_health
 		boss_health_bar.value = health
+	if boss_tint != Color.WHITE:
+		sprite.self_modulate = boss_tint
+	sprite.scale = base_sprite_scale
+
+
+func _physics_process(delta: float) -> void:
+	if is_dead or is_transitioning:
+		return
+	if is_casting:
+		velocity = Vector2.ZERO
+		base_velocity = Vector2.ZERO
+		move_and_slide()
+		return
+	summon_timer += delta
+	if current_state == State.CHASE or current_state == State.ATTACK:
+		_evaluate_special_attacks()
+	super(delta)
+
+
+func _evaluate_special_attacks() -> void:
+	pass
 
 
 func get_boss_name() -> String:
@@ -217,10 +240,9 @@ func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Co
 		return
 	var dir: Vector2 = (chase_target.global_position - global_position).normalized()
 	var base_angle := dir.angle()
-	var proj_scene = preload("res://aarpg/Enemies/boss_projectile.tscn")
 	for i in range(count):
 		var angle := base_angle + deg_to_rad((i - (count - 1) / 2.0) * spread_deg)
-		var projectile := proj_scene.instantiate()
+		var projectile := PROJECTILE_SCENE.instantiate()
 		projectile.global_position = from_marker.global_position if from_marker else global_position
 		projectile.direction = Vector2.from_angle(angle)
 		projectile.speed = speed
@@ -248,3 +270,9 @@ func start_dash(attack_timer_ref: StringName, speed: float, duration: float, dam
 		play_animation("move")
 		current_state = State.CHASE
 	return true
+
+
+func begin_chase_dash(direction_ref: StringName, attack_timer_ref: StringName, speed: float, duration: float, dmg: int, hit_cd_ref: StringName, time_ref: StringName, active_ref: StringName, attack_anim: String = "cast") -> void:
+	if await start_dash(attack_timer_ref, speed, duration, dmg, hit_cd_ref, time_ref, active_ref, attack_anim):
+		if chase_target and is_instance_valid(chase_target):
+			set(direction_ref, (chase_target.global_position - global_position).normalized())
