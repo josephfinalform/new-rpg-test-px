@@ -18,19 +18,19 @@ const DEFAULT_RANKS: Array[Dictionary] = [
 enum PrestigeTree { HP, ATK, SPD }
 
 @export_group("Start Settings")
-@export var starting_level: int = 1
-@export var starting_xp: int = 0
+@export_range(1, 1000) var starting_level: int = 1
+@export_range(0, 1000000) var starting_xp: int = 0
 
 @export_group("Parchment (XP scrolls)")
-@export var parchment_xp: int = 15
+@export_range(0, 100000) var parchment_xp: int = 15
 @export var parchment_xp_multiplier: bool = true
-@export var tome_levels: int = 1
+@export_range(0, 100) var tome_levels: int = 1
 
 @export_group("Level Cap")
-@export var max_level: int = 100
+@export_range(1, 1000) var max_level: int = 100
 
 @export_group("XP Curve Design (5 phases - slower grind)")
-@export var curve_base_xp: int = 12
+@export_range(1, 10000) var curve_base_xp: int = 12
 @export var curve_phases: Array[Dictionary] = [
 	{ "end_level": 15, "growth": 4 },
 	{ "end_level": 35, "growth": 8 },
@@ -41,36 +41,36 @@ enum PrestigeTree { HP, ATK, SPD }
 @export var xp_curve: Array[int] = []
 
 @export_group("Per-Level Bonuses (higher)")
-@export var health_gain_per_level: int = 4
-@export var heal_on_level_up: int = 6
-@export var damage_gain_per_level: int = 2
-@export var move_speed_gain: float = 10.0
-@export var sprint_speed_gain: float = 15.0
+@export_range(0, 100) var health_gain_per_level: int = 4
+@export_range(0, 100) var heal_on_level_up: int = 6
+@export_range(0, 100) var damage_gain_per_level: int = 2
+@export_range(0.0, 500.0) var move_speed_gain: float = 10.0
+@export_range(0.0, 500.0) var sprint_speed_gain: float = 15.0
 
 @export_group("Milestone Bonuses (every N levels)")
-@export var milestone_interval: int = 10
-@export var milestone_damage_bonus: int = 4
-@export var milestone_max_health_bonus: int = 10
-@export var milestone_speed_bonus: float = 20.0
-@export var milestone_bonus_growth: float = 0.5
+@export_range(1, 100) var milestone_interval: int = 10
+@export_range(0, 1000) var milestone_damage_bonus: int = 4
+@export_range(0, 1000) var milestone_max_health_bonus: int = 10
+@export_range(0.0, 1000.0) var milestone_speed_bonus: float = 20.0
+@export_range(0.0, 100.0) var milestone_bonus_growth: float = 0.5
 
 @export_group("Ranks (persona titles)")
 @export var ranks: Array[Dictionary] = DEFAULT_RANKS
 
 @export_group("Prestige System (new: points + escalation)")
-@export var prestige_base_threshold: int = 1000
-@export var prestige_threshold_growth: float = 1.5
-@export var prestige_max_threshold: int = 10000
-@export var prestige_xp_multiplier_per_rank: float = 0.05
-@export var prestige_hp_per_point: int = 5
-@export var prestige_regen_per_point: float = 0.2
-@export var prestige_lifesteal_per_point: float = 0.01
-@export var prestige_atk_per_point: int = 3
-@export var prestige_crit_per_point: float = 0.05
-@export var prestige_crit_damage_per_point: float = 0.10
-@export var prestige_speed_per_point: int = 10
-@export var prestige_dash_reduction_per_point: float = 0.1
-@export var prestige_magnet_per_point: float = 0.15
+@export_range(1, 1000000) var prestige_base_threshold: int = 1000
+@export_range(1.0, 10.0) var prestige_threshold_growth: float = 1.5
+@export_range(1, 10000000) var prestige_max_threshold: int = 10000
+@export_range(0.0, 10.0) var prestige_xp_multiplier_per_rank: float = 0.05
+@export_range(0, 1000) var prestige_hp_per_point: int = 5
+@export_range(0.0, 100.0) var prestige_regen_per_point: float = 0.2
+@export_range(0.0, 1.0) var prestige_lifesteal_per_point: float = 0.01
+@export_range(0, 1000) var prestige_atk_per_point: int = 3
+@export_range(0.0, 1.0) var prestige_crit_per_point: float = 0.05
+@export_range(0.0, 10.0) var prestige_crit_damage_per_point: float = 0.10
+@export_range(0, 1000) var prestige_speed_per_point: int = 10
+@export_range(0.0, 1.0) var prestige_dash_reduction_per_point: float = 0.1
+@export_range(0.0, 10.0) var prestige_magnet_per_point: float = 0.15
 @export var prestige_title_tiers: Array[Dictionary] = [
 	{ "min_prestige": 1, "max_prestige": 2, "stars": "\u2605", "title_suffix": "" },
 	{ "min_prestige": 3, "max_prestige": 5, "stars": "\u2605\u2605", "title_suffix": "" },
@@ -79,9 +79,9 @@ enum PrestigeTree { HP, ATK, SPD }
 ]
 
 @export_group("Combo (kill streak)")
-@export var combo_window_time: float = 3.0
-@export var combo_xp_per_step: float = 0.1
-@export var combo_max_multiplier: float = 3.0
+@export_range(0.1, 60.0) var combo_window_time: float = 3.0
+@export_range(0.0, 10.0) var combo_xp_per_step: float = 0.1
+@export_range(1.0, 100.0) var combo_max_multiplier: float = 3.0
 
 
 func build_xp_curve() -> Array[int]:
