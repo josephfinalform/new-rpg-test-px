@@ -1,8 +1,5 @@
 extends CanvasLayer
 
-signal dialogue_started(dialogue: Dialogue)
-signal dialogue_finished
-
 const TYPE_SPEED := 0.03
 const SFX_OPEN = preload("res://assets/audio/sfx/lever_01.wav")
 const SFX_CLOSE = preload("res://assets/audio/sfx/lever_02.wav")
@@ -68,7 +65,6 @@ func open_dialogue(npc: NPC) -> void:
 	_start_typewriter()
 	get_tree().paused = true
 	AudioManager.play_sfx(SFX_OPEN)
-	dialogue_started.emit(active_dialogue)
 
 
 func _process(delta: float) -> void:
@@ -118,4 +114,3 @@ func _close_dialogue() -> void:
 	if _resume_after_close:
 		get_tree().paused = false
 	AudioManager.play_sfx(SFX_CLOSE)
-	dialogue_finished.emit()

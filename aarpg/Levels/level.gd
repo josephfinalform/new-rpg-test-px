@@ -12,7 +12,6 @@ extends Node2D
 @export var enemy_respawn_delay: float = 6.0
 @export var boss_respawn_delay: float = 25.0
 
-var _spawn_entries: Array[Dictionary] = []
 var _respawn_queue: Array[Dictionary] = []
 var _scene_cache: Dictionary = {}
 var _boss_respawn_banner: CanvasLayer = null
@@ -20,7 +19,7 @@ var _player: Player = null
 
 
 func _ready() -> void:
-	_player = _find_player()
+	_player = Player.find_in_tree(get_tree())
 	if _player:
 		_player.died.connect(_on_player_died)
 		_player.global_position = player_spawn
@@ -63,7 +62,6 @@ func _setup_grind_level() -> void:
 			"is_boss": is_boss,
 			"pending": false,
 		}
-		_spawn_entries.append(entry)
 		enemy.died.connect(_on_enemy_died.bind(entry))
 
 
@@ -82,14 +80,12 @@ func _respawn_entry(entry: Dictionary) -> void:
 	entry["pending"] = false
 	var scene_path: String = entry.get("scene_path", "")
 	if scene_path.is_empty():
-		_spawn_entries.erase(entry)
 		return
 	var scene: PackedScene = _scene_cache.get(scene_path)
 	if scene == null:
 		scene = load(scene_path) as PackedScene
 		_scene_cache[scene_path] = scene
 	if scene == null:
-		_spawn_entries.erase(entry)
 		return
 	var container := get_node_or_null("Enemies")
 	if container == null:
@@ -188,13 +184,6 @@ func _show_victory() -> void:
 	overlay.add_child(label)
 	await get_tree().create_timer(3.0).timeout
 	GameManager.start_game()
-
-
-func _find_player() -> Player:
-	var players := get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		return players[0] as Player
-	return null
 
 
 func _on_player_died() -> void:

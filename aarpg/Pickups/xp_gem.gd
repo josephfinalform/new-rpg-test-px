@@ -21,13 +21,7 @@ func _ready() -> void:
 	var size_scale := 1.0 + 0.04 * float(xp_amount)
 	scale = Vector2(size_scale, size_scale)
 	super._ready()
-	_cache_player()
-
-
-func _cache_player() -> void:
-	var players := get_tree().get_nodes_in_group("player")
-	if not players.is_empty():
-		_target_player = players[0] as Player
+	_target_player = Player.find_in_tree(get_tree())
 
 
 func _process(delta: float) -> void:

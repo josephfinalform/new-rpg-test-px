@@ -64,9 +64,7 @@ var stun_remaining: float = 0.0
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 
 func _cache_player() -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		_cached_player = players[0] as Player
+	_cached_player = Player.find_in_tree(get_tree())
 
 
 func _apply_data(data: EnemyData) -> void:

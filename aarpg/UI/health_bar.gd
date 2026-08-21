@@ -22,7 +22,7 @@ var _combo_tween: Tween = null
 var _player: Player = null
 
 func _ready() -> void:
-	_player = _find_player()
+	_player = Player.find_in_tree(get_tree())
 	if _player:
 		_player.health_changed.connect(_on_health_changed)
 		_player.xp_changed.connect(_on_xp_changed)
@@ -50,10 +50,6 @@ func _ready() -> void:
 	GameManager.combo_lost.connect(_on_combo_lost)
 	SeasonManager.season_changed.connect(_on_season_changed)
 	_on_season_changed(SeasonManager.current_season)
-
-func _find_player() -> Player:
-	var players = get_tree().get_nodes_in_group("player")
-	return players[0] as Player if players.size() > 0 else null
 
 func _on_level_changed(index: int) -> void:
 	if level_name_label:
@@ -182,7 +178,7 @@ func _update_rank(new_level: int) -> void:
 	rank_label.text = title
 	rank_label.add_theme_color_override("font_color", _player.get_rank_color())
 
-func _on_prestige_points_changed(total_points: int, tree_hp: int, tree_atk: int, tree_spd: int) -> void:
+func _on_prestige_points_changed(_total_points: int, _tree_hp: int, _tree_atk: int, _tree_spd: int) -> void:
 	if _player == null:
 		return
 	_update_prestige_label(_player.xp_progression)

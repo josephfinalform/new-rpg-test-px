@@ -28,8 +28,11 @@ func _exit_tree() -> void:
 
 
 func _process(_delta: float) -> void:
-	if prompt_label:
-		prompt_label.visible = player_in_range and DialogueManager.active_dialogue == null
+	if prompt_label == null:
+		return
+	var should_show := player_in_range and DialogueManager.active_dialogue == null
+	if prompt_label.visible != should_show:
+		prompt_label.visible = should_show
 
 
 func _draw() -> void:

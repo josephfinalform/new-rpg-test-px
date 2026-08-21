@@ -12,6 +12,12 @@ signal gear_up_applied(gear_up: GearUp)
 
 const DEFAULT_WEAPON = preload("res://aarpg/config/weapons/iron_sword.tres")
 
+
+static func find_in_tree(tree: SceneTree) -> Player:
+	var players := tree.get_nodes_in_group("player")
+	return players[0] as Player if not players.is_empty() else null
+
+
 @export var move_speed: float = 100.0
 @export var sprint_speed: float = 180.0
 @export var max_health: int = 6

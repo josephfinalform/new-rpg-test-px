@@ -1,8 +1,6 @@
 class_name BossEnemy
 extends Enemy
 
-signal phase_changed(new_phase: int)
-
 const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
 
 @export_group("Boss Settings")
@@ -92,7 +90,6 @@ func _start_phase_transition() -> void:
 	is_transitioning = true
 	is_invincible = true
 	current_state = State.HURT
-	phase_changed.emit(current_phase)
 	_play_phase_effect()
 	await get_tree().create_timer(phase_transition_time).timeout
 	_apply_phase_scaling()
