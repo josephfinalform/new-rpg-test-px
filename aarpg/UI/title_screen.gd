@@ -1,6 +1,7 @@
 extends Node2D
 
 const MENU_MUSIC = preload("res://assets/audio/music/dungeon_discovery.wav")
+const SFX_START = preload("res://assets/audio/sfx/lever_01.wav")
 
 @onready var title_label: Label = $CanvasLayer2/CenterContainer/VBoxContainer/TitleLabel
 @onready var subtitle_label: Label = $CanvasLayer2/CenterContainer/VBoxContainer/SubtitleLabel
@@ -37,7 +38,7 @@ func _on_start_button_pressed() -> void:
 func _start_game() -> void:
 	if not GameManager:
 		return
-	AudioManager.play_sfx_from_path("res://assets/audio/sfx/lever_01.wav")
+	AudioManager.play_sfx(SFX_START)
 	GameManager.start_game()
 
 

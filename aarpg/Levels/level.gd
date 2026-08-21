@@ -14,6 +14,7 @@ extends Node2D
 
 var _spawn_entries: Array[Dictionary] = []
 var _respawn_queue: Array[Dictionary] = []
+var _scene_cache: Dictionary = {}
 var _boss_respawn_banner: CanvasLayer = null
 var _player: Player = null
 
@@ -83,7 +84,10 @@ func _respawn_entry(entry: Dictionary) -> void:
 	if scene_path.is_empty():
 		_spawn_entries.erase(entry)
 		return
-	var scene := load(scene_path) as PackedScene
+	var scene: PackedScene = _scene_cache.get(scene_path)
+	if scene == null:
+		scene = load(scene_path) as PackedScene
+		_scene_cache[scene_path] = scene
 	if scene == null:
 		_spawn_entries.erase(entry)
 		return

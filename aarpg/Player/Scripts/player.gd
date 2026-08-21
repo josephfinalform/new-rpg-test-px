@@ -10,6 +10,8 @@ signal weapon_changed(weapon: Weapon)
 signal armor_changed(armor: Armor)
 signal gear_up_applied(gear_up: GearUp)
 
+const DEFAULT_WEAPON = preload("res://aarpg/config/weapons/iron_sword.tres")
+
 @export var move_speed: float = 100.0
 @export var sprint_speed: float = 180.0
 @export var max_health: int = 6
@@ -63,7 +65,7 @@ var prestige_xp: int:
 	get:
 		return xp_progression.prestige_xp if xp_progression else 0
 
-var level_config: LevelConfig = load("res://aarpg/config/level_config.tres") as LevelConfig
+var level_config: LevelConfig = GameManager.LEVEL_CONFIG
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -105,8 +107,7 @@ func _ready() -> void:
 	base_sprint_speed = sprint_speed
 	combat.base_attack_damage = attack_damage
 	combat.base_attack_cooldown = attack_cooldown
-	var default_weapon := load("res://aarpg/config/weapons/iron_sword.tres") as Weapon
-	equipped_weapon = GameManager.equipped_weapon if GameManager.equipped_weapon != null else default_weapon
+	equipped_weapon = GameManager.equipped_weapon if GameManager.equipped_weapon != null else DEFAULT_WEAPON
 	combat.equip_weapon(equipped_weapon)
 	if equipped_armor == null:
 		equipped_armor = GameManager.equipped_armor

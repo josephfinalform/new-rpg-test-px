@@ -4,8 +4,6 @@ var sfx_players: Array[AudioStreamPlayer] = []
 var music_player: AudioStreamPlayer = null
 const SFX_POOL_SIZE: int = 8
 
-var _sfx_cache: Dictionary = {}
-
 func _ready() -> void:
 	for i in SFX_POOL_SIZE:
 		var player = AudioStreamPlayer.new()
@@ -28,11 +26,6 @@ func play_sfx(stream: AudioStream, volume_db: float = 0.0) -> void:
 	sfx_players[0].stream = stream
 	sfx_players[0].volume_db = volume_db
 	sfx_players[0].play()
-
-func play_sfx_from_path(path: String, volume_db: float = 0.0) -> void:
-	if not _sfx_cache.has(path):
-		_sfx_cache[path] = load(path) as AudioStream
-	play_sfx(_sfx_cache[path], volume_db)
 
 var _music_tween: Tween = null
 
