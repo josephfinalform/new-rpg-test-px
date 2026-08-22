@@ -113,7 +113,7 @@ func _apply_difficulty_scaling() -> void:
 			enemy.apply_level_scaling(index)
 
 
-func _show_banner(text: String, color: Color, font_size: int = 28, hold_time: float = 1.2, fade_in: float = 0.5) -> void:
+func _create_overlay_label(text: String, color: Color, font_size: int, v_align: int = VERTICAL_ALIGNMENT_CENTER, bottom_offset: float = 0.0) -> Label:
 	var overlay := CanvasLayer.new()
 	overlay.layer = 10
 	add_child(overlay)
@@ -122,16 +122,23 @@ func _show_banner(text: String, color: Color, font_size: int = 28, hold_time: fl
 	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", color)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.vertical_alignment = v_align
 	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	label.modulate.a = 0.0
+	if bottom_offset != 0.0:
+		label.offset_bottom = bottom_offset
 	overlay.add_child(label)
+	return label
+
+
+func _show_banner(text: String, color: Color, font_size: int = 28, hold_time: float = 1.2, fade_in: float = 0.5) -> void:
+	var label := _create_overlay_label(text, color, font_size)
+	label.modulate.a = 0.0
 	var tween := label.create_tween()
 	tween.tween_property(label, "modulate:a", 1.0, fade_in)
 	tween.tween_interval(hold_time)
 	tween.tween_property(label, "modulate:a", 0.0, 0.5)
 	await tween.finished
-	overlay.queue_free()
+	label.get_parent().queue_free()
 
 
 func _show_boss_banner_text() -> void:
@@ -144,18 +151,11 @@ func _show_boss_banner_text() -> void:
 func _show_respawn_banner(delay: float) -> void:
 	if _boss_respawn_banner and is_instance_valid(_boss_respawn_banner):
 		_boss_respawn_banner.queue_free()
-	_boss_respawn_banner = CanvasLayer.new()
-	_boss_respawn_banner.layer = 10
-	add_child(_boss_respawn_banner)
-	var label := Label.new()
-	label.text = "BOSS SLAIN - RESPAWNING IN %d s" % int(delay)
-	label.add_theme_font_size_override("font_size", 20)
-	label.add_theme_color_override("font_color", Color(1.0, 0.7, 0.3))
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	label.offset_bottom = -50
-	_boss_respawn_banner.add_child(label)
+	var label := _create_overlay_label(
+		"BOSS SLAIN - RESPAWNING IN %d s" % int(delay),
+		Color(1.0, 0.7, 0.3), 20, VERTICAL_ALIGNMENT_BOTTOM, -50.0
+	)
+	_boss_respawn_banner = label.get_parent() as CanvasLayer
 
 
 func _fade_out_respawn_banner() -> void:
@@ -171,17 +171,7 @@ func _show_gate_opened_banner() -> void:
 
 
 func _show_victory() -> void:
-	var overlay := CanvasLayer.new()
-	overlay.layer = 10
-	add_child(overlay)
-	var label := Label.new()
-	label.text = "VICTORY!"
-	label.add_theme_font_size_override("font_size", 36)
-	label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.0))
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.add_child(label)
+	_create_overlay_label("VICTORY!", Color(1.0, 0.84, 0.0), 36)
 	await get_tree().create_timer(3.0).timeout
 	GameManager.start_game()
 
