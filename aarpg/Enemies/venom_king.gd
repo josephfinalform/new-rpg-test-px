@@ -21,19 +21,11 @@ var dash_hit_cd: float = 0.0
 
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
+const DATA = preload("res://aarpg/config/enemies/venom_king_data.tres")
+
 
 func _ready() -> void:
-	boss_name = "VENOM KING"
-	max_health = 30
-	xp_reward = 30
-	bonus_xp_reward = 80
-	attack_range = 26.0
-	boss_tint = Color(0.4, 0.75, 0.35)
-	base_sprite_scale = Vector2(2.0, 2.0)
-	minion_scene = preload("res://aarpg/Enemies/venom_slime.tscn")
-	minion_tint = Color(0.45, 0.8, 0.4)
-	if boss_health_bar:
-		boss_health_bar.modulate = boss_tint
+	enemy_data = DATA
 	super()
 
 

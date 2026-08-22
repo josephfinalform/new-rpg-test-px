@@ -20,19 +20,11 @@ var charge_hit_cd: float = 0.0
 
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
+const DATA = preload("res://aarpg/config/enemies/ice_golem_data.tres")
+
 
 func _ready() -> void:
-	boss_name = "ICE GOLEM"
-	max_health = 26
-	xp_reward = 28
-	bonus_xp_reward = 70
-	attack_range = 26.0
-	boss_tint = Color(0.55, 0.8, 1.0)
-	base_sprite_scale = Vector2(1.4, 1.4)
-	minion_scene = preload("res://aarpg/Enemies/slime.tscn")
-	minion_tint = Color(0.55, 0.8, 1.0)
-	if boss_health_bar:
-		boss_health_bar.modulate = boss_tint
+	enemy_data = DATA
 	super()
 
 

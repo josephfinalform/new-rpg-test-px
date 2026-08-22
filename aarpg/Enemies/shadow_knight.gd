@@ -22,18 +22,11 @@ var is_whirlwinding: bool = false
 var whirlwind_time: float = 0.0
 var whirlwind_tick: float = 0.0
 
+const DATA = preload("res://aarpg/config/enemies/shadow_knight_data.tres")
+
 
 func _ready() -> void:
-	boss_name = "SHADOW KNIGHT"
-	max_health = 34
-	xp_reward = 32
-	bonus_xp_reward = 90
-	attack_range = 30.0
-	boss_tint = Color(0.28, 0.18, 0.5)
-	base_sprite_scale = Vector2(1.9, 1.9)
-	minion_scene = preload("res://aarpg/Enemies/bat.tscn")
-	minion_tint = Color(0.28, 0.18, 0.5)
-	minion_spawn_radius = 50.0
+	enemy_data = DATA
 	super()
 
 

@@ -19,20 +19,11 @@ var step_direction: Vector2 = Vector2.ZERO
 var step_time: float = 0.0
 var step_hit_cd: float = 0.0
 
+const DATA = preload("res://aarpg/config/enemies/abyss_lord_data.tres")
+
 
 func _ready() -> void:
-	boss_name = "ABYSS LORD"
-	max_health = 38
-	xp_reward = 36
-	bonus_xp_reward = 110
-	attack_range = 28.0
-	boss_tint = Color(0.55, 0.1, 0.7)
-	base_sprite_scale = Vector2(2.2, 2.2)
-	minion_scene = preload("res://aarpg/Enemies/abyssal_wraith.tscn")
-	minion_tint = Color(0.55, 0.1, 0.7)
-	minion_spawn_radius = 45.0
-	if boss_health_bar:
-		boss_health_bar.modulate = boss_tint
+	enemy_data = DATA
 	super()
 
 

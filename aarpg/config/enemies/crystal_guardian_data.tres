@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/boss_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/crystal_slime.tscn" id="2_minion"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Crystal Guardian"
+boss_name = "CRYSTAL GUARDIAN"
+max_health = 34
+xp_reward = 32
+bonus_xp_reward = 90
+attack_range = 26.0
+tint = Color(0.5, 0.88, 1.0)
+sprite_scale = Vector2(2.2, 2.2)
+minion_scene = ExtResource("2_minion")
+minion_tint = Color(0.5, 0.9, 1.0)

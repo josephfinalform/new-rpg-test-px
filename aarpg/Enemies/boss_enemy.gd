@@ -38,9 +38,22 @@ func _ready() -> void:
 	if boss_health_bar:
 		boss_health_bar.max_value = max_health
 		boss_health_bar.value = health
-	if boss_tint != Color.WHITE:
-		sprite.self_modulate = boss_tint
+		boss_health_bar.modulate = boss_tint
 	sprite.scale = base_sprite_scale
+
+
+func _apply_data(data: EnemyData) -> void:
+	super(data)
+	boss_tint = data.tint
+	base_sprite_scale = data.sprite_scale
+	var boss_data := data as BossData
+	if boss_data == null:
+		return
+	boss_name = boss_data.boss_name
+	bonus_xp_reward = boss_data.bonus_xp_reward
+	minion_scene = boss_data.minion_scene
+	minion_tint = boss_data.minion_tint
+	minion_spawn_radius = boss_data.minion_spawn_radius
 
 
 func _physics_process(delta: float) -> void:

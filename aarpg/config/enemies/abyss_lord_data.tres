@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/boss_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/abyssal_wraith.tscn" id="2_minion"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Abyss Lord"
+boss_name = "ABYSS LORD"
+max_health = 38
+xp_reward = 36
+bonus_xp_reward = 110
+attack_range = 28.0
+tint = Color(0.55, 0.1, 0.7)
+sprite_scale = Vector2(2.2, 2.2)
+minion_scene = ExtResource("2_minion")
+minion_tint = Color(0.55, 0.1, 0.7)
+minion_spawn_radius = 45.0

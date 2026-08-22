@@ -22,17 +22,11 @@ var beam_active: bool = false
 @onready var beam_sprite: Sprite2D = $BeamSprite
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
+const DATA = preload("res://aarpg/config/enemies/wizard_boss_data.tres")
+
 
 func _ready() -> void:
-	boss_name = "WIZARD BOSS"
-	max_health = 30
-	xp_reward = 30
-	bonus_xp_reward = 80
-	attack_range = 28.0
-	boss_tint = Color(1, 0.2, 0.2)
-	base_sprite_scale = Vector2(1.0, 1.0)
-	minion_scene = preload("res://aarpg/Enemies/slime.tscn")
-	minion_tint = Color(0.55, 0.8, 1.0)
+	enemy_data = DATA
 	super()
 	if beam_area:
 		beam_area.body_entered.connect(_on_beam_body_entered)

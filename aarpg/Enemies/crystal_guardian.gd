@@ -21,19 +21,11 @@ var charge_hit_cd: float = 0.0
 
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
+const DATA = preload("res://aarpg/config/enemies/crystal_guardian_data.tres")
+
 
 func _ready() -> void:
-	boss_name = "CRYSTAL GUARDIAN"
-	max_health = 34
-	xp_reward = 32
-	bonus_xp_reward = 90
-	attack_range = 26.0
-	boss_tint = Color(0.5, 0.88, 1.0)
-	base_sprite_scale = Vector2(2.2, 2.2)
-	minion_scene = preload("res://aarpg/Enemies/crystal_slime.tscn")
-	minion_tint = Color(0.5, 0.9, 1.0)
-	if boss_health_bar:
-		boss_health_bar.modulate = boss_tint
+	enemy_data = DATA
 	super()
 
 

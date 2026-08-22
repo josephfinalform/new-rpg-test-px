@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/boss_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_slime.tscn" id="2_minion"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Venom King"
+boss_name = "VENOM KING"
+max_health = 30
+xp_reward = 30
+bonus_xp_reward = 80
+attack_range = 26.0
+tint = Color(0.4, 0.75, 0.35)
+sprite_scale = Vector2(2.0, 2.0)
+minion_scene = ExtResource("2_minion")
+minion_tint = Color(0.45, 0.8, 0.4)
