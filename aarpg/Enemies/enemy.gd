@@ -305,16 +305,18 @@ func play_animation(anim_name: String) -> void:
 		animation_player.play(anim_name)
 
 
+func _level_scaling_multipliers() -> Vector3:
+	return Vector3(0.35, 0.2, 0.25)
+
+
 func apply_level_scaling(level_index: int) -> void:
 	if is_dead or level_index <= 0:
 		return
-	var hp_mult := 1.0 + 0.35 * float(level_index)
-	var dmg_mult := 1.0 + 0.2 * float(level_index)
-	var xp_mult := 1.0 + 0.25 * float(level_index)
-	max_health = ceili(float(max_health) * hp_mult)
+	var mult := _level_scaling_multipliers()
+	max_health = ceili(float(max_health) * (1.0 + mult.x * float(level_index)))
 	health = max_health
-	damage = ceili(float(damage) * dmg_mult)
-	xp_reward = roundi(float(xp_reward) * xp_mult)
+	damage = ceili(float(damage) * (1.0 + mult.y * float(level_index)))
+	xp_reward = roundi(float(xp_reward) * (1.0 + mult.z * float(level_index)))
 
 
 func apply_status_from_weapon(weapon: Weapon) -> void:
