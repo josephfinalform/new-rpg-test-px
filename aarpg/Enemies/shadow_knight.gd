@@ -80,15 +80,7 @@ func _evaluate_special_attacks() -> void:
 
 
 func _start_whirlwind() -> void:
-	if is_casting:
-		return
-	is_casting = true
-	whirlwind_timer = 0.0
-	current_state = State.ATTACK
-	play_animation("cast")
-	await get_tree().create_timer(0.3).timeout
-	if is_dead:
-		is_casting = false
+	if not await _begin_cast(&"whirlwind_timer"):
 		return
 	is_whirlwinding = true
 	whirlwind_time = 0.0

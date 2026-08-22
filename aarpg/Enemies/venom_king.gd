@@ -54,7 +54,7 @@ func _evaluate_special_attacks() -> void:
 
 
 func _cast_spit() -> void:
-	if not await _begin_cast(&"spit_timer", spit_cooldown):
+	if not await _begin_cast(&"spit_timer"):
 		return
 	shoot_fan_projectiles(spit_count, spit_speed, 12.0, Color(0.45, 0.85, 0.4), Vector2(1.1, 1.1), spawn_marker)
 	_end_cast()

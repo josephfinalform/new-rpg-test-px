@@ -191,14 +191,14 @@ func apply_level_scaling(level_index: int) -> void:
 		boss_health_bar.value = health
 
 
-func _begin_cast(timer_ref: StringName, cooldown: float) -> bool:
+func _begin_cast(timer_ref: StringName, windup_time: float = 0.3) -> bool:
 	if is_casting:
 		return false
 	is_casting = true
 	set(timer_ref, 0.0)
 	current_state = State.ATTACK
 	play_animation("cast")
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(windup_time).timeout
 	if is_dead:
 		is_casting = false
 		return false

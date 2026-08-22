@@ -57,7 +57,7 @@ func _evaluate_special_attacks() -> void:
 
 
 func _cast_iceball() -> void:
-	if not await _begin_cast(&"iceball_timer", iceball_cooldown):
+	if not await _begin_cast(&"iceball_timer"):
 		return
 	if chase_target and is_instance_valid(chase_target):
 		var dir = (chase_target.global_position - global_position).normalized()

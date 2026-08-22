@@ -60,7 +60,7 @@ func _evaluate_special_attacks() -> void:
 
 
 func _cast_fireball() -> void:
-	if not await _begin_cast(&"fireball_timer", fireball_cooldown):
+	if not await _begin_cast(&"fireball_timer"):
 		return
 	if chase_target and is_instance_valid(chase_target):
 		var dir = (chase_target.global_position - global_position).normalized()
@@ -101,15 +101,9 @@ func _teleport() -> void:
 
 
 func _cast_beam() -> void:
-	if is_casting or not chase_target or not is_instance_valid(chase_target):
+	if not chase_target or not is_instance_valid(chase_target):
 		return
-	is_casting = true
-	beam_timer = 0.0
-	current_state = State.ATTACK
-	play_animation("cast")
-	await get_tree().create_timer(0.4).timeout
-	if is_dead:
-		is_casting = false
+	if not await _begin_cast(&"beam_timer", 0.4):
 		return
 	if chase_target and is_instance_valid(chase_target):
 		var dir = (chase_target.global_position - global_position).normalized()

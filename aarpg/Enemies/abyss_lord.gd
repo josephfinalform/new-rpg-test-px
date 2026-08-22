@@ -56,7 +56,7 @@ func _evaluate_special_attacks() -> void:
 
 
 func _cast_void_beam() -> void:
-	if not await _begin_cast(&"beam_timer", beam_cooldown):
+	if not await _begin_cast(&"beam_timer"):
 		return
 	shoot_fan_projectiles(beam_count, beam_speed, 12.0, Color(0.55, 0.1, 0.7), Vector2(1.3, 1.3))
 	_end_cast()
