@@ -95,18 +95,9 @@ func _start_whirlwind() -> void:
 	whirlwind_tick = 0.0
 
 
-func _play_phase_effect() -> void:
-	super()
-	if current_phase == 1:
-		dash_cooldown = max(2.0, dash_cooldown * 0.8)
-		whirlwind_cooldown = max(5.0, whirlwind_cooldown * 0.8)
-	elif current_phase == 2:
-		dash_cooldown = max(1.2, dash_cooldown * 0.7)
-		whirlwind_cooldown = max(3.5, whirlwind_cooldown * 0.75)
-		summon_cooldown = max(5.0, summon_cooldown * 0.8)
-
-
 func _apply_phase_scaling() -> void:
 	super()
+	_scale_attack_cooldown(&"dash_cooldown", 1.2)
+	_scale_attack_cooldown(&"whirlwind_cooldown", 3.5)
 	if current_phase >= 2:
 		whirlwind_damage = 3

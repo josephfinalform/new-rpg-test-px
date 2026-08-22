@@ -62,19 +62,10 @@ func _cast_void_beam() -> void:
 	_end_cast()
 
 
-func _play_phase_effect() -> void:
-	super()
-	if current_phase == 1:
-		beam_cooldown = max(1.2, beam_cooldown * 0.8)
-		step_cooldown = max(2.5, step_cooldown * 0.8)
-	elif current_phase == 2:
-		beam_cooldown = max(0.7, beam_cooldown * 0.7)
-		step_cooldown = max(1.5, step_cooldown * 0.7)
-		summon_cooldown = max(5.0, summon_cooldown * 0.8)
-
-
 func _apply_phase_scaling() -> void:
 	super()
+	_scale_attack_cooldown(&"beam_cooldown", 0.7)
+	_scale_attack_cooldown(&"step_cooldown", 1.5)
 	if current_phase >= 1:
 		beam_count = 6
 	if current_phase >= 2:

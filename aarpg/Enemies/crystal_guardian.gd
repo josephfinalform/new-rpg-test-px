@@ -64,19 +64,10 @@ func _cast_shards() -> void:
 	_end_cast()
 
 
-func _play_phase_effect() -> void:
-	super()
-	if current_phase == 1:
-		shard_cooldown = max(1.0, shard_cooldown * 0.8)
-		charge_cooldown = max(3.0, charge_cooldown * 0.8)
-	elif current_phase == 2:
-		shard_cooldown = max(0.6, shard_cooldown * 0.7)
-		charge_cooldown = max(2.0, charge_cooldown * 0.7)
-		summon_cooldown = max(5.0, summon_cooldown * 0.8)
-
-
 func _apply_phase_scaling() -> void:
 	super()
+	_scale_attack_cooldown(&"shard_cooldown", 0.6)
+	_scale_attack_cooldown(&"charge_cooldown", 2.0)
 	if current_phase >= 1:
 		shard_count = 4
 	if current_phase >= 2:

@@ -132,10 +132,21 @@ func _apply_phase_scaling() -> void:
 	damage = ceili(float(damage) * dmg_mult)
 	var cd_mult: float = 1.0 - (1.0 - enrage_cooldown_mult) * float(current_phase) / float(max_phases)
 	attack_cooldown_time = max(0.15, attack_cooldown_time * cd_mult)
+	if current_phase >= 2:
+		summon_cooldown = maxf(5.0, summon_cooldown * PHASE_COOLDOWN_MULT_1)
 	if current_phase >= 1:
 		minion_count = 2
 	if current_phase >= 2:
 		minion_count = 3
+
+
+const PHASE_COOLDOWN_MULT_1 := 0.8
+const PHASE_COOLDOWN_MULT_2 := 0.7
+
+
+func _scale_attack_cooldown(cooldown_ref: StringName, min_value: float) -> void:
+	var mult := PHASE_COOLDOWN_MULT_1 if current_phase <= 1 else PHASE_COOLDOWN_MULT_2
+	set(cooldown_ref, maxf(min_value, float(get(cooldown_ref)) * mult))
 
 
 func _die() -> void:

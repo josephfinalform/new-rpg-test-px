@@ -129,18 +129,9 @@ func _on_beam_body_entered(body: Node2D) -> void:
 		body.take_damage(beam_damage, global_position)
 
 
-func _play_phase_effect() -> void:
-	super()
-	if current_phase == 1:
-		fireball_cooldown = max(1.0, fireball_cooldown * 0.8)
-		teleport_cooldown = max(2.0, teleport_cooldown * 0.7)
-	elif current_phase == 2:
-		fireball_cooldown = max(0.6, fireball_cooldown * 0.7)
-		teleport_cooldown = max(1.0, teleport_cooldown * 0.6)
-		summon_cooldown = max(5.0, summon_cooldown * 0.8)
-
-
 func _apply_phase_scaling() -> void:
 	super()
+	_scale_attack_cooldown(&"fireball_cooldown", 1.0)
+	_scale_attack_cooldown(&"teleport_cooldown", 2.0)
 	if current_phase >= 2:
 		beam_damage = 3
