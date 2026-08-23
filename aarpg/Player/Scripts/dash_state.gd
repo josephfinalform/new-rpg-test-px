@@ -3,7 +3,6 @@ extends State
 
 func enter() -> void:
 	player.is_dashing = true
-	player.can_attack = false
 	var dir := player.facing
 	if dir == Vector2.ZERO:
 		dir = Vector2.DOWN
