@@ -187,13 +187,13 @@ func apply_level_scaling(level_index: int) -> void:
 		boss_health_bar.value = health
 
 
-func _begin_cast(timer_ref: StringName, windup_time: float = 0.3) -> bool:
+func _begin_cast(timer_ref: StringName, windup_time: float = 0.3, anim: String = "cast") -> bool:
 	if is_casting:
 		return false
 	is_casting = true
 	set(timer_ref, 0.0)
 	current_state = State.ATTACK
-	play_animation("cast")
+	play_animation(anim)
 	await get_tree().create_timer(windup_time).timeout
 	if is_dead:
 		is_casting = false
@@ -211,15 +211,7 @@ func _end_cast() -> void:
 
 
 func summon_minions() -> void:
-	if is_casting:
-		return
-	is_casting = true
-	summon_timer = 0.0
-	current_state = State.ATTACK
-	play_animation("cast")
-	await get_tree().create_timer(0.5).timeout
-	if is_dead:
-		is_casting = false
+	if not await _begin_cast(&"summon_timer", 0.5):
 		return
 	if minion_scene:
 		for i in range(minion_count):
@@ -270,15 +262,7 @@ func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Co
 
 
 func start_dash(attack_timer_ref: StringName, speed: float, duration: float, damage: int, hit_cd_ref: StringName, time_ref: StringName, active_ref: StringName, attack_anim: String = "cast") -> bool:
-	if is_casting:
-		return false
-	is_casting = true
-	set(attack_timer_ref, 0.0)
-	current_state = State.ATTACK
-	play_animation(attack_anim)
-	await get_tree().create_timer(0.3).timeout
-	if is_dead:
-		is_casting = false
+	if not await _begin_cast(attack_timer_ref, 0.3, attack_anim):
 		return false
 	if chase_target and is_instance_valid(chase_target):
 		set(active_ref, true)
