@@ -44,7 +44,12 @@ var can_attack: bool = true
 var is_dashing: bool = false
 var dash_velocity: Vector2 = Vector2.ZERO
 
-var base_attack_damage: int = 1
+var base_attack_damage: int:
+	get:
+		return combat.base_attack_damage if combat else attack_damage
+	set(value):
+		if combat:
+			combat.base_attack_damage = value
 var base_move_speed: float = 100.0
 var base_sprint_speed: float = 180.0
 var equipped_weapon: Weapon = null
@@ -111,7 +116,6 @@ func _ready() -> void:
 	base_attack_damage = attack_damage
 	base_move_speed = move_speed
 	base_sprint_speed = sprint_speed
-	combat.base_attack_damage = attack_damage
 	combat.base_attack_cooldown = attack_cooldown
 	equipped_weapon = GameManager.equipped_weapon if GameManager.equipped_weapon != null else DEFAULT_WEAPON
 	combat.equip_weapon(equipped_weapon)
