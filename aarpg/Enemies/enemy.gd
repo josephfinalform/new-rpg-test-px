@@ -10,6 +10,7 @@ const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
 const XP_GEM_SCENE = preload("res://aarpg/Pickups/xp_gem.tscn")
 const POTION_SCENE = preload("res://aarpg/Pickups/potion_pickup.tscn")
 const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
+const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
 
 @export var enemy_data: EnemyData
 @export var max_health: int = 3
@@ -259,6 +260,17 @@ func _spawn_damage_number(amount: int) -> void:
 	get_parent().add_child(number)
 	number.text = str(amount)
 	number.global_position = global_position + Vector2(randf_range(-6, 6), -16)
+
+
+func spawn_projectile(direction: Vector2, speed: float, tint: Color = Color.WHITE, proj_scale: Vector2 = Vector2.ONE, from_marker: Marker2D = null) -> void:
+	var projectile := PROJECTILE_SCENE.instantiate()
+	projectile.global_position = from_marker.global_position if from_marker else global_position
+	projectile.direction = direction
+	projectile.speed = speed
+	projectile.damage = damage
+	projectile.projectile_tint = tint
+	projectile.scale = proj_scale
+	get_parent().add_child(projectile)
 
 func _play_death_effect() -> void:
 	var tween: Tween = create_tween()

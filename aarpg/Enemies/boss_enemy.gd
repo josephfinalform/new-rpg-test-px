@@ -1,8 +1,6 @@
 class_name BossEnemy
 extends Enemy
 
-const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
-
 @export_group("Boss Settings")
 @export var boss_name: String = "BOSS"
 @export var phase_health_thresholds: Array[float] = [0.66, 0.33]
@@ -251,14 +249,7 @@ func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Co
 	var base_angle := dir.angle()
 	for i in range(count):
 		var angle := base_angle + deg_to_rad((i - (count - 1) / 2.0) * spread_deg)
-		var projectile := PROJECTILE_SCENE.instantiate()
-		projectile.global_position = from_marker.global_position if from_marker else global_position
-		projectile.direction = Vector2.from_angle(angle)
-		projectile.speed = speed
-		projectile.damage = damage
-		projectile.projectile_tint = tint
-		projectile.scale = proj_scale
-		get_parent().add_child(projectile)
+		spawn_projectile(Vector2.from_angle(angle), speed, tint, proj_scale, from_marker)
 
 
 func start_dash(attack_timer_ref: StringName, speed: float, duration: float, damage: int, hit_cd_ref: StringName, time_ref: StringName, active_ref: StringName, attack_anim: String = "cast") -> bool:

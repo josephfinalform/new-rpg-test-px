@@ -2,7 +2,6 @@ class_name GoblinArcher
 extends Enemy
 
 const DATA = preload("res://aarpg/config/enemies/goblin_archer_data.tres")
-const ARROW_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
 
 @export var shoot_range: float = 170.0
 @export var keep_distance: float = 130.0
@@ -47,11 +46,4 @@ func _process_chase(_delta: float) -> void:
 
 
 func _shoot_arrow(dir: Vector2) -> void:
-	var arrow := ARROW_SCENE.instantiate()
-	arrow.global_position = global_position
-	arrow.direction = dir
-	arrow.speed = arrow_speed
-	arrow.damage = damage
-	arrow.projectile_tint = enemy_data.tint if enemy_data else Color.WHITE
-	arrow.scale = Vector2(0.7, 0.7)
-	get_parent().add_child(arrow)
+	spawn_projectile(dir, arrow_speed, enemy_data.tint if enemy_data else Color.WHITE, Vector2(0.7, 0.7))

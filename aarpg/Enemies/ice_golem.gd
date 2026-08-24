@@ -61,14 +61,7 @@ func _cast_iceball() -> void:
 		return
 	if chase_target and is_instance_valid(chase_target):
 		var dir = (chase_target.global_position - global_position).normalized()
-		var fireball = PROJECTILE_SCENE.instantiate()
-		fireball.global_position = spawn_marker.global_position if spawn_marker else global_position
-		fireball.direction = dir
-		fireball.speed = iceball_speed
-		fireball.damage = damage
-		fireball.projectile_tint = Color(0.55, 0.85, 1.0)
-		fireball.scale = Vector2(1.3, 1.3)
-		get_parent().add_child(fireball)
+		spawn_projectile(dir, iceball_speed, Color(0.55, 0.85, 1.0), Vector2(1.3, 1.3), spawn_marker)
 	_end_cast()
 
 
