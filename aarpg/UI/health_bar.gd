@@ -132,9 +132,10 @@ func _on_xp_changed(new_xp: int, _new_level: int) -> void:
 	if _player == null:
 		return
 	if _player.level >= _player.level_config.max_level:
-		xp_bar.max_value = float(_player.level_config.prestige_xp_threshold)
+		var threshold := _player.level_config.get_prestige_threshold(_player.prestige)
+		xp_bar.max_value = float(threshold)
 		if xp_text_label:
-			xp_text_label.text = "★ %d / %d" % [_player.prestige_xp, _player.level_config.prestige_xp_threshold]
+			xp_text_label.text = "★ %d / %d" % [_player.prestige_xp, threshold]
 	else:
 		xp_bar.max_value = _player.xp_to_next_level
 		if xp_text_label:
