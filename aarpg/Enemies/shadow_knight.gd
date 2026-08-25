@@ -30,16 +30,18 @@ func _ready() -> void:
 	super()
 
 
-func _physics_process(delta: float) -> void:
+func _is_special_active() -> bool:
+	return is_dashing or is_whirlwinding
+
+func _process_special(delta: float) -> void:
 	if is_dashing:
 		process_dash(delta, dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing", dash_direction, 26.0, 0.35)
-		return
-	if is_whirlwinding:
+	elif is_whirlwinding:
 		_process_whirlwind(delta)
-		return
+
+func _update_attack_timers(delta: float) -> void:
 	dash_timer += delta
 	whirlwind_timer += delta
-	super(delta)
 
 
 func _process_whirlwind(delta: float) -> void:

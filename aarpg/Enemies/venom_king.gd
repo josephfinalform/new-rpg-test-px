@@ -29,13 +29,15 @@ func _ready() -> void:
 	super()
 
 
-func _physics_process(delta: float) -> void:
-	if is_dashing:
-		process_dash(delta, dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing", dash_direction)
-		return
+func _is_special_active() -> bool:
+	return is_dashing
+
+func _process_special(delta: float) -> void:
+	process_dash(delta, dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing", dash_direction)
+
+func _update_attack_timers(delta: float) -> void:
 	spit_timer += delta
 	dash_timer += delta
-	super(delta)
 
 
 func _evaluate_custom_attacks(dist: float) -> void:

@@ -65,10 +65,26 @@ func _physics_process(delta: float) -> void:
 		base_velocity = Vector2.ZERO
 		move_and_slide()
 		return
+	if _is_special_active():
+		_process_special(delta)
+		return
 	summon_timer += delta
+	_update_attack_timers(delta)
 	if current_state == State.CHASE or current_state == State.ATTACK:
 		_evaluate_special_attacks()
 	super(delta)
+
+
+func _is_special_active() -> bool:
+	return false
+
+
+func _process_special(_delta: float) -> void:
+	pass
+
+
+func _update_attack_timers(_delta: float) -> void:
+	pass
 
 
 func _evaluate_special_attacks() -> void:

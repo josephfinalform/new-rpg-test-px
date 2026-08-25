@@ -29,13 +29,15 @@ func _ready() -> void:
 	super()
 
 
-func _physics_process(delta: float) -> void:
-	if is_charging:
-		_process_charge(delta)
-		return
+func _is_special_active() -> bool:
+	return is_charging
+
+func _process_special(delta: float) -> void:
+	_process_charge(delta)
+
+func _update_attack_timers(delta: float) -> void:
 	shard_timer += delta
 	charge_timer += delta
-	super(delta)
 
 
 func _process_charge(delta: float) -> void:

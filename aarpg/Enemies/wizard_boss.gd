@@ -34,11 +34,10 @@ func _ready() -> void:
 		beam_sprite.hide()
 
 
-func _physics_process(delta: float) -> void:
+func _update_attack_timers(delta: float) -> void:
 	fireball_timer += delta
 	teleport_timer += delta
 	beam_timer += delta
-	super(delta)
 
 
 func _evaluate_custom_attacks(dist: float) -> void:

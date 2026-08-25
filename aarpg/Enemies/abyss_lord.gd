@@ -27,13 +27,15 @@ func _ready() -> void:
 	super()
 
 
-func _physics_process(delta: float) -> void:
-	if is_stepping:
-		_process_step(delta)
-		return
+func _is_special_active() -> bool:
+	return is_stepping
+
+func _process_special(delta: float) -> void:
+	_process_step(delta)
+
+func _update_attack_timers(delta: float) -> void:
 	beam_timer += delta
 	step_timer += delta
-	super(delta)
 
 
 func _process_step(delta: float) -> void:
