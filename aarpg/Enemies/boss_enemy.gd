@@ -150,8 +150,7 @@ func _die() -> void:
 	if boss_health_bar:
 		boss_health_bar.hide()
 	super()
-	if _cached_player and not _cached_player.is_dead:
-		_cached_player.gain_xp(bonus_xp_reward)
+	_grant_player_xp(bonus_xp_reward)
 
 
 func _play_death_effect() -> void:

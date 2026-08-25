@@ -215,8 +215,7 @@ func _die() -> void:
 	died.emit()
 	current_state = State.IDLE
 	hitbox_area.set_deferred("monitoring", false)
-	if _cached_player and not _cached_player.is_dead:
-		_cached_player.gain_xp(xp_reward)
+	_grant_player_xp(xp_reward)
 	GameManager.enemy_killed()
 	if heart_drop_chance > 0.0 and randf() < heart_drop_chance:
 		_spawn_heart_drop()
@@ -229,6 +228,10 @@ func _die() -> void:
 	if death_sfx:
 		AudioManager.play_sfx(death_sfx)
 	_play_death_effect()
+
+func _grant_player_xp(amount: int) -> void:
+	if _cached_player and not _cached_player.is_dead:
+		_cached_player.gain_xp(amount)
 
 func _spawn_heart_drop() -> void:
 	_spawn_drop(HEART_SCENE)
