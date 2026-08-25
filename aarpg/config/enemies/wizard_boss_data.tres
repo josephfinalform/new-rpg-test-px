@@ -14,3 +14,5 @@ attack_range = 28.0
 tint = Color(1, 0.2, 0.2)
 minion_scene = ExtResource("2_minion")
 minion_tint = Color(0.55, 0.8, 1.0)
+summon_phase_threshold = 2
+summon_distance_threshold = 150.0

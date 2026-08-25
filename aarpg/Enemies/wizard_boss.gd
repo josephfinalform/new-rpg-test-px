@@ -41,13 +41,7 @@ func _physics_process(delta: float) -> void:
 	super(delta)
 
 
-func _evaluate_special_attacks() -> void:
-	if not chase_target or not is_instance_valid(chase_target):
-		return
-	var dist = global_position.distance_to(chase_target.global_position)
-	if current_phase >= 2 and summon_timer >= summon_cooldown and dist < 150:
-		summon_minions()
-		return
+func _evaluate_custom_attacks(dist: float) -> void:
 	if current_phase >= 1 and beam_timer >= beam_cooldown and dist < 100:
 		_cast_beam()
 		return

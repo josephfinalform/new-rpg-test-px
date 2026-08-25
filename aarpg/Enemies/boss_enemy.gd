@@ -20,6 +20,8 @@ extends Enemy
 
 var summon_timer: float = 0.0
 @export var summon_cooldown: float = 9.0
+@export var summon_phase_threshold: int = 1
+@export var summon_distance_threshold: float = 160.0
 
 var current_phase: int = 0
 var max_phases: int = 1
@@ -51,6 +53,8 @@ func _apply_data(data: EnemyData) -> void:
 	minion_scene = boss_data.minion_scene
 	minion_tint = boss_data.minion_tint
 	minion_spawn_radius = boss_data.minion_spawn_radius
+	summon_phase_threshold = boss_data.summon_phase_threshold
+	summon_distance_threshold = boss_data.summon_distance_threshold
 
 
 func _physics_process(delta: float) -> void:
@@ -68,6 +72,16 @@ func _physics_process(delta: float) -> void:
 
 
 func _evaluate_special_attacks() -> void:
+	if not chase_target or not is_instance_valid(chase_target):
+		return
+	var dist := global_position.distance_to(chase_target.global_position)
+	if current_phase >= summon_phase_threshold and summon_timer >= summon_cooldown and dist < summon_distance_threshold:
+		summon_minions()
+		return
+	_evaluate_custom_attacks(dist)
+
+
+func _evaluate_custom_attacks(_dist: float) -> void:
 	pass
 
 

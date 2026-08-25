@@ -42,13 +42,7 @@ func _process_charge(delta: float) -> void:
 	process_dash(delta, charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging", charge_direction)
 
 
-func _evaluate_special_attacks() -> void:
-	if not chase_target or not is_instance_valid(chase_target):
-		return
-	var dist = global_position.distance_to(chase_target.global_position)
-	if current_phase >= 1 and summon_timer >= summon_cooldown and dist < 160:
-		summon_minions()
-		return
+func _evaluate_custom_attacks(dist: float) -> void:
 	if charge_timer >= charge_cooldown and dist < 110 and dist > 45:
 		begin_chase_dash(&"charge_direction", &"charge_timer", charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging")
 		return

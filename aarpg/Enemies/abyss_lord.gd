@@ -40,13 +40,7 @@ func _process_step(delta: float) -> void:
 	process_dash(delta, step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping", step_direction, 26.0, 0.35)
 
 
-func _evaluate_special_attacks() -> void:
-	if not chase_target or not is_instance_valid(chase_target):
-		return
-	var dist = global_position.distance_to(chase_target.global_position)
-	if current_phase >= 1 and summon_timer >= summon_cooldown and dist < 170:
-		summon_minions()
-		return
+func _evaluate_custom_attacks(dist: float) -> void:
 	if step_timer >= step_cooldown and dist < 120 and dist > 40:
 		begin_chase_dash(&"step_direction", &"step_timer", step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping")
 		return

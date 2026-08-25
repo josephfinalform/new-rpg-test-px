@@ -16,3 +16,4 @@ sprite_scale = Vector2(2.2, 2.2)
 minion_scene = ExtResource("2_minion")
 minion_tint = Color(0.55, 0.1, 0.7)
 minion_spawn_radius = 45.0
+summon_distance_threshold = 170.0

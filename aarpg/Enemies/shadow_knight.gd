@@ -64,13 +64,7 @@ func _process_whirlwind(delta: float) -> void:
 			current_state = State.IDLE
 
 
-func _evaluate_special_attacks() -> void:
-	if not chase_target or not is_instance_valid(chase_target):
-		return
-	var dist = global_position.distance_to(chase_target.global_position)
-	if current_phase >= 1 and summon_timer >= summon_cooldown and dist < 180:
-		summon_minions()
-		return
+func _evaluate_custom_attacks(dist: float) -> void:
 	if whirlwind_timer >= whirlwind_cooldown and dist < 55:
 		_start_whirlwind()
 		return
