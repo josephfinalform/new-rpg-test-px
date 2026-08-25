@@ -89,7 +89,7 @@ func take_damage(amount: int, from_position: Vector2, attacker: Node2D = null) -
 func _check_phase_transition() -> void:
 	if is_transitioning or is_dead:
 		return
-	var health_ratio: float = float(health) / float(max_health)
+	var health_ratio: float = float(health) / maxf(float(max_health), 1.0)
 	while current_phase < phase_health_thresholds.size() and health_ratio <= phase_health_thresholds[current_phase]:
 		current_phase += 1
 		_start_phase_transition()

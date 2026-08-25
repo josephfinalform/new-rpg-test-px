@@ -7,10 +7,6 @@ const SFX_HEAL = preload("res://assets/audio/sfx/hp_up.wav")
 
 
 func _ready() -> void:
-	bob_speed = 4.0
-	bob_amplitude = 2.0
-	bob_base_y = -4.0
-	lifetime = 12.0
 	super._ready()
 
 
