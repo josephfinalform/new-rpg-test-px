@@ -11,6 +11,7 @@ const XP_GEM_SCENE = preload("res://aarpg/Pickups/xp_gem.tscn")
 const POTION_SCENE = preload("res://aarpg/Pickups/potion_pickup.tscn")
 const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
 const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
+const BURN_TICK_INTERVAL := 0.5
 
 @export var enemy_data: EnemyData
 @export var max_health: int = 3
@@ -135,8 +136,8 @@ func _process_status_effects(delta: float) -> void:
 	if burn_remaining > 0.0:
 		burn_tick_timer -= delta
 		if burn_tick_timer <= 0.0:
-			burn_tick_timer = 0.5
-			burn_remaining -= 0.5
+			burn_tick_timer = BURN_TICK_INTERVAL
+			burn_remaining -= BURN_TICK_INTERVAL
 			_apply_burn_tick()
 	_update_status_visual()
 
@@ -229,23 +230,23 @@ func _die() -> void:
 	_play_death_effect()
 
 func _spawn_heart_drop() -> void:
-	var heart := HEART_SCENE.instantiate()
-	get_parent().add_child(heart)
-	heart.global_position = global_position + Vector2(randf_range(-8, 8), -4)
+	_spawn_drop(HEART_SCENE)
 
 func _spawn_xp_gem() -> void:
-	var gem := XP_GEM_SCENE.instantiate()
-	get_parent().add_child(gem)
-	gem.global_position = global_position + Vector2(randf_range(-8, 8), -4)
+	_spawn_drop(XP_GEM_SCENE)
 	var popup := XP_POPUP.instantiate() as Label
 	get_parent().add_child(popup)
 	popup.text = "GEM"
 	popup.global_position = global_position + Vector2(0, -22)
 
 func _spawn_potion_drop() -> void:
-	var potion := POTION_SCENE.instantiate()
-	get_parent().add_child(potion)
-	potion.global_position = global_position + Vector2(randf_range(-8, 8), -4)
+	_spawn_drop(POTION_SCENE)
+
+func _spawn_drop(scene: PackedScene, offset_y: float = -4.0) -> Node2D:
+	var drop := scene.instantiate()
+	get_parent().add_child(drop)
+	drop.global_position = global_position + Vector2(randf_range(-8, 8), offset_y)
+	return drop
 
 
 func _spawn_xp_popup() -> void:
@@ -354,7 +355,7 @@ func apply_burn(damage: int, ticks: int) -> void:
 	if is_dead:
 		return
 	burn_damage = damage
-	burn_remaining = float(ticks) * 0.5
+	burn_remaining = float(ticks) * BURN_TICK_INTERVAL
 	burn_tick_timer = 0.0
 
 
