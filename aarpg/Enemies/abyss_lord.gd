@@ -31,15 +31,11 @@ func _is_special_active() -> bool:
 	return is_stepping
 
 func _process_special(delta: float) -> void:
-	_process_step(delta)
+	process_dash(delta, step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping", step_direction, 26.0, 0.35)
 
 func _update_attack_timers(delta: float) -> void:
 	beam_timer += delta
 	step_timer += delta
-
-
-func _process_step(delta: float) -> void:
-	process_dash(delta, step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping", step_direction, 26.0, 0.35)
 
 
 func _evaluate_custom_attacks(dist: float) -> void:

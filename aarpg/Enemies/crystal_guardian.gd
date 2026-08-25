@@ -33,15 +33,11 @@ func _is_special_active() -> bool:
 	return is_charging
 
 func _process_special(delta: float) -> void:
-	_process_charge(delta)
+	process_dash(delta, charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging", charge_direction)
 
 func _update_attack_timers(delta: float) -> void:
 	shard_timer += delta
 	charge_timer += delta
-
-
-func _process_charge(delta: float) -> void:
-	process_dash(delta, charge_speed, charge_duration, charge_damage, &"charge_hit_cd", &"charge_time", &"is_charging", charge_direction)
 
 
 func _evaluate_custom_attacks(dist: float) -> void:
