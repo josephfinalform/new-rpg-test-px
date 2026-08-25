@@ -39,6 +39,7 @@ const BURN_TICK_INTERVAL := 0.5
 var health: int = 3
 var is_invincible: bool = false
 var is_dead: bool = false
+var is_transitioning: bool = false
 var knockback_velocity: Vector2 = Vector2.ZERO
 var base_velocity: Vector2 = Vector2.ZERO
 var knockback_multiplier: float = 1.0
@@ -168,7 +169,7 @@ func _process_chase(_delta: float) -> void:
 		attack_cooldown = attack_cooldown_time
 
 func _process_hurt(_delta: float) -> void:
-	if hurt_timer.is_stopped():
+	if hurt_timer.is_stopped() and not is_transitioning:
 		if is_dead:
 			return
 		if chase_target and is_instance_valid(chase_target):

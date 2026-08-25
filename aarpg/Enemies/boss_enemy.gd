@@ -23,7 +23,6 @@ var summon_timer: float = 0.0
 
 var current_phase: int = 0
 var max_phases: int = 1
-var is_transitioning: bool = false
 var is_casting: bool = false
 
 @onready var boss_health_bar: ProgressBar = $BossHealthBar
@@ -162,16 +161,6 @@ func _play_death_effect() -> void:
 	tween.tween_property(sprite, "scale", Vector2(2.0, 2.0), 0.4).set_trans(Tween.TRANS_ELASTIC)
 	tween.chain().tween_property(sprite, "scale", Vector2(0.0, 0.0), 0.2)
 	tween.tween_callback(queue_free)
-
-
-func _process_hurt(_delta: float) -> void:
-	if hurt_timer.is_stopped() and not is_transitioning:
-		if is_dead:
-			return
-		if chase_target and is_instance_valid(chase_target):
-			current_state = State.CHASE
-		else:
-			current_state = State.IDLE
 
 
 func _level_scaling_multipliers() -> Vector3:
