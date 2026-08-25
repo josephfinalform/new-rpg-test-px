@@ -84,7 +84,7 @@ func _teleport() -> void:
 	if chase_target and is_instance_valid(chase_target):
 		var offset = Vector2(randf_range(-teleport_range, teleport_range), randf_range(-teleport_range, teleport_range))
 		var new_pos = chase_target.global_position + offset
-		var map_size = Vector2(480, 270)
+		var map_size = get_viewport_rect().size
 		new_pos.x = clamp(new_pos.x, 20, map_size.x - 20)
 		new_pos.y = clamp(new_pos.y, 20, map_size.y - 20)
 		global_position = new_pos
