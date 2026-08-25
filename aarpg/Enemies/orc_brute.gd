@@ -1,9 +1,7 @@
 class_name OrcBrute
 extends Enemy
 
-const DATA = preload("res://aarpg/config/enemies/orc_brute_data.tres")
+const _DATA := "res://aarpg/config/enemies/orc_brute_data.tres"
 
-
-func _ready() -> void:
-	enemy_data = DATA
-	super()
+func _get_data_path() -> String:
+	return _DATA

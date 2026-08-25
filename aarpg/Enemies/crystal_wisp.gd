@@ -1,9 +1,7 @@
 class_name CrystalWisp
 extends Enemy
 
-const DATA = preload("res://aarpg/config/enemies/crystal_wisp_data.tres")
+const _DATA := "res://aarpg/config/enemies/crystal_wisp_data.tres"
 
-
-func _ready() -> void:
-	enemy_data = DATA
-	super()
+func _get_data_path() -> String:
+	return _DATA

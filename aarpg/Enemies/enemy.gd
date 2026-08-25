@@ -95,6 +95,10 @@ func _apply_data(data: EnemyData) -> void:
 
 
 func _ready() -> void:
+	if not enemy_data:
+		var path := _get_data_path()
+		if not path.is_empty():
+			enemy_data = load(path)
 	if enemy_data:
 		_apply_data(enemy_data)
 	health = max_health
@@ -284,6 +288,9 @@ func _play_death_effect() -> void:
 	tween.tween_property(sprite, "scale", Vector2(1.5, 1.5), 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tween.chain().tween_property(sprite, "scale", Vector2(0.0, 0.0), 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tween.tween_callback(queue_free)
+
+func _get_data_path() -> String:
+	return ""
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Player:
