@@ -1,8 +1,6 @@
 class_name ShadowKnight
 extends BossEnemy
 
-enum SpecialAttack { DASH, WHIRLWIND, SUMMON }
-
 @export_group("Knight Attacks")
 @export var dash_cooldown: float = 3.5
 @export var whirlwind_cooldown: float = 7.0

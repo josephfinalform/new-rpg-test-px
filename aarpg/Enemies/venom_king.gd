@@ -1,8 +1,6 @@
 class_name VenomKing
 extends BossEnemy
 
-enum SpecialAttack { SPIT, SUMMON, DASH }
-
 @export_group("Venom King Attacks")
 @export var spit_cooldown: float = 2.2
 @export var dash_cooldown: float = 5.0

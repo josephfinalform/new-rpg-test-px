@@ -1,8 +1,6 @@
 class_name AbyssLord
 extends BossEnemy
 
-enum SpecialAttack { VOID_BEAM, SHADOW_STEP, SUMMON }
-
 @export_group("Abyss Lord Attacks")
 @export var beam_cooldown: float = 2.5
 @export var step_cooldown: float = 4.0

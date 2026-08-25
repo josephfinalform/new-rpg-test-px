@@ -1,8 +1,6 @@
 class_name WizardBoss
 extends BossEnemy
 
-enum SpecialAttack { FIREBALL, TELEPORT, BEAM, SUMMON }
-
 @export_group("Wizard Attacks")
 @export var fireball_cooldown: float = 2.5
 @export var teleport_cooldown: float = 4.0

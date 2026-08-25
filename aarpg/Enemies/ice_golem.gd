@@ -1,8 +1,6 @@
 class_name IceGolem
 extends BossEnemy
 
-enum SpecialAttack { ICEBALL, CHARGE, SUMMON }
-
 @export_group("Golem Attacks")
 @export var iceball_cooldown: float = 2.2
 @export var charge_cooldown: float = 5.0

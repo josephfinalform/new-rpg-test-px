@@ -1,8 +1,6 @@
 class_name CrystalGuardian
 extends BossEnemy
 
-enum SpecialAttack { SHARD, SUMMON, CHARGE }
-
 @export_group("Crystal Guardian Attacks")
 @export var shard_cooldown: float = 2.0
 @export var charge_cooldown: float = 5.5
