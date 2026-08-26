@@ -27,6 +27,11 @@ var current_phase: int = 0
 var max_phases: int = 1
 var is_casting: bool = false
 
+var dash_is_active: bool = false
+var dash_direction: Vector2 = Vector2.ZERO
+var dash_time: float = 0.0
+var dash_hit_cd: float = 0.0
+
 @onready var boss_health_bar: ProgressBar = $BossHealthBar
 @onready var hp_tween: Tween
 
@@ -76,11 +81,12 @@ func _physics_process(delta: float) -> void:
 
 
 func _is_special_active() -> bool:
-	return false
+	return dash_is_active
 
 
-func _process_special(_delta: float) -> void:
-	pass
+func _process_special(delta: float) -> void:
+	if dash_is_active:
+		process_dash(delta, dash_speed, dash_duration, dash_damage, dash_direction)
 
 
 func _update_attack_timers(_delta: float) -> void:
@@ -153,22 +159,21 @@ func _play_phase_effect() -> void:
 		boss_health_bar.modulate = Color.WHITE
 
 
+const PHASE_COOLDOWN_MULT_1 := 0.8
+const PHASE_COOLDOWN_MULT_2 := 0.7
+
+
 func _apply_phase_scaling() -> void:
 	move_speed *= 1.0 + (enrage_speed_mult - 1.0) * float(current_phase) / float(max_phases)
 	var dmg_mult: float = 1.0 + (enrage_damage_mult - 1.0) * float(current_phase) / float(max_phases)
 	damage = ceili(float(damage) * dmg_mult)
 	var cd_mult: float = 1.0 - (1.0 - enrage_cooldown_mult) * float(current_phase) / float(max_phases)
 	attack_cooldown_time = max(0.15, attack_cooldown_time * cd_mult)
-	if current_phase >= 2:
-		summon_cooldown = maxf(5.0, summon_cooldown * PHASE_COOLDOWN_MULT_1)
+	_scale_attack_cooldown(&"summon_cooldown", 5.0)
 	if current_phase >= 1:
 		minion_count = 2
 	if current_phase >= 2:
 		minion_count = 3
-
-
-const PHASE_COOLDOWN_MULT_1 := 0.8
-const PHASE_COOLDOWN_MULT_2 := 0.7
 
 
 func _scale_attack_cooldown(cooldown_ref: StringName, min_value: float) -> void:
@@ -240,19 +245,17 @@ func summon_minions() -> void:
 	_end_cast()
 
 
-func process_dash(delta: float, speed: float, duration: float, dmg: int, hit_cd_ref: StringName, time_ref: StringName, active_ref: StringName, dir: Vector2, hit_range: float = 24.0, hit_cd_reset: float = 0.4) -> void:
-	set(time_ref, get(time_ref) + delta)
-	var current_hit_cd: float = get(hit_cd_ref)
-	current_hit_cd = maxf(current_hit_cd - delta)
-	set(hit_cd_ref, current_hit_cd)
+func process_dash(delta: float, speed: float, duration: float, dmg: int, dir: Vector2, hit_range: float = 24.0, hit_cd_reset: float = 0.4) -> void:
+	dash_time += delta
+	dash_hit_cd = maxf(dash_hit_cd - delta)
 	velocity = dir * speed
 	move_and_slide()
-	if current_hit_cd <= 0.0 and chase_target and is_instance_valid(chase_target):
+	if dash_hit_cd <= 0.0 and chase_target and is_instance_valid(chase_target):
 		if global_position.distance_to(chase_target.global_position) < hit_range:
 			chase_target.take_damage(dmg, global_position)
-			set(hit_cd_ref, hit_cd_reset)
-	if get(time_ref) >= duration:
-		set(active_ref, false)
+			dash_hit_cd = hit_cd_reset
+	if dash_time >= duration:
+		dash_is_active = false
 		play_animation("move")
 		if chase_target and is_instance_valid(chase_target):
 			current_state = State.CHASE
@@ -270,19 +273,19 @@ func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Co
 		spawn_projectile(Vector2.from_angle(angle), speed, tint, proj_scale, from_marker)
 
 
-func start_dash(attack_timer_ref: StringName, speed: float, duration: float, damage: int, hit_cd_ref: StringName, time_ref: StringName, active_ref: StringName, attack_anim: String = "cast") -> bool:
+func start_dash(attack_timer_ref: StringName, speed: float, duration: float, damage: int, attack_anim: String = "cast") -> bool:
 	if not await _begin_cast(attack_timer_ref, 0.3, attack_anim):
 		return false
 	if chase_target and is_instance_valid(chase_target):
-		set(active_ref, true)
-		set(time_ref, 0.0)
-		set(hit_cd_ref, 0.0)
+		dash_is_active = true
+		dash_time = 0.0
+		dash_hit_cd = 0.0
 		play_animation("move")
 		current_state = State.CHASE
 	return true
 
 
-func begin_chase_dash(direction_ref: StringName, attack_timer_ref: StringName, speed: float, duration: float, dmg: int, hit_cd_ref: StringName, time_ref: StringName, active_ref: StringName, attack_anim: String = "cast") -> void:
-	if await start_dash(attack_timer_ref, speed, duration, dmg, hit_cd_ref, time_ref, active_ref, attack_anim):
+func begin_chase_dash(attack_timer_ref: StringName, speed: float, duration: float, dmg: int, attack_anim: String = "cast") -> void:
+	if await start_dash(attack_timer_ref, speed, duration, dmg, attack_anim):
 		if chase_target and is_instance_valid(chase_target):
-			set(direction_ref, (chase_target.global_position - global_position).normalized())
+			dash_direction = (chase_target.global_position - global_position).normalized()

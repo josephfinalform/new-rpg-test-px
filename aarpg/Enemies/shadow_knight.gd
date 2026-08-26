@@ -12,10 +12,6 @@ extends BossEnemy
 
 var dash_timer: float = 0.0
 var whirlwind_timer: float = 0.0
-var is_dashing: bool = false
-var dash_direction: Vector2 = Vector2.ZERO
-var dash_time: float = 0.0
-var dash_hit_cd: float = 0.0
 var is_whirlwinding: bool = false
 var whirlwind_time: float = 0.0
 var whirlwind_tick: float = 0.0
@@ -29,11 +25,11 @@ func _ready() -> void:
 
 
 func _is_special_active() -> bool:
-	return is_dashing or is_whirlwinding
+	return dash_is_active or is_whirlwinding
 
 func _process_special(delta: float) -> void:
-	if is_dashing:
-		process_dash(delta, dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing", dash_direction, 26.0, 0.35)
+	if dash_is_active:
+		process_dash(delta, dash_speed, dash_duration, dash_damage, dash_direction, 26.0, 0.35)
 	elif is_whirlwinding:
 		_process_whirlwind(delta)
 
@@ -69,7 +65,7 @@ func _evaluate_custom_attacks(dist: float) -> void:
 		_start_whirlwind()
 		return
 	if dash_timer >= dash_cooldown and dist < 110 and dist > 45:
-		begin_chase_dash(&"dash_direction", &"dash_timer", dash_speed, dash_duration, dash_damage, &"dash_hit_cd", &"dash_time", &"is_dashing")
+		begin_chase_dash(&"dash_timer", dash_speed, dash_duration, dash_damage)
 		return
 
 

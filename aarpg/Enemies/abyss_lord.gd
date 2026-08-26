@@ -12,10 +12,6 @@ extends BossEnemy
 
 var beam_timer: float = 0.0
 var step_timer: float = 0.0
-var is_stepping: bool = false
-var step_direction: Vector2 = Vector2.ZERO
-var step_time: float = 0.0
-var step_hit_cd: float = 0.0
 
 const DATA = preload("res://aarpg/config/enemies/abyss_lord_data.tres")
 
@@ -25,11 +21,8 @@ func _ready() -> void:
 	super()
 
 
-func _is_special_active() -> bool:
-	return is_stepping
-
 func _process_special(delta: float) -> void:
-	process_dash(delta, step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping", step_direction, 26.0, 0.35)
+	process_dash(delta, step_speed, step_duration, step_damage, dash_direction, 26.0, 0.35)
 
 func _update_attack_timers(delta: float) -> void:
 	beam_timer += delta
@@ -38,7 +31,7 @@ func _update_attack_timers(delta: float) -> void:
 
 func _evaluate_custom_attacks(dist: float) -> void:
 	if step_timer >= step_cooldown and dist < 120 and dist > 40:
-		begin_chase_dash(&"step_direction", &"step_timer", step_speed, step_duration, step_damage, &"step_hit_cd", &"step_time", &"is_stepping")
+		begin_chase_dash(&"step_timer", step_speed, step_duration, step_damage)
 		return
 	if beam_timer >= beam_cooldown and dist < 160:
 		_cast_void_beam()

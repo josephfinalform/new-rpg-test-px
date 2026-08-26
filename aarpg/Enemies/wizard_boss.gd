@@ -12,7 +12,6 @@ extends BossEnemy
 var fireball_timer: float = 0.0
 var teleport_timer: float = 0.0
 var beam_timer: float = 0.0
-var beam_target: Vector2 = Vector2.ZERO
 var beam_active: bool = false
 
 @onready var beam_area: Area2D = $BeamArea
