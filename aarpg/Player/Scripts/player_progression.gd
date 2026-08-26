@@ -1,6 +1,21 @@
 class_name PlayerProgressionHandler
 extends RefCounted
 
+const BASE_MAX_HP := 6
+const STAT_CAP_CRIT := 0.5
+const STAT_CAP_LIFESTEAL := 0.5
+const STAT_CAP_CRIT_DAMAGE := 4.0
+const STAT_CAP_ATTACK_SPEED := 0.4
+const GEAR_MULT_DASH := 0.05
+const GEAR_MULT_CRIT := 0.05
+const GEAR_MULT_LIFESTEAL := 0.05
+const GEAR_MULT_FURY := 0.05
+const GEAR_MULT_XP := 0.1
+const GEAR_MULT_MAGNET := 0.5
+const GEAR_MULT_REGEN := 0.25
+const GEAR_MULT_KNOCKBACK := 0.25
+const GEAR_MULT_CRIT_DAMAGE := 0.25
+
 var player: Player
 
 var xp_bonus: float = 0.0
@@ -110,9 +125,9 @@ func apply_prestige_tree_bonuses() -> void:
 	player.combat.apply_weapon()
 	level_move_bonus += prestige_spd_bonus
 	level_sprint_bonus += prestige_spd_bonus
-	player.combat.crit_chance = minf(player.combat.crit_chance + prestige_crit_bonus, 0.5)
-	player.combat.lifesteal = minf(player.combat.lifesteal + prestige_lifesteal_bonus, 0.5)
-	player.combat.crit_damage_multiplier = minf(player.combat.crit_damage_multiplier + prestige_crit_damage_bonus, 4.0)
+	player.combat.crit_chance = minf(player.combat.crit_chance + prestige_crit_bonus, STAT_CAP_CRIT)
+	player.combat.lifesteal = minf(player.combat.lifesteal + prestige_lifesteal_bonus, STAT_CAP_LIFESTEAL)
+	player.combat.crit_damage_multiplier = minf(player.combat.crit_damage_multiplier + prestige_crit_damage_bonus, STAT_CAP_CRIT_DAMAGE)
 	regen_per_second += prestige_regen_bonus
 	gear_dash_reduction += prestige_dash_reduction_bonus
 	magnet_radius_bonus += prestige_magnet_bonus
@@ -123,7 +138,7 @@ func apply_prestige_tree_bonuses() -> void:
 
 func base_max_health() -> int:
 	var config := player.level_config
-	var hp := 6
+	var hp := BASE_MAX_HP
 	hp += config.health_gain_per_level * (player.level - 1)
 	if config.milestone_interval > 0:
 		var milestones := (player.level - 1) / config.milestone_interval
@@ -146,27 +161,27 @@ func apply_gear_up(gear_up: GearUp) -> void:
 			gear_speed_bonus += float(gear_up.amount)
 			player._recalculate_speed()
 		GearUp.Stat.DASH_COOLDOWN:
-			gear_dash_reduction += gear_up.amount * 0.05
+			gear_dash_reduction += gear_up.amount * GEAR_MULT_DASH
 			player._apply_dash_cooldown()
 		GearUp.Stat.CRIT_CHANCE:
-			player.combat.crit_chance = minf(player.combat.crit_chance + float(gear_up.amount) * 0.05, 0.5)
+			player.combat.crit_chance = minf(player.combat.crit_chance + float(gear_up.amount) * GEAR_MULT_CRIT, STAT_CAP_CRIT)
 		GearUp.Stat.LIFESTEAL:
-			player.combat.lifesteal = minf(player.combat.lifesteal + float(gear_up.amount) * 0.05, 0.5)
+			player.combat.lifesteal = minf(player.combat.lifesteal + float(gear_up.amount) * GEAR_MULT_LIFESTEAL, STAT_CAP_LIFESTEAL)
 		GearUp.Stat.XP_BONUS:
-			xp_bonus += float(gear_up.amount) * 0.1
+			xp_bonus += float(gear_up.amount) * GEAR_MULT_XP
 		GearUp.Stat.ARMOR:
 			player.combat.gear_armor_reduction += gear_up.amount
 		GearUp.Stat.THORNS:
 			player.combat.thorns_damage += gear_up.amount
 		GearUp.Stat.MAGNET:
-			magnet_radius_bonus += float(gear_up.amount) * 0.5
+			magnet_radius_bonus += float(gear_up.amount) * GEAR_MULT_MAGNET
 		GearUp.Stat.REGEN:
-			regen_per_second += float(gear_up.amount) * 0.25
+			regen_per_second += float(gear_up.amount) * GEAR_MULT_REGEN
 		GearUp.Stat.FURY:
-			player.combat.attack_speed_multiplier = maxf(player.combat.attack_speed_multiplier - float(gear_up.amount) * 0.05, 0.4)
+			player.combat.attack_speed_multiplier = maxf(player.combat.attack_speed_multiplier - float(gear_up.amount) * GEAR_MULT_FURY, STAT_CAP_ATTACK_SPEED)
 			player.combat.apply_weapon()
 		GearUp.Stat.KNOCKBACK:
-			player.combat.knockback_multiplier += float(gear_up.amount) * 0.25
+			player.combat.knockback_multiplier += float(gear_up.amount) * GEAR_MULT_KNOCKBACK
 		GearUp.Stat.CRIT_DAMAGE:
-			player.combat.crit_damage_multiplier = minf(player.combat.crit_damage_multiplier + float(gear_up.amount) * 0.25, 4.0)
+			player.combat.crit_damage_multiplier = minf(player.combat.crit_damage_multiplier + float(gear_up.amount) * GEAR_MULT_CRIT_DAMAGE, STAT_CAP_CRIT_DAMAGE)
 	player.gear_up_applied.emit(gear_up)

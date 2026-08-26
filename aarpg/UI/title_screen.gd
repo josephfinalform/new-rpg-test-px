@@ -36,8 +36,6 @@ func _on_start_button_pressed() -> void:
 
 
 func _start_game() -> void:
-	if not GameManager:
-		return
 	AudioManager.play_sfx(SFX_START)
 	GameManager.start_game()
 

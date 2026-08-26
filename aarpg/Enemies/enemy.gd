@@ -12,6 +12,17 @@ const POTION_SCENE = preload("res://aarpg/Pickups/potion_pickup.tscn")
 const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
 const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
 const BURN_TICK_INTERVAL := 0.5
+const HURT_TIME := 0.3
+const INVINCIBILITY_TIME := 0.5
+const KNOCKBACK_LERP_SPEED := 5.0
+const BURN_DEFAULT_DAMAGE := 1
+const BURN_DEFAULT_TICKS := 3
+const SLOW_DEFAULT_DURATION := 1.6
+const SLOW_DEFAULT_FACTOR := 0.5
+const STUN_DEFAULT_DURATION := 0.8
+const STUN_COLOR := Color(0.35, 0.85, 1.0)
+const BURN_COLOR := Color(1.0, 0.6, 0.3)
+const SLOW_COLOR := Color(0.65, 0.8, 1.0)
 
 @export var enemy_data: EnemyData
 @export var max_health: int = 3
@@ -36,7 +47,7 @@ const BURN_TICK_INTERVAL := 0.5
 @export_range(0.0, 1.0) var potion_drop_chance: float = 0.0
 @export var xp_popup_enabled: bool = true
 
-var health: int = 3
+var health: int = 0
 var is_invincible: bool = false
 var is_dead: bool = false
 var is_transitioning: bool = false
@@ -102,8 +113,8 @@ func _ready() -> void:
 	if enemy_data:
 		_apply_data(enemy_data)
 	health = max_health
-	hurt_timer.wait_time = 0.3
-	invincibility_timer.wait_time = 0.5
+	hurt_timer.wait_time = HURT_TIME
+	invincibility_timer.wait_time = INVINCIBILITY_TIME
 	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
@@ -129,7 +140,7 @@ func _physics_process(delta: float) -> void:
 		State.ATTACK:
 			_process_attack(delta)
 	velocity = base_velocity + knockback_velocity
-	knockback_velocity = knockback_velocity.lerp(Vector2.ZERO, 1.0 - exp(-5.0 * delta))
+	knockback_velocity = knockback_velocity.lerp(Vector2.ZERO, 1.0 - exp(-KNOCKBACK_LERP_SPEED * delta))
 	_process_status_effects(delta)
 	move_and_slide()
 
@@ -242,10 +253,6 @@ func _spawn_heart_drop() -> void:
 
 func _spawn_xp_gem() -> void:
 	_spawn_drop(XP_GEM_SCENE)
-	var popup := XP_POPUP.instantiate() as Label
-	get_parent().add_child(popup)
-	popup.text = "GEM"
-	popup.global_position = global_position + Vector2(0, -22)
 
 func _spawn_potion_drop() -> void:
 	_spawn_drop(POTION_SCENE)
@@ -348,11 +355,11 @@ func apply_status_from_weapon(weapon: Weapon) -> void:
 		return
 	match weapon.effect:
 		Weapon.Effect.FIRE:
-			apply_burn(1, 3)
+			apply_burn(BURN_DEFAULT_DAMAGE, BURN_DEFAULT_TICKS)
 		Weapon.Effect.FROST:
-			apply_slow(1.6, 0.5)
+			apply_slow(SLOW_DEFAULT_DURATION, SLOW_DEFAULT_FACTOR)
 		Weapon.Effect.SHOCK:
-			apply_stun(0.8)
+			apply_stun(STUN_DEFAULT_DURATION)
 
 
 func apply_slow(duration: float, factor: float) -> void:
@@ -388,9 +395,9 @@ func _apply_burn_tick() -> void:
 func _update_status_visual() -> void:
 	var target := Color.WHITE
 	if stun_remaining > 0.0:
-		target = Color(0.35, 0.85, 1.0)
+		target = STUN_COLOR
 	elif burn_remaining > 0.0:
-		target = Color(1.0, 0.6, 0.3)
+		target = BURN_COLOR
 	elif slow_remaining > 0.0:
-		target = Color(0.65, 0.8, 1.0)
+		target = SLOW_COLOR
 	modulate = modulate.lerp(target, 0.1)
