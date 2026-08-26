@@ -231,6 +231,24 @@ func _end_cast() -> void:
 		current_state = State.IDLE
 
 
+func cast_fan_attack(timer_ref: StringName, count: int, speed: float, spread_deg: float, tint: Color, proj_scale: Vector2 = Vector2.ONE, from_marker: Marker2D = null, windup_time: float = 0.3) -> bool:
+	if not await _begin_cast(timer_ref, windup_time):
+		return false
+	shoot_fan_projectiles(count, speed, spread_deg, tint, proj_scale, from_marker)
+	_end_cast()
+	return true
+
+
+func cast_single_attack(timer_ref: StringName, speed: float, tint: Color, proj_scale: Vector2 = Vector2.ONE, from_marker: Marker2D = null, windup_time: float = 0.3) -> bool:
+	if not await _begin_cast(timer_ref, windup_time):
+		return false
+	if chase_target and is_instance_valid(chase_target):
+		var dir = (chase_target.global_position - global_position).normalized()
+		spawn_projectile(dir, speed, tint, proj_scale, from_marker)
+	_end_cast()
+	return true
+
+
 func summon_minions() -> void:
 	if not await _begin_cast(&"summon_timer", 0.5):
 		return

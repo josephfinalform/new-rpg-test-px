@@ -41,10 +41,7 @@ func _evaluate_custom_attacks(dist: float) -> void:
 
 
 func _cast_shards() -> void:
-	if not await _begin_cast(&"shard_timer"):
-		return
-	shoot_fan_projectiles(shard_count, shard_speed, 14.0, Color(0.5, 0.9, 1.0), Vector2(1.2, 1.2), spawn_marker)
-	_end_cast()
+	cast_fan_attack(&"shard_timer", shard_count, shard_speed, 14.0, Color(0.5, 0.9, 1.0), Vector2(1.2, 1.2), spawn_marker)
 
 
 func _apply_phase_scaling() -> void:

@@ -50,12 +50,7 @@ func _evaluate_custom_attacks(dist: float) -> void:
 
 
 func _cast_fireball() -> void:
-	if not await _begin_cast(&"fireball_timer"):
-		return
-	if chase_target and is_instance_valid(chase_target):
-		var dir = (chase_target.global_position - global_position).normalized()
-		spawn_projectile(dir, fireball_speed, Color.WHITE, Vector2.ONE, spawn_marker)
-	_end_cast()
+	cast_single_attack(&"fireball_timer", fireball_speed, Color.WHITE, Vector2.ONE, spawn_marker)
 
 
 func _teleport() -> void:

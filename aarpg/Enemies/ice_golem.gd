@@ -40,12 +40,7 @@ func _evaluate_custom_attacks(dist: float) -> void:
 
 
 func _cast_iceball() -> void:
-	if not await _begin_cast(&"iceball_timer"):
-		return
-	if chase_target and is_instance_valid(chase_target):
-		var dir = (chase_target.global_position - global_position).normalized()
-		spawn_projectile(dir, iceball_speed, Color(0.55, 0.85, 1.0), Vector2(1.3, 1.3), spawn_marker)
-	_end_cast()
+	cast_single_attack(&"iceball_timer", iceball_speed, Color(0.55, 0.85, 1.0), Vector2(1.3, 1.3), spawn_marker)
 
 
 func _apply_phase_scaling() -> void:
