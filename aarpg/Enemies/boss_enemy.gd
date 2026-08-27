@@ -315,7 +315,7 @@ func start_dash(attack_timer_ref: StringName, speed: float, duration: float, dam
 	return true
 
 
-func begin_chase_dash(attack_timer_ref: StringName, speed: float, duration: float, dmg: int, attack_anim: String = "cast") -> void:
-	if await start_dash(attack_timer_ref, speed, duration, dmg, attack_anim):
+func begin_chase_dash(attack_timer_ref: StringName, speed: float, duration: float, dmg: int, attack_anim: String = "cast", hit_range: float = 24.0, hit_cd_reset: float = 0.4) -> void:
+	if await start_dash(attack_timer_ref, speed, duration, dmg, attack_anim, hit_range, hit_cd_reset):
 		if chase_target and is_instance_valid(chase_target):
 			dash_direction = (chase_target.global_position - global_position).normalized()
