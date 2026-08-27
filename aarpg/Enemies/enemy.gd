@@ -257,25 +257,25 @@ func _spawn_xp_gem() -> void:
 func _spawn_potion_drop() -> void:
 	_spawn_drop(POTION_SCENE)
 
+func _spawn_scene(scene: PackedScene, offset: Vector2) -> Node2D:
+	var node := scene.instantiate()
+	get_parent().add_child(node)
+	node.global_position = global_position + offset
+	return node
+
+
 func _spawn_drop(scene: PackedScene, offset_y: float = -4.0) -> Node2D:
-	var drop := scene.instantiate()
-	get_parent().add_child(drop)
-	drop.global_position = global_position + Vector2(randf_range(-8, 8), offset_y)
-	return drop
+	return _spawn_scene(scene, Vector2(randf_range(-8, 8), offset_y))
 
 
 func _spawn_xp_popup() -> void:
-	var popup := XP_POPUP.instantiate() as Label
-	get_parent().add_child(popup)
+	var popup := _spawn_scene(XP_POPUP, Vector2(0, -14)) as Label
 	popup.text = "+" + str(xp_reward)
-	popup.global_position = global_position + Vector2(0, -14)
 
 
 func _spawn_damage_number(amount: int) -> void:
-	var number := DAMAGE_NUMBER.instantiate() as Label
-	get_parent().add_child(number)
+	var number := _spawn_scene(DAMAGE_NUMBER, Vector2(randf_range(-6, 6), -16)) as Label
 	number.text = str(amount)
-	number.global_position = global_position + Vector2(randf_range(-6, 6), -16)
 
 
 func spawn_projectile(direction: Vector2, speed: float, tint: Color = Color.WHITE, proj_scale: Vector2 = Vector2.ONE, from_marker: Marker2D = null) -> void:
