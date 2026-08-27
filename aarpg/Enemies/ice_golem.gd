@@ -11,6 +11,7 @@ extends BossEnemy
 
 var iceball_timer: float = 0.0
 var charge_timer: float = 0.0
+var attack_timers: Array[StringName] = [&"iceball_timer", &"charge_timer"]
 
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
@@ -23,11 +24,6 @@ func _get_data_path() -> String:
 
 func _process_special(delta: float) -> void:
 	process_dash(delta, charge_speed, charge_duration, charge_damage, dash_direction)
-
-func _update_attack_timers(delta: float) -> void:
-	iceball_timer += delta
-	charge_timer += delta
-
 
 func _evaluate_custom_attacks(dist: float) -> void:
 	if charge_timer >= charge_cooldown and dist < 100 and dist > 40:

@@ -15,6 +15,7 @@ var whirlwind_timer: float = 0.0
 var is_whirlwinding: bool = false
 var whirlwind_time: float = 0.0
 var whirlwind_tick: float = 0.0
+var attack_timers: Array[StringName] = [&"dash_timer", &"whirlwind_timer"]
 
 const _DATA := "res://aarpg/config/enemies/shadow_knight_data.tres"
 
@@ -31,11 +32,6 @@ func _process_special(delta: float) -> void:
 		process_dash(delta, dash_speed, dash_duration, dash_damage, dash_direction, 26.0, 0.35)
 	elif is_whirlwinding:
 		_process_whirlwind(delta)
-
-func _update_attack_timers(delta: float) -> void:
-	dash_timer += delta
-	whirlwind_timer += delta
-
 
 func _process_whirlwind(delta: float) -> void:
 	whirlwind_time += delta

@@ -12,6 +12,7 @@ extends BossEnemy
 
 var spit_timer: float = 0.0
 var dash_timer: float = 0.0
+var attack_timers: Array[StringName] = [&"spit_timer", &"dash_timer"]
 
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
@@ -24,11 +25,6 @@ func _get_data_path() -> String:
 
 func _process_special(delta: float) -> void:
 	process_dash(delta, dash_speed, dash_duration, dash_damage, dash_direction)
-
-func _update_attack_timers(delta: float) -> void:
-	spit_timer += delta
-	dash_timer += delta
-
 
 func _evaluate_custom_attacks(dist: float) -> void:
 	if dash_timer >= dash_cooldown and dist < 110 and dist > 45:

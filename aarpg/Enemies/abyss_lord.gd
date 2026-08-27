@@ -12,6 +12,7 @@ extends BossEnemy
 
 var beam_timer: float = 0.0
 var step_timer: float = 0.0
+var attack_timers: Array[StringName] = [&"beam_timer", &"step_timer"]
 
 const _DATA := "res://aarpg/config/enemies/abyss_lord_data.tres"
 
@@ -22,11 +23,6 @@ func _get_data_path() -> String:
 
 func _process_special(delta: float) -> void:
 	process_dash(delta, step_speed, step_duration, step_damage, dash_direction, 26.0, 0.35)
-
-func _update_attack_timers(delta: float) -> void:
-	beam_timer += delta
-	step_timer += delta
-
 
 func _evaluate_custom_attacks(dist: float) -> void:
 	if step_timer >= step_cooldown and dist < 120 and dist > 40:

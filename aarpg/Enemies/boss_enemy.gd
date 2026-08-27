@@ -18,6 +18,7 @@ extends Enemy
 @export var minion_tint: Color = Color.WHITE
 @export var minion_spawn_radius: float = 40.0
 
+var attack_timers: Array[StringName] = []
 var summon_timer: float = 0.0
 @export var summon_cooldown: float = 9.0
 @export var summon_phase_threshold: int = 1
@@ -89,8 +90,9 @@ func _process_special(delta: float) -> void:
 		process_dash(delta, dash_speed, dash_duration, dash_damage, dash_direction)
 
 
-func _update_attack_timers(_delta: float) -> void:
-	pass
+func _update_attack_timers(delta: float) -> void:
+	for timer_ref in attack_timers:
+		set(timer_ref, float(get(timer_ref)) + delta)
 
 
 func _evaluate_special_attacks() -> void:

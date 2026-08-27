@@ -13,6 +13,7 @@ var fireball_timer: float = 0.0
 var teleport_timer: float = 0.0
 var beam_timer: float = 0.0
 var beam_active: bool = false
+var attack_timers: Array[StringName] = [&"fireball_timer", &"teleport_timer", &"beam_timer"]
 
 @onready var beam_area: Area2D = $BeamArea
 @onready var beam_collision: CollisionShape2D = $BeamArea/BeamCollision
@@ -32,12 +33,6 @@ func _ready() -> void:
 		beam_area.body_entered.connect(_on_beam_body_entered)
 		beam_collision.disabled = true
 		beam_sprite.hide()
-
-
-func _update_attack_timers(delta: float) -> void:
-	fireball_timer += delta
-	teleport_timer += delta
-	beam_timer += delta
 
 
 func _evaluate_custom_attacks(dist: float) -> void:
