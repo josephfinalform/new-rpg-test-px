@@ -32,6 +32,11 @@ var dash_is_active: bool = false
 var dash_direction: Vector2 = Vector2.ZERO
 var dash_time: float = 0.0
 var dash_hit_cd: float = 0.0
+var active_dash_speed: float = 200.0
+var active_dash_duration: float = 0.5
+var active_dash_damage: int = 1
+var active_dash_hit_range: float = 24.0
+var active_dash_hit_cd_reset: float = 0.4
 
 @onready var boss_health_bar: ProgressBar = $BossHealthBar
 @onready var hp_tween: Tween
@@ -87,7 +92,7 @@ func _is_special_active() -> bool:
 
 func _process_special(delta: float) -> void:
 	if dash_is_active:
-		process_dash(delta, dash_speed, dash_duration, dash_damage, dash_direction)
+		process_dash(delta, active_dash_speed, active_dash_duration, active_dash_damage, dash_direction, active_dash_hit_range, active_dash_hit_cd_reset)
 
 
 func _update_attack_timers(delta: float) -> void:
@@ -293,13 +298,18 @@ func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Co
 		spawn_projectile(Vector2.from_angle(angle), speed, tint, proj_scale, from_marker)
 
 
-func start_dash(attack_timer_ref: StringName, speed: float, duration: float, damage: int, attack_anim: String = "cast") -> bool:
+func start_dash(attack_timer_ref: StringName, speed: float, duration: float, damage: int, attack_anim: String = "cast", hit_range: float = 24.0, hit_cd_reset: float = 0.4) -> bool:
 	if not await _begin_cast(attack_timer_ref, 0.3, attack_anim):
 		return false
 	if chase_target and is_instance_valid(chase_target):
 		dash_is_active = true
 		dash_time = 0.0
 		dash_hit_cd = 0.0
+		active_dash_speed = speed
+		active_dash_duration = duration
+		active_dash_damage = damage
+		active_dash_hit_range = hit_range
+		active_dash_hit_cd_reset = hit_cd_reset
 		play_animation("move")
 		current_state = State.CHASE
 	return true

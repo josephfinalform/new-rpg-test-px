@@ -21,12 +21,9 @@ func _get_data_path() -> String:
 	return _DATA
 
 
-func _process_special(delta: float) -> void:
-	process_dash(delta, step_speed, step_duration, step_damage, dash_direction, 26.0, 0.35)
-
 func _evaluate_custom_attacks(dist: float) -> void:
 	if step_timer >= step_cooldown and dist < 120 and dist > 40:
-		begin_chase_dash(&"step_timer", step_speed, step_duration, step_damage)
+		begin_chase_dash(&"step_timer", step_speed, step_duration, step_damage, "cast", 26.0, 0.35)
 		return
 	if beam_timer >= beam_cooldown and dist < 160:
 		_cast_void_beam()

@@ -23,9 +23,6 @@ func _get_data_path() -> String:
 	return _DATA
 
 
-func _process_special(delta: float) -> void:
-	process_dash(delta, charge_speed, charge_duration, charge_damage, dash_direction)
-
 func _evaluate_custom_attacks(dist: float) -> void:
 	if charge_timer >= charge_cooldown and dist < 110 and dist > 45:
 		begin_chase_dash(&"charge_timer", charge_speed, charge_duration, charge_damage)
