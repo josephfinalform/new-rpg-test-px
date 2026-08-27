@@ -19,11 +19,14 @@ var beam_active: bool = false
 @onready var beam_sprite: Sprite2D = $BeamSprite
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
-const DATA = preload("res://aarpg/config/enemies/wizard_boss_data.tres")
+const _DATA := "res://aarpg/config/enemies/wizard_boss_data.tres"
+
+
+func _get_data_path() -> String:
+	return _DATA
 
 
 func _ready() -> void:
-	enemy_data = DATA
 	super()
 	if beam_area:
 		beam_area.body_entered.connect(_on_beam_body_entered)

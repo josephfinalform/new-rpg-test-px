@@ -13,12 +13,11 @@ extends BossEnemy
 var beam_timer: float = 0.0
 var step_timer: float = 0.0
 
-const DATA = preload("res://aarpg/config/enemies/abyss_lord_data.tres")
+const _DATA := "res://aarpg/config/enemies/abyss_lord_data.tres"
 
 
-func _ready() -> void:
-	enemy_data = DATA
-	super()
+func _get_data_path() -> String:
+	return _DATA
 
 
 func _process_special(delta: float) -> void:

@@ -16,12 +16,11 @@ var is_whirlwinding: bool = false
 var whirlwind_time: float = 0.0
 var whirlwind_tick: float = 0.0
 
-const DATA = preload("res://aarpg/config/enemies/shadow_knight_data.tres")
+const _DATA := "res://aarpg/config/enemies/shadow_knight_data.tres"
 
 
-func _ready() -> void:
-	enemy_data = DATA
-	super()
+func _get_data_path() -> String:
+	return _DATA
 
 
 func _is_special_active() -> bool:

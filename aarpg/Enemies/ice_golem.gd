@@ -14,12 +14,11 @@ var charge_timer: float = 0.0
 
 @onready var spawn_marker: Marker2D = $SpawnMarker
 
-const DATA = preload("res://aarpg/config/enemies/ice_golem_data.tres")
+const _DATA := "res://aarpg/config/enemies/ice_golem_data.tres"
 
 
-func _ready() -> void:
-	enemy_data = DATA
-	super()
+func _get_data_path() -> String:
+	return _DATA
 
 
 func _process_special(delta: float) -> void:
