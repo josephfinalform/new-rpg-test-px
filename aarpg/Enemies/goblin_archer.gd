@@ -1,7 +1,7 @@
 class_name GoblinArcher
 extends Enemy
 
-const DATA = preload("res://aarpg/config/enemies/goblin_archer_data.tres")
+const _DATA := "res://aarpg/config/enemies/goblin_archer_data.tres"
 
 @export var shoot_range: float = 170.0
 @export var keep_distance: float = 130.0
@@ -11,9 +11,8 @@ const DATA = preload("res://aarpg/config/enemies/goblin_archer_data.tres")
 var shoot_timer: float = 0.0
 
 
-func _ready() -> void:
-	enemy_data = DATA
-	super()
+func _get_data_path() -> String:
+	return _DATA
 
 
 func _physics_process(delta: float) -> void:
