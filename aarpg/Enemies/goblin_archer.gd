@@ -15,17 +15,11 @@ func _get_data_path() -> String:
 	return _DATA
 
 
-func _physics_process(delta: float) -> void:
-	if is_dead:
-		return
-	shoot_timer += delta
-	super._physics_process(delta)
-
-
 func _process_chase(_delta: float) -> void:
 	if not chase_target or not is_instance_valid(chase_target):
 		current_state = State.IDLE
 		return
+	shoot_timer += _delta
 	var dist := global_position.distance_to(chase_target.global_position)
 	var dir: Vector2 = (chase_target.global_position - global_position).normalized()
 	if dist < keep_distance and dist > 40.0:
