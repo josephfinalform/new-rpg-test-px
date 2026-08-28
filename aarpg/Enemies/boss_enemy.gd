@@ -272,7 +272,7 @@ func summon_minions() -> void:
 
 func process_dash(delta: float, speed: float, duration: float, dmg: int, dir: Vector2, hit_range: float = 24.0, hit_cd_reset: float = 0.4) -> void:
 	dash_time += delta
-	dash_hit_cd = maxf(dash_hit_cd - delta)
+	dash_hit_cd = maxf(dash_hit_cd - delta, 0.0)
 	velocity = dir * speed
 	move_and_slide()
 	if dash_hit_cd <= 0.0 and chase_target and is_instance_valid(chase_target):
