@@ -4,6 +4,10 @@ extends Area2D
 const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
 const DEFAULT_SFX = preload("res://assets/audio/sfx/item_pickup.wav")
 
+const ITEM_BOB_SPEED := 3.0
+const ITEM_BOB_AMPLITUDE := 2.0
+const ITEM_BOB_BASE_Y := 0.0
+
 @export var lifetime: float = 12.0
 @export var bob_speed: float = 4.0
 @export var bob_amplitude: float = 2.0
@@ -18,6 +22,13 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	if lifetime > 0.0:
 		create_tween().tween_interval(lifetime).tween_callback(queue_free)
+
+
+func _configure_item_bob(rotation: float) -> void:
+	bob_speed = ITEM_BOB_SPEED
+	bob_amplitude = ITEM_BOB_AMPLITUDE
+	bob_base_y = ITEM_BOB_BASE_Y
+	rotation_speed = rotation
 
 
 func _process(delta: float) -> void:

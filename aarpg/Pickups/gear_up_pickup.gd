@@ -8,10 +8,7 @@ extends PickupBase
 
 
 func _ready() -> void:
-	bob_speed = 3.0
-	bob_amplitude = 2.0
-	bob_base_y = 0.0
-	rotation_speed = 0.6
+	_configure_item_bob(0.6)
 	super._ready()
 	_apply_visual()
 

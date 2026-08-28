@@ -10,10 +10,7 @@ const DEFAULT_SCROLL = preload("res://aarpg/config/scrolls/xp_scroll.tres")
 
 
 func _ready() -> void:
-	bob_speed = 3.0
-	bob_amplitude = 2.0
-	bob_base_y = 0.0
-	rotation_speed = 0.8
+	_configure_item_bob(0.8)
 	super._ready()
 	_apply_visual()
 
