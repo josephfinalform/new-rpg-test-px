@@ -40,16 +40,24 @@ func _collect_tiles() -> void:
 
 
 func _paint(layer: TileMapLayer, rng: RandomNumberGenerator) -> void:
+	_paint_floor(layer, rng)
+	if deco_source_id >= 0 and _deco_tiles.size() > 0 and decoration_density > 0.0:
+		_paint_decorations(layer, rng)
+
+
+func _paint_floor(layer: TileMapLayer, rng: RandomNumberGenerator) -> void:
 	for y in paint_size.y:
 		for x in paint_size.x:
 			var tile: Vector2i = _floor_tiles[rng.randi() % _floor_tiles.size()]
 			layer.set_cell(Vector2i(x, y), floor_source_id, tile, 0)
-	if deco_source_id >= 0 and _deco_tiles.size() > 0 and decoration_density > 0.0:
-		for y in paint_size.y:
-			for x in paint_size.x:
-				if rng.randf() < decoration_density:
-					var tile: Vector2i = _deco_tiles[rng.randi() % _deco_tiles.size()]
-					layer.set_cell(Vector2i(x, y), deco_source_id, tile, 0)
+
+
+func _paint_decorations(layer: TileMapLayer, rng: RandomNumberGenerator) -> void:
+	for y in paint_size.y:
+		for x in paint_size.x:
+			if rng.randf() < decoration_density:
+				var tile: Vector2i = _deco_tiles[rng.randi() % _deco_tiles.size()]
+				layer.set_cell(Vector2i(x, y), deco_source_id, tile, 0)
 
 
 func _build_bounds() -> void:
