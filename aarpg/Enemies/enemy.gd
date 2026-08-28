@@ -77,6 +77,9 @@ var stun_remaining: float = 0.0
 @onready var hurt_timer: Timer = $HurtTimer
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 
+func has_valid_target() -> bool:
+	return chase_target != null and is_instance_valid(chase_target)
+
 func _cache_player() -> void:
 	_cached_player = Player.find_in_tree(get_tree())
 
@@ -168,11 +171,11 @@ func _process_idle(delta: float) -> void:
 	velocity = idle_direction * move_speed * idle_speed_ratio * slow_factor
 	base_velocity = velocity
 	_update_idle_animation()
-	if chase_target and is_instance_valid(chase_target):
+	if has_valid_target():
 		current_state = State.CHASE
 
 func _process_chase(_delta: float) -> void:
-	if not chase_target or not is_instance_valid(chase_target):
+	if not has_valid_target():
 		current_state = State.IDLE
 		return
 	var dir: Vector2 = (chase_target.global_position - global_position).normalized()
@@ -187,7 +190,7 @@ func _process_hurt(_delta: float) -> void:
 	if hurt_timer.is_stopped() and not is_transitioning:
 		if is_dead:
 			return
-		if chase_target and is_instance_valid(chase_target):
+		if has_valid_target():
 			current_state = State.CHASE
 		else:
 			current_state = State.IDLE
@@ -197,7 +200,7 @@ func _process_attack(delta: float) -> void:
 	base_velocity = Vector2.ZERO
 	attack_cooldown -= delta
 	if attack_cooldown <= 0:
-		if chase_target and is_instance_valid(chase_target):
+		if has_valid_target():
 			if global_position.distance_to(chase_target.global_position) < attack_range * 2:
 				current_state = State.CHASE
 			else:
