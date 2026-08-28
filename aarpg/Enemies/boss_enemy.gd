@@ -148,10 +148,7 @@ func _start_phase_transition() -> void:
 	is_transitioning = false
 	is_invincible = false
 	sprite.modulate = Color.WHITE
-	if chase_target and is_instance_valid(chase_target):
-		current_state = State.CHASE
-	else:
-		current_state = State.IDLE
+	_resume_chase_or_idle()
 
 
 func _play_phase_effect() -> void:
@@ -228,13 +225,17 @@ func _begin_cast(timer_ref: StringName, windup_time: float = 0.3, anim: String =
 	return true
 
 
-func _end_cast() -> void:
-	play_animation("move")
-	is_casting = false
+func _resume_chase_or_idle() -> void:
 	if chase_target and is_instance_valid(chase_target):
 		current_state = State.CHASE
 	else:
 		current_state = State.IDLE
+
+
+func _end_cast() -> void:
+	play_animation("move")
+	is_casting = false
+	_resume_chase_or_idle()
 
 
 func cast_fan_attack(timer_ref: StringName, count: int, speed: float, spread_deg: float, tint: Color, proj_scale: Vector2 = Vector2.ONE, from_marker: Marker2D = null, windup_time: float = 0.3) -> bool:
@@ -281,10 +282,7 @@ func process_dash(delta: float, speed: float, duration: float, dmg: int, dir: Ve
 	if dash_time >= duration:
 		dash_is_active = false
 		play_animation("move")
-		if chase_target and is_instance_valid(chase_target):
-			current_state = State.CHASE
-		else:
-			current_state = State.IDLE
+		_resume_chase_or_idle()
 
 
 func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Color, proj_scale: Vector2 = Vector2.ONE, from_marker: Marker2D = null) -> void:
