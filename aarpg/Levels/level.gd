@@ -53,9 +53,7 @@ func _setup_grind_level() -> void:
 		if not enemy is Enemy:
 			continue
 		var is_boss := enemy is BossEnemy
-		enemy.xp_reward = roundi(float(enemy.xp_reward) * grind_xp_multiplier)
-		if is_boss:
-			enemy.bonus_xp_reward = roundi(float(enemy.bonus_xp_reward) * grind_xp_multiplier)
+		_apply_grind_xp(enemy)
 		var entry := {
 			"scene_path": enemy.scene_file_path,
 			"position": enemy.global_position,
@@ -63,6 +61,13 @@ func _setup_grind_level() -> void:
 			"pending": false,
 		}
 		enemy.died.connect(_on_enemy_died.bind(entry))
+
+
+func _apply_grind_xp(enemy: Enemy) -> void:
+	enemy.xp_reward = roundi(float(enemy.xp_reward) * grind_xp_multiplier)
+	if enemy is BossEnemy:
+		var boss := enemy as BossEnemy
+		boss.bonus_xp_reward = roundi(float(boss.bonus_xp_reward) * grind_xp_multiplier)
 
 
 func _on_enemy_died(entry: Dictionary) -> void:
@@ -93,10 +98,7 @@ func _respawn_entry(entry: Dictionary) -> void:
 	var new_enemy: Enemy = scene.instantiate()
 	container.add_child(new_enemy)
 	new_enemy.global_position = entry["position"]
-	new_enemy.xp_reward = roundi(float(new_enemy.xp_reward) * grind_xp_multiplier)
-	if entry["is_boss"]:
-		var boss_enemy := new_enemy as BossEnemy
-		boss_enemy.bonus_xp_reward = roundi(float(boss_enemy.bonus_xp_reward) * grind_xp_multiplier)
+	_apply_grind_xp(new_enemy)
 	new_enemy.died.connect(_on_enemy_died.bind(entry))
 	if new_enemy.has_method("apply_level_scaling"):
 		new_enemy.apply_level_scaling(GameManager.current_level_index)
