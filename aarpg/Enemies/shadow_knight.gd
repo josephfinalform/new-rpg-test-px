@@ -29,7 +29,7 @@ func _is_special_active() -> bool:
 
 func _process_special(delta: float) -> void:
 	if dash_is_active:
-		process_dash(delta, dash_speed, dash_duration, dash_damage, dash_direction, 26.0, 0.35)
+		super(delta)
 	elif is_whirlwinding:
 		_process_whirlwind(delta)
 
@@ -60,7 +60,7 @@ func _evaluate_custom_attacks(dist: float) -> void:
 		_start_whirlwind()
 		return
 	if dash_timer >= dash_cooldown and dist < 110 and dist > 45:
-		begin_chase_dash(&"dash_timer", dash_speed, dash_duration, dash_damage)
+		begin_chase_dash(&"dash_timer", dash_speed, dash_duration, dash_damage, "cast", 26.0, 0.35)
 		return
 
 
