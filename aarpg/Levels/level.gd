@@ -17,6 +17,11 @@ var _scene_cache: Dictionary = {}
 var _boss_respawn_banner: CanvasLayer = null
 var _player: Player = null
 
+const BOSS_BANNER_COLOR := Color(1, 0.3, 0.3)
+const BOSS_BANNER_FONT_SIZE := 28
+const BOSS_BANNER_HOLD_TIME := 1.2
+const BOSS_BANNER_FADE_TIME := 0.5
+
 
 func _ready() -> void:
 	_player = Player.find_in_tree(get_tree())
@@ -31,7 +36,7 @@ func _ready() -> void:
 		_setup_grind_level()
 	_apply_difficulty_scaling()
 	if is_final_level:
-		_show_banner("BOSS", Color(1, 0.3, 0.3), 28, 1.2, 0.5)
+		_show_banner("BOSS", BOSS_BANNER_COLOR, BOSS_BANNER_FONT_SIZE, BOSS_BANNER_HOLD_TIME, BOSS_BANNER_FADE_TIME)
 		_show_boss_banner_text()
 	elif is_grind_level:
 		_show_banner("EXP GRIND ARENA", Color(0.6, 0.9, 1.0), 26, 1.2, 0.5)
@@ -147,7 +152,7 @@ func _show_boss_banner_text() -> void:
 	if not boss.is_empty():
 		var boss_node := get_node_or_null(boss)
 		if boss_node and boss_node.has_method("get_boss_name"):
-			_show_banner(boss_node.get_boss_name(), Color(1, 0.3, 0.3), 28, 1.2, 0.5)
+			_show_banner(boss_node.get_boss_name(), BOSS_BANNER_COLOR, BOSS_BANNER_FONT_SIZE, BOSS_BANNER_HOLD_TIME, BOSS_BANNER_FADE_TIME)
 
 
 func _show_respawn_banner(delay: float) -> void:
