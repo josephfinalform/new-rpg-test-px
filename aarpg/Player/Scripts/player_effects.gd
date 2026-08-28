@@ -13,19 +13,11 @@ func _init(p: Player) -> void:
 
 
 func spawn_damage_number(amount: int) -> void:
-	var number := DAMAGE_NUMBER.instantiate() as Label
-	get_tree_current_scene().add_child(number)
-	number.text = str(amount)
-	number.modulate = Color(1.0, 0.35, 0.35)
-	number.global_position = player.global_position + Vector2(randf_range(-6, 6), -16)
+	_spawn_popup(DAMAGE_NUMBER, str(amount), Color(1.0, 0.35, 0.35), Vector2(randf_range(-6, 6), -16))
 
 
 func spawn_crit_text(enemy: Node2D) -> void:
-	var popup := CRIT_POPUP.instantiate() as Label
-	get_tree_current_scene().add_child(popup)
-	popup.text = "CRIT!"
-	popup.modulate = Color(1.0, 0.9, 0.3)
-	popup.global_position = enemy.global_position + Vector2(randf_range(-6, 6), -18)
+	_spawn_popup(CRIT_POPUP, "CRIT!", Color(1.0, 0.9, 0.3), enemy.global_position + Vector2(randf_range(-6, 6), -18) - player.global_position)
 
 
 func spawn_level_up_effect() -> void:
@@ -58,11 +50,16 @@ func spawn_prestige_effect() -> void:
 
 
 func spawn_combo_milestone(count: int) -> void:
-	var popup := CRIT_POPUP.instantiate() as Label
+	_spawn_popup(CRIT_POPUP, "COMBO x%d!" % count, Color(1.0, 0.6, 0.2), Vector2(0, -24))
+
+
+func _spawn_popup(scene: PackedScene, text: String, color: Color, offset: Vector2) -> Label:
+	var popup := scene.instantiate() as Label
 	get_tree_current_scene().add_child(popup)
-	popup.text = "COMBO x%d!" % count
-	popup.modulate = Color(1.0, 0.6, 0.2)
-	popup.global_position = player.global_position + Vector2(0, -24)
+	popup.text = text
+	popup.modulate = color
+	popup.global_position = player.global_position + offset
+	return popup
 
 
 func get_tree_current_scene() -> Node:
