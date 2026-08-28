@@ -19,13 +19,15 @@ func play_sfx(stream: AudioStream, volume_db: float = 0.0) -> void:
 		return
 	for player in sfx_players:
 		if not player.playing:
-			player.stream = stream
-			player.volume_db = volume_db
-			player.play()
+			_play_on(player, stream, volume_db)
 			return
-	sfx_players[0].stream = stream
-	sfx_players[0].volume_db = volume_db
-	sfx_players[0].play()
+	_play_on(sfx_players[0], stream, volume_db)
+
+
+func _play_on(player: AudioStreamPlayer, stream: AudioStream, volume_db: float) -> void:
+	player.stream = stream
+	player.volume_db = volume_db
+	player.play()
 
 var _music_tween: Tween = null
 
