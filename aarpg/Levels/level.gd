@@ -29,7 +29,7 @@ func _ready() -> void:
 		_player.died.connect(_on_player_died)
 		_player.global_position = player_spawn
 	if not boss.is_empty():
-		var boss_node := get_node_or_null(boss)
+		var boss_node := _get_boss_node()
 		if boss_node:
 			boss_node.died.connect(_on_boss_died)
 	if is_grind_level:
@@ -148,11 +148,14 @@ func _show_banner(text: String, color: Color, font_size: int = 28, hold_time: fl
 	label.get_parent().queue_free()
 
 
+func _get_boss_node() -> Node:
+	return get_node_or_null(boss) if not boss.is_empty() else null
+
+
 func _show_boss_banner_text() -> void:
-	if not boss.is_empty():
-		var boss_node := get_node_or_null(boss)
-		if boss_node and boss_node.has_method("get_boss_name"):
-			_show_banner(boss_node.get_boss_name(), BOSS_BANNER_COLOR, BOSS_BANNER_FONT_SIZE, BOSS_BANNER_HOLD_TIME, BOSS_BANNER_FADE_TIME)
+	var boss_node := _get_boss_node()
+	if boss_node and boss_node.has_method("get_boss_name"):
+		_show_banner(boss_node.get_boss_name(), BOSS_BANNER_COLOR, BOSS_BANNER_FONT_SIZE, BOSS_BANNER_HOLD_TIME, BOSS_BANNER_FADE_TIME)
 
 
 func _show_respawn_banner(delay: float) -> void:
