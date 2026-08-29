@@ -119,11 +119,13 @@ func _ready() -> void:
 	combat.base_attack_cooldown = attack_cooldown
 	equipped_weapon = GameManager.equipped_weapon if GameManager.equipped_weapon != null else DEFAULT_WEAPON
 	combat.equip_weapon(equipped_weapon)
+	_ready_equipment_setup()
+
+
+func _ready_equipment_setup() -> void:
 	if equipped_armor == null:
 		equipped_armor = GameManager.equipped_armor
-	_apply_armor_visual()
-	_recalculate_speed()
-	_apply_dash_cooldown()
+	_refresh_equipment_tuning()
 
 
 func get_input() -> void:
@@ -238,9 +240,7 @@ func equip_weapon(weapon: Weapon) -> void:
 func equip_armor(armor: Armor) -> void:
 	equipped_armor = armor
 	GameManager.equipped_armor = armor
-	_apply_armor_visual()
-	_recalculate_speed()
-	_apply_dash_cooldown()
+	_refresh_equipment_tuning()
 	armor_changed.emit(armor)
 
 
@@ -280,6 +280,12 @@ func get_rank_title() -> String:
 
 func get_rank_color() -> Color:
 	return level_config.get_rank_color(level)
+
+
+func _refresh_equipment_tuning() -> void:
+	_apply_armor_visual()
+	_recalculate_speed()
+	_apply_dash_cooldown()
 
 
 func _recalculate_speed() -> void:
