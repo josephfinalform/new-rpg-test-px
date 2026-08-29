@@ -31,12 +31,14 @@ func _ready() -> void:
 
 
 func _collect_tiles() -> void:
-	for y in floor_atlas_region.size.y:
-		for x in floor_atlas_region.size.x:
-			_floor_tiles.append(floor_atlas_region.position + Vector2i(x, y))
-	for y in deco_atlas_region.size.y:
-		for x in deco_atlas_region.size.x:
-			_deco_tiles.append(deco_atlas_region.position + Vector2i(x, y))
+	_collect_region(floor_atlas_region, _floor_tiles)
+	_collect_region(deco_atlas_region, _deco_tiles)
+
+
+func _collect_region(region: Rect2i, into: Array[Vector2i]) -> void:
+	for y in region.size.y:
+		for x in region.size.x:
+			into.append(region.position + Vector2i(x, y))
 
 
 func _paint(layer: TileMapLayer, rng: RandomNumberGenerator) -> void:
