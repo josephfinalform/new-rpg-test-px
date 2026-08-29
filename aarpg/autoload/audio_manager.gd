@@ -38,9 +38,7 @@ func play_music(stream: AudioStream, fade_time: float = 1.0) -> void:
 		_music_tween.kill()
 		_music_tween = null
 	if music_player.playing:
-		_music_tween = create_tween()
-		_music_tween.tween_property(music_player, "volume_db", -40.0, fade_time * 0.5)
-		await _music_tween.finished
+		await _fade_music_down(fade_time * 0.5)
 	music_player.stream = stream
 	music_player.volume_db = 0.0
 	music_player.play()
@@ -52,7 +50,11 @@ func play_music(stream: AudioStream, fade_time: float = 1.0) -> void:
 func stop_music(fade_time: float = 0.5) -> void:
 	if not music_player.playing:
 		return
-	var tween = create_tween()
-	tween.tween_property(music_player, "volume_db", -40.0, fade_time)
-	await tween.finished
+	await _fade_music_down(fade_time)
 	music_player.stop()
+
+
+func _fade_music_down(fade_time: float) -> void:
+	_music_tween = create_tween()
+	_music_tween.tween_property(music_player, "volume_db", -40.0, fade_time)
+	await _music_tween.finished
