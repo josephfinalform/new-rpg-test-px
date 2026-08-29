@@ -70,18 +70,22 @@ func get_xp_magnet_radius(base_radius: float) -> float:
 
 func apply_level_up() -> void:
 	var config := player.level_config
-	player.max_health += config.health_gain_per_level
-	player.health = min(player.health + config.heal_on_level_up, player.max_health)
-	player.base_attack_damage += config.damage_gain_per_level
-	player.combat.apply_weapon()
-	level_move_bonus += config.move_speed_gain
-	level_sprint_bonus += config.sprint_speed_gain
-	player._recalculate_speed()
+	_grant_level_stats(config.health_gain_per_level, config.heal_on_level_up, config.damage_gain_per_level, config.move_speed_gain, config.sprint_speed_gain)
 	_apply_milestone_bonus()
 	player.health_changed.emit(player.health)
 	player.level_up.emit(player.level)
 	player._spawn_level_up_effect()
 	player._animate_level_scale()
+
+
+func _grant_level_stats(hp_gain: int, heal_amount: int, dmg_gain: int, move_gain: float, sprint_gain: float) -> void:
+	player.max_health += hp_gain
+	player.health = min(player.health + heal_amount, player.max_health)
+	player.base_attack_damage += dmg_gain
+	player.combat.apply_weapon()
+	level_move_bonus += move_gain
+	level_sprint_bonus += sprint_gain
+	player._recalculate_speed()
 
 
 func _apply_milestone_bonus() -> void:
@@ -94,13 +98,7 @@ func _apply_milestone_bonus() -> void:
 	var hp_bonus := maxi(roundi(config.milestone_max_health_bonus * mult), 1)
 	var dmg_bonus := maxi(roundi(config.milestone_damage_bonus * mult), 1)
 	var spd_bonus := config.milestone_speed_bonus * mult
-	player.max_health += hp_bonus
-	player.health = min(player.health + hp_bonus, player.max_health)
-	player.base_attack_damage += dmg_bonus
-	player.combat.apply_weapon()
-	level_move_bonus += spd_bonus
-	level_sprint_bonus += spd_bonus
-	player._recalculate_speed()
+	_grant_level_stats(hp_bonus, hp_bonus, dmg_bonus, spd_bonus, spd_bonus)
 
 
 func apply_prestige_tree_bonuses() -> void:
