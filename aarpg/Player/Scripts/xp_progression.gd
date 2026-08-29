@@ -47,9 +47,7 @@ func gain_level() -> void:
 	if level >= level_config.max_level:
 		_gain_prestige(xp_to_next_level)
 		return
-	level += 1
-	xp_to_next_level = get_xp_for_level(level)
-	level_gained.emit(level)
+	_grant_level()
 
 
 func _grant_level() -> void:
