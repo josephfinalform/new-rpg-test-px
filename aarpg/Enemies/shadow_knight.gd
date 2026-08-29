@@ -38,7 +38,7 @@ func _process_whirlwind(delta: float) -> void:
 	whirlwind_tick = max(0.0, whirlwind_tick - delta)
 	sprite.rotation += delta * 16.0
 	var dir: Vector2 = Vector2.ZERO
-	if chase_target and is_instance_valid(chase_target):
+	if has_valid_target():
 		dir = (chase_target.global_position - global_position).normalized()
 		if whirlwind_tick <= 0.0 and global_position.distance_to(chase_target.global_position) < whirlwind_radius:
 			chase_target.take_damage(whirlwind_damage, global_position)
@@ -49,10 +49,7 @@ func _process_whirlwind(delta: float) -> void:
 		is_whirlwinding = false
 		sprite.rotation = 0.0
 		play_animation("move")
-		if chase_target and is_instance_valid(chase_target):
-			current_state = State.CHASE
-		else:
-			current_state = State.IDLE
+		_resume_chase_or_idle()
 
 
 func _evaluate_custom_attacks(dist: float) -> void:

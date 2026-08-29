@@ -16,7 +16,7 @@ func _get_data_path() -> String:
 
 
 func _process_chase(_delta: float) -> void:
-	if not chase_target or not is_instance_valid(chase_target):
+	if not has_valid_target():
 		current_state = State.IDLE
 		return
 	shoot_timer += _delta

@@ -101,7 +101,7 @@ func _update_attack_timers(delta: float) -> void:
 
 
 func _evaluate_special_attacks() -> void:
-	if not chase_target or not is_instance_valid(chase_target):
+	if not has_valid_target():
 		return
 	var dist := global_position.distance_to(chase_target.global_position)
 	if current_phase >= summon_phase_threshold and summon_timer >= summon_cooldown and dist < summon_distance_threshold:
@@ -226,7 +226,7 @@ func _begin_cast(timer_ref: StringName, windup_time: float = 0.3, anim: String =
 
 
 func _resume_chase_or_idle() -> void:
-	if chase_target and is_instance_valid(chase_target):
+	if has_valid_target():
 		current_state = State.CHASE
 	else:
 		current_state = State.IDLE
@@ -249,7 +249,7 @@ func cast_fan_attack(timer_ref: StringName, count: int, speed: float, spread_deg
 func cast_single_attack(timer_ref: StringName, speed: float, tint: Color, proj_scale: Vector2 = Vector2.ONE, from_marker: Marker2D = null, windup_time: float = 0.3) -> bool:
 	if not await _begin_cast(timer_ref, windup_time):
 		return false
-	if chase_target and is_instance_valid(chase_target):
+	if has_valid_target():
 		var dir = (chase_target.global_position - global_position).normalized()
 		spawn_projectile(dir, speed, tint, proj_scale, from_marker)
 	_end_cast()
@@ -275,7 +275,7 @@ func process_dash(delta: float, speed: float, duration: float, dmg: int, dir: Ve
 	dash_hit_cd = maxf(dash_hit_cd - delta, 0.0)
 	velocity = dir * speed
 	move_and_slide()
-	if dash_hit_cd <= 0.0 and chase_target and is_instance_valid(chase_target):
+	if dash_hit_cd <= 0.0 and has_valid_target():
 		if global_position.distance_to(chase_target.global_position) < hit_range:
 			chase_target.take_damage(dmg, global_position)
 			dash_hit_cd = hit_cd_reset
@@ -286,7 +286,7 @@ func process_dash(delta: float, speed: float, duration: float, dmg: int, dir: Ve
 
 
 func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Color, proj_scale: Vector2 = Vector2.ONE, from_marker: Marker2D = null) -> void:
-	if not chase_target or not is_instance_valid(chase_target):
+	if not has_valid_target():
 		return
 	var dir: Vector2 = (chase_target.global_position - global_position).normalized()
 	var base_angle := dir.angle()
@@ -298,7 +298,7 @@ func shoot_fan_projectiles(count: int, speed: float, spread_deg: float, tint: Co
 func start_dash(attack_timer_ref: StringName, speed: float, duration: float, damage: int, attack_anim: String = "cast", hit_range: float = 24.0, hit_cd_reset: float = 0.4) -> bool:
 	if not await _begin_cast(attack_timer_ref, 0.3, attack_anim):
 		return false
-	if chase_target and is_instance_valid(chase_target):
+	if has_valid_target():
 		dash_is_active = true
 		dash_time = 0.0
 		dash_hit_cd = 0.0
@@ -314,5 +314,5 @@ func start_dash(attack_timer_ref: StringName, speed: float, duration: float, dam
 
 func begin_chase_dash(attack_timer_ref: StringName, speed: float, duration: float, dmg: int, attack_anim: String = "cast", hit_range: float = 24.0, hit_cd_reset: float = 0.4) -> void:
 	if await start_dash(attack_timer_ref, speed, duration, dmg, attack_anim, hit_range, hit_cd_reset):
-		if chase_target and is_instance_valid(chase_target):
+		if has_valid_target():
 			dash_direction = (chase_target.global_position - global_position).normalized()

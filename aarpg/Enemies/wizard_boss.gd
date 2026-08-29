@@ -64,7 +64,7 @@ func _teleport() -> void:
 	if is_dead:
 		is_casting = false
 		return
-	if chase_target and is_instance_valid(chase_target):
+	if has_valid_target():
 		var offset = Vector2(randf_range(-teleport_range, teleport_range), randf_range(-teleport_range, teleport_range))
 		var new_pos = chase_target.global_position + offset
 		var map_size = get_viewport_rect().size
@@ -79,11 +79,11 @@ func _teleport() -> void:
 
 
 func _cast_beam() -> void:
-	if not chase_target or not is_instance_valid(chase_target):
+	if not has_valid_target():
 		return
 	if not await _begin_cast(&"beam_timer", 0.4):
 		return
-	if chase_target and is_instance_valid(chase_target):
+	if has_valid_target():
 		var dir = (chase_target.global_position - global_position).normalized()
 		beam_sprite.global_rotation = dir.angle()
 		beam_sprite.show()
