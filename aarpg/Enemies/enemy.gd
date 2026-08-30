@@ -235,9 +235,10 @@ func _die() -> void:
 	hitbox_area.set_deferred("monitoring", false)
 	_grant_player_xp(xp_reward)
 	GameManager.enemy_killed()
-	_roll_drop(heart_drop_chance, HEART_SCENE)
-	_roll_drop(xp_gem_drop_chance, XP_GEM_SCENE)
-	_roll_drop(potion_drop_chance, POTION_SCENE)
+	var drop_luck := GameManager.get_drop_luck()
+	_roll_drop(heart_drop_chance, HEART_SCENE, drop_luck)
+	_roll_drop(xp_gem_drop_chance, XP_GEM_SCENE, drop_luck)
+	_roll_drop(potion_drop_chance, POTION_SCENE, drop_luck)
 	if xp_popup_enabled:
 		_spawn_xp_popup()
 	if death_sfx:
@@ -248,8 +249,8 @@ func _grant_player_xp(amount: int) -> void:
 	if _cached_player and not _cached_player.is_dead:
 		_cached_player.gain_xp(amount)
 
-func _roll_drop(chance: float, scene: PackedScene) -> void:
-	if chance > 0.0 and randf() < chance:
+func _roll_drop(chance: float, scene: PackedScene, luck: float = 1.0) -> void:
+	if chance > 0.0 and randf() < minf(chance * luck, 1.0):
 		_spawn_drop(scene)
 
 func _spawn_scene(scene: PackedScene, offset: Vector2) -> Node2D:
