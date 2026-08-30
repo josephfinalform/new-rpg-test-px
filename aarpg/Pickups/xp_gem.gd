@@ -22,7 +22,19 @@ func _ready() -> void:
 	scale = Vector2(size_scale, size_scale)
 	super._ready()
 	_target_player = Player.find_in_tree(get_tree())
+	_update_season_tint()
 
+
+func _update_season_tint() -> void:
+	match SeasonManager.current_season:
+		SeasonManager.Season.SUMMER:
+			modulate = Color(1.0, 0.85, 0.5)
+		SeasonManager.Season.AUTUMN:
+			modulate = Color(1.0, 0.7, 0.45)
+		SeasonManager.Season.WINTER:
+			modulate = Color(0.75, 0.9, 1.0)
+		_:
+			modulate = Color(1.0, 1.0, 1.0)
 
 func _process(delta: float) -> void:
 	super._process(delta)
@@ -50,4 +62,5 @@ func _draw() -> void:
 
 func _apply_effect(player: Player) -> void:
 	player.gain_xp(xp_amount)
-	_spawn_popup("+" + str(xp_amount) + " XP", Color(0.35, 0.75, 1.0))
+	var applied := maxi(roundi(float(xp_amount) * player.get_xp_multiplier()), 1)
+	_spawn_popup("+" + str(applied) + " XP", Color(0.35, 0.75, 1.0))
