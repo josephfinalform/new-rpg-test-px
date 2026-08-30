@@ -45,7 +45,7 @@ func process_hitbox_body_entered(body: Node2D) -> void:
 func apply_weapon() -> void:
 	if equipped_weapon == null:
 		return
-	player.attack_damage = base_attack_damage + equipped_weapon.damage_bonus
+	player.attack_damage = roundi((base_attack_damage + equipped_weapon.damage_bonus) * SeasonManager.get_damage_multiplier())
 	player.attack_cooldown = base_attack_cooldown * equipped_weapon.cooldown_multiplier * attack_speed_multiplier
 	player.attack_timer.wait_time = player.attack_cooldown
 	if player.sword_visual:
@@ -67,4 +67,5 @@ func apply_damage_reduction(incoming: int) -> int:
 		final_amount = maxi(roundi(final_amount * (1.0 - player.equipped_armor.damage_reduction_ratio)), 1)
 	else:
 		final_amount = maxi(final_amount - gear_armor_reduction, 1)
+	final_amount = maxi(roundi(final_amount * (2.0 - SeasonManager.get_defense_multiplier())), 1)
 	return final_amount

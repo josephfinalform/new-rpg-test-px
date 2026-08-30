@@ -53,6 +53,27 @@ func spawn_combo_milestone(count: int) -> void:
 	_spawn_popup(CRIT_POPUP, "COMBO x%d!" % count, Color(1.0, 0.6, 0.2), Vector2(0, -24))
 
 
+func spawn_season_banner(text: String) -> void:
+	var overlay := CanvasLayer.new()
+	overlay.layer = 20
+	get_tree_current_scene().add_child(overlay)
+	var label := Label.new()
+	label.text = text
+	label.add_theme_font_size_override("font_size", 18)
+	label.add_theme_color_override("font_color", Color(0.6, 1.0, 0.7))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	label.offset_top += 70
+	label.modulate.a = 0.0
+	overlay.add_child(label)
+	var tween := label.create_tween()
+	tween.tween_property(label, "modulate:a", 1.0, 0.25)
+	tween.tween_interval(1.6)
+	tween.tween_property(label, "modulate:a", 0.0, 0.5)
+	tween.tween_callback(overlay.queue_free)
+
+
 func _spawn_popup(scene: PackedScene, text: String, color: Color, offset: Vector2) -> Label:
 	var popup := scene.instantiate() as Label
 	get_tree_current_scene().add_child(popup)

@@ -50,6 +50,45 @@ func get_outdoor_tint() -> Color:
 	return Color(0.94, 1.05, 0.92)
 
 
+func get_damage_multiplier() -> float:
+	match current_season:
+		Season.SUMMER:
+			return 1.2
+		Season.AUTUMN:
+			return 1.0
+		Season.WINTER:
+			return 0.9
+	return 1.0
+
+
+func get_defense_multiplier() -> float:
+	match current_season:
+		Season.SUMMER:
+			return 0.9
+		Season.AUTUMN:
+			return 1.0
+		Season.WINTER:
+			return 1.2
+	return 1.0
+
+
+func get_movement_multiplier() -> float:
+	match current_season:
+		Season.SUMMER:
+			return 1.0
+		Season.AUTUMN:
+			return 1.05
+		Season.WINTER:
+			return 1.15
+	return 1.0
+
+
+func get_modifier_banner_text() -> String:
+	var dmg := int(roundf((get_damage_multiplier() - 1.0) * 100.0))
+	var def := int(roundf((get_defense_multiplier() - 1.0) * 100.0))
+	return "%s\nATK %+d%%   DEF %+d%%" % [get_season_name(), dmg, def]
+
+
 func _on_node_added(node: Node) -> void:
 	if node.is_in_group("outdoor_ground"):
 		node.modulate = get_outdoor_tint()

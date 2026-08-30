@@ -103,6 +103,7 @@ func _ready() -> void:
 	xp_progression.level_gained.connect(_on_progression_level_gained)
 	xp_progression.prestige_gained.connect(_on_progression_prestige_gained)
 	GameManager.combo_milestone.connect(_on_combo_milestone)
+	SeasonManager.season_changed.connect(_on_season_changed)
 	regen_timer.timeout.connect(_on_regen_timer_timeout)
 	state_machine.initialize(self)
 	health = max_health
@@ -292,6 +293,7 @@ func _recalculate_speed() -> void:
 	var mult := 1.0
 	if equipped_armor:
 		mult = equipped_armor.move_speed_multiplier
+	mult *= SeasonManager.get_movement_multiplier()
 	move_speed = (base_move_speed + progression.level_move_bonus + progression.gear_speed_bonus) * mult
 	sprint_speed = (base_sprint_speed + progression.level_sprint_bonus + progression.gear_speed_bonus) * mult
 
@@ -378,3 +380,15 @@ func _on_combo_milestone(count: int) -> void:
 	if is_dead:
 		return
 	effects.spawn_combo_milestone(count)
+
+
+func _on_season_changed(_season: int) -> void:
+	if is_dead:
+		return
+	combat.apply_weapon()
+	_recalculate_speed()
+	_spawn_season_banner()
+
+
+func _spawn_season_banner() -> void:
+	effects.spawn_season_banner(SeasonManager.get_modifier_banner_text())
