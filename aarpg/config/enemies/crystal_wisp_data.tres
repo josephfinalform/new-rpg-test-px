@@ -18,3 +18,7 @@ tint = Color(0.4, 0.85, 1.0)
 sprite_scale = Vector2(0.75, 0.75)
 gold_drop_chance = 0.22
 gold_drop_amount = 4
+
+resistance_fire = 1.5
+resistance_frost = 1.0
+resistance_shock = 0.6

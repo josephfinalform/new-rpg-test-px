@@ -17,3 +17,7 @@ minion_scene = ExtResource("2_minion")
 minion_tint = Color(0.55, 0.8, 1.0)
 gold_drop_chance = 0.90
 gold_drop_amount = 64
+
+resistance_fire = 0.5
+resistance_frost = 2.0
+resistance_shock = 1.0
