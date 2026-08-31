@@ -3,9 +3,6 @@ extends PickupBase
 
 @export var armor: Armor
 
-@onready var glow: PointLight2D = get_node_or_null("Glow")
-@onready var name_label: Label = get_node_or_null("NameLabel")
-
 
 func _ready() -> void:
 	_configure_item_bob(0.0)
@@ -13,15 +10,18 @@ func _ready() -> void:
 	_apply_visual()
 
 
+func _get_visual_color() -> Color:
+	return armor.armor_color if armor else Color.WHITE
+
+
+func _get_visual_name() -> String:
+	return armor.display_name if armor else ""
+
+
 func _apply_visual() -> void:
 	if armor == null:
 		return
-	queue_redraw()
-	if glow:
-		glow.color = armor.armor_color
-	if name_label:
-		name_label.text = armor.display_name
-		name_label.add_theme_color_override("font_color", armor.armor_color)
+	_sync_visual_components()
 
 
 func _draw() -> void:

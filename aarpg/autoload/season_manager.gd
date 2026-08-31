@@ -14,9 +14,10 @@ var _weather: Array[Node] = []
 
 func _ready() -> void:
 	get_tree().node_added.connect(_on_node_added)
+	get_tree().tree_changed.connect(_on_tree_changed)
 
 
-func _process(_delta: float) -> void:
+func _on_tree_changed() -> void:
 	var scene := get_tree().current_scene
 	if scene != _last_scene:
 		_last_scene = scene

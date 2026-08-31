@@ -54,6 +54,27 @@ func _apply_effect(_player: Player) -> void:
 	pass
 
 
+func _get_visual_color() -> Color:
+	return Color.WHITE
+
+
+func _get_visual_name() -> String:
+	return ""
+
+
+func _sync_visual_components() -> void:
+	queue_redraw()
+	var color := _get_visual_color()
+	var item_name := _get_visual_name()
+	var glow_node := get_node_or_null("Glow")
+	if glow_node is PointLight2D:
+		(glow_node as PointLight2D).color = color
+	var label := get_node_or_null("NameLabel")
+	if label is Label and not item_name.is_empty():
+		(label as Label).text = item_name
+		(label as Label).add_theme_color_override("font_color", color)
+
+
 func _play_collect_feedback() -> void:
 	AudioManager.play_sfx(DEFAULT_SFX)
 	var tween := create_tween()

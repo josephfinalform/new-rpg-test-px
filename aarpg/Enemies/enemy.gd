@@ -153,10 +153,10 @@ func _process_status_effects(delta: float) -> void:
 		if slow_remaining == 0.0:
 			slow_factor = 1.0
 	if burn_remaining > 0.0:
+		burn_remaining = maxf(burn_remaining - delta, 0.0)
 		burn_tick_timer -= delta
 		if burn_tick_timer <= 0.0:
 			burn_tick_timer = BURN_TICK_INTERVAL
-			burn_remaining -= BURN_TICK_INTERVAL
 			_apply_burn_tick()
 	_update_status_visual()
 

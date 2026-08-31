@@ -5,9 +5,6 @@ const DEFAULT_SCROLL = preload("res://aarpg/config/scrolls/xp_scroll.tres")
 
 @export var scroll: Scroll = DEFAULT_SCROLL
 
-@onready var glow: PointLight2D = get_node_or_null("Glow")
-@onready var name_label: Label = get_node_or_null("NameLabel")
-
 
 func _ready() -> void:
 	_configure_item_bob(0.8)
@@ -27,13 +24,16 @@ func get_scroll_color() -> Color:
 	return get_active_scroll().scroll_color
 
 
+func _get_visual_color() -> Color:
+	return get_scroll_color()
+
+
+func _get_visual_name() -> String:
+	return get_display_name()
+
+
 func _apply_visual() -> void:
-	queue_redraw()
-	if glow:
-		glow.color = get_scroll_color()
-	if name_label:
-		name_label.text = get_display_name()
-		name_label.add_theme_color_override("font_color", get_scroll_color())
+	_sync_visual_components()
 
 
 func _draw() -> void:

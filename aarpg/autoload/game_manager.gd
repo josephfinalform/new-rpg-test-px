@@ -100,7 +100,7 @@ func enemy_killed() -> void:
 	combo += 1
 	combo_time_left = LEVEL_CONFIG.combo_window_time
 	combo_changed.emit(combo, get_combo_multiplier())
-	if combo > 0 and combo % 5 == 0:
+	if combo % 5 == 0:
 		combo_milestone.emit(combo)
 
 

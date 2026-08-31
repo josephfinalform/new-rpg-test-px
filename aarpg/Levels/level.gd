@@ -102,6 +102,7 @@ func _respawn_entry(entry: Dictionary) -> void:
 		container = self
 	var new_enemy: Enemy = scene.instantiate()
 	container.add_child(new_enemy)
+	new_enemy.add_to_group("enemies")
 	new_enemy.global_position = entry["position"]
 	_apply_grind_xp(new_enemy)
 	new_enemy.died.connect(_on_enemy_died.bind(entry))

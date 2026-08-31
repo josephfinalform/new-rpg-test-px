@@ -317,9 +317,15 @@ func _apply_armor_visual() -> void:
 	armor_visual.modulate.a = 0.55
 
 
+var level_scale_tween: Tween = null
+
+
 func _animate_level_scale() -> void:
+	if level_scale_tween and level_scale_tween.is_valid():
+		level_scale_tween.kill()
 	var target_scale := minf(1.0 + 0.03 * float(level), 1.5)
-	create_tween().tween_property(self, "scale", Vector2(target_scale, target_scale), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	level_scale_tween = create_tween()
+	level_scale_tween.tween_property(self, "scale", Vector2(target_scale, target_scale), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _spawn_level_up_effect() -> void:

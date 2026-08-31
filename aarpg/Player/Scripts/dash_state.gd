@@ -3,6 +3,9 @@ extends State
 
 func enter() -> void:
 	player.is_dashing = true
+	player.is_invincible = true
+	player.hit_flash_timer.stop()
+	player.sprite.modulate = Color(1, 1, 1, 0.5)
 	var dir := player.facing
 	if dir == Vector2.ZERO:
 		dir = Vector2.DOWN
@@ -14,6 +17,8 @@ func enter() -> void:
 
 func exit() -> void:
 	player.is_dashing = false
+	player.is_invincible = false
+	player.sprite.modulate = Color.WHITE
 
 func physics(_delta: float) -> State:
 	if player.is_dead:
