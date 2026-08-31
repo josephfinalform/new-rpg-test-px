@@ -15,6 +15,7 @@ extends CanvasLayer
 @onready var combo_label: Label = get_node_or_null("MarginContainer/VBoxContainer/ComboLabel")
 @onready var xp_text_label: Label = get_node_or_null("MarginContainer/VBoxContainer/XPTextLabel")
 @onready var prestige_label: Label = get_node_or_null("MarginContainer/VBoxContainer/PrestigeLabel")
+@onready var gold_label: Label = get_node_or_null("MarginContainer/VBoxContainer/GoldLabel")
 
 var hearts: Array[TextureRect] = []
 var _xp_tween: Tween = null
@@ -50,6 +51,14 @@ func _ready() -> void:
 	GameManager.combo_lost.connect(_on_combo_lost)
 	SeasonManager.season_changed.connect(_on_season_changed)
 	_on_season_changed(SeasonManager.current_season)
+	GoldManager.gold_changed.connect(_on_gold_changed)
+	_on_gold_changed(GoldManager.gold)
+
+
+func _on_gold_changed(amount: int) -> void:
+	if gold_label:
+		gold_label.text = "Gold: " + str(amount)
+
 
 func _on_level_changed(index: int) -> void:
 	if level_name_label:

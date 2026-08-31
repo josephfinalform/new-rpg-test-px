@@ -69,6 +69,12 @@ theme_override_colors/font_color = Color(1, 0.6, 0.2, 1)
 theme_override_font_sizes/font_size = 9
 modulate = Color(1, 1, 1, 0)
 
+[node name="GoldLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Gold: 0"
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 9
+
 [node name="XPTextLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "0 / 10"

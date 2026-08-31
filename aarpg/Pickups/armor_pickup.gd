@@ -44,4 +44,4 @@ func _apply_effect(player: Player) -> void:
 	if armor == null:
 		return
 	player.equip_armor(armor)
-	_spawn_popup(armor.display_name + "!", armor.armor_color, Vector2(0, -22))
+	_spawn_popup(armor.display_name + "!", armor.get_rarity_color(), Vector2(0, -22))

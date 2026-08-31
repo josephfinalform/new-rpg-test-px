@@ -16,3 +16,5 @@ attack_range = 26.0
 attack_cooldown_time = 1.0
 potion_drop_chance = 0.05
 tint = Color(0.42, 0.68, 0.38)
+gold_drop_chance = 0.27
+gold_drop_amount = 6

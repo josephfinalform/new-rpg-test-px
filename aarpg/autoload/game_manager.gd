@@ -70,6 +70,7 @@ func start_game() -> void:
 	combo_time_left = 0.0
 	equipped_weapon = null
 	equipped_armor = null
+	GoldManager.reset()
 	kills_changed.emit(0)
 	_load_level(current_level_index)
 

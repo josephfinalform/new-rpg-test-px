@@ -26,6 +26,8 @@ func process_hitbox_body_entered(body: Node2D) -> void:
 		hit_enemies_this_attack.append(body)
 		var enemy := body as Enemy
 		var dmg := player.attack_damage
+		if equipped_weapon:
+			dmg = maxi(roundi(float(dmg) * enemy.get_elemental_multiplier(equipped_weapon.effect)), 1)
 		var is_crit := false
 		if crit_chance > 0.0 and randf() < crit_chance:
 			dmg = maxi(roundi(dmg * crit_damage_multiplier), dmg)

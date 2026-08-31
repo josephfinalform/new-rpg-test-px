@@ -16,3 +16,5 @@ attack_cooldown_time = 0.4
 heart_drop_chance = 0.1
 tint = Color(0.55, 0.25, 0.8)
 sprite_scale = Vector2(0.8, 0.8)
+gold_drop_chance = 0.21
+gold_drop_amount = 3

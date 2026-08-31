@@ -37,4 +37,4 @@ func _apply_effect(player: Player) -> void:
 	if weapon == null:
 		return
 	player.equip_weapon(weapon)
-	_spawn_popup(weapon.display_name + "!", weapon.trail_color, Vector2(0, -22))
+	_spawn_popup(weapon.display_name + "!", weapon.get_rarity_color(), Vector2(0, -22))

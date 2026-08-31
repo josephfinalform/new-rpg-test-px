@@ -109,4 +109,4 @@ func _apply_effect(player: Player) -> void:
 	if gear_up == null:
 		return
 	player.apply_gear_up(gear_up)
-	_spawn_popup(gear_up.display_name + "!", gear_up.stat_color, Vector2(0, -22))
+	_spawn_popup(gear_up.display_name + "!", gear_up.get_rarity_color(), Vector2(0, -22))

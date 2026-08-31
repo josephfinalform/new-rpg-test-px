@@ -20,7 +20,14 @@ extends Resource
 @export_range(0.0, 1.0) var heart_drop_chance: float = 0.15
 @export_range(0.0, 1.0) var xp_gem_drop_chance: float = 0.0
 @export_range(0.0, 1.0) var potion_drop_chance: float = 0.0
+@export_range(0.0, 10.0) var gold_drop_chance: float = 0.0
+@export_range(0, 100) var gold_drop_amount: int = 1
 @export var xp_popup_enabled: bool = true
+
+@export_group("Elemental")
+@export_range(0.5, 2.0) var resistance_fire: float = 1.0
+@export_range(0.5, 2.0) var resistance_frost: float = 1.0
+@export_range(0.5, 2.0) var resistance_shock: float = 1.0
 
 @export_group("Visual")
 @export var tint: Color = Color.WHITE

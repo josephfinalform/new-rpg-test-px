@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 
 AudioManager="*res://aarpg/autoload/audio_manager.gd"
 GameManager="*res://aarpg/autoload/game_manager.gd"
+GoldManager="*res://aarpg/autoload/gold_manager.gd"
 SeasonManager="*res://aarpg/autoload/season_manager.gd"
 PauseMenu="*res://aarpg/UI/pause_menu.tscn"
 DialogueManager="*res://aarpg/UI/dialogue_box.tscn"

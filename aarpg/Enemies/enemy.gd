@@ -9,6 +9,7 @@ const HEART_SCENE = preload("res://aarpg/Pickups/heart_pickup.tscn")
 const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
 const XP_GEM_SCENE = preload("res://aarpg/Pickups/xp_gem.tscn")
 const POTION_SCENE = preload("res://aarpg/Pickups/potion_pickup.tscn")
+const GOLD_SCENE = preload("res://aarpg/Pickups/gold_pickup.tscn")
 const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
 const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
 const BURN_TICK_INTERVAL := 0.5
@@ -45,6 +46,8 @@ const SLOW_COLOR := Color(0.65, 0.8, 1.0)
 @export_range(0.0, 1.0) var heart_drop_chance: float = 0.15
 @export_range(0.0, 1.0) var xp_gem_drop_chance: float = 0.0
 @export_range(0.0, 1.0) var potion_drop_chance: float = 0.0
+@export_range(0.0, 10.0) var gold_drop_chance: float = 0.0
+@export_range(0, 100) var gold_drop_amount: int = 1
 @export var xp_popup_enabled: bool = true
 
 var health: int = 0
@@ -69,6 +72,10 @@ var burn_damage: int = 0
 var burn_remaining: float = 0.0
 var burn_tick_timer: float = 0.0
 var stun_remaining: float = 0.0
+
+var resistance_fire: float = 1.0
+var resistance_frost: float = 1.0
+var resistance_shock: float = 1.0
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -99,7 +106,12 @@ func _apply_data(data: EnemyData) -> void:
 	heart_drop_chance = data.heart_drop_chance
 	xp_gem_drop_chance = data.xp_gem_drop_chance
 	potion_drop_chance = data.potion_drop_chance
+	gold_drop_chance = data.gold_drop_chance
+	gold_drop_amount = data.gold_drop_amount
 	xp_popup_enabled = data.xp_popup_enabled
+	resistance_fire = data.resistance_fire
+	resistance_frost = data.resistance_frost
+	resistance_shock = data.resistance_shock
 	death_sfx = data.death_sfx
 	hit_sfx = data.hit_sfx
 	if data.tint != Color.WHITE:
@@ -239,6 +251,8 @@ func _die() -> void:
 	_roll_drop(heart_drop_chance, HEART_SCENE, drop_luck)
 	_roll_drop(xp_gem_drop_chance, XP_GEM_SCENE, drop_luck)
 	_roll_drop(potion_drop_chance, POTION_SCENE, drop_luck)
+	if gold_drop_chance > 0.0 and randf() < minf(gold_drop_chance * drop_luck, 1.0):
+		_spawn_gold_drop()
 	if xp_popup_enabled:
 		_spawn_xp_popup()
 	if death_sfx:
@@ -262,6 +276,13 @@ func _spawn_scene(scene: PackedScene, offset: Vector2) -> Node2D:
 
 func _spawn_drop(scene: PackedScene, offset_y: float = -4.0) -> Node2D:
 	return _spawn_scene(scene, Vector2(randf_range(-8, 8), offset_y))
+
+
+func _spawn_gold_drop() -> void:
+	var gold := GOLD_SCENE.instantiate() as GoldPickup
+	get_parent().add_child(gold)
+	gold.global_position = global_position + Vector2(randf_range(-8, 8), -4.0)
+	gold.gold_amount = maxi(roundi(float(gold_drop_amount) * GameManager.get_drop_luck()), 1)
 
 
 func _spawn_xp_popup() -> void:
@@ -356,6 +377,17 @@ func apply_status_from_weapon(weapon: Weapon) -> void:
 			apply_slow(SLOW_DEFAULT_DURATION, SLOW_DEFAULT_FACTOR)
 		Weapon.Effect.SHOCK:
 			apply_stun(STUN_DEFAULT_DURATION)
+
+
+func get_elemental_multiplier(effect: int) -> float:
+	match effect:
+		Weapon.Effect.FIRE:
+			return resistance_fire
+		Weapon.Effect.FROST:
+			return resistance_frost
+		Weapon.Effect.SHOCK:
+			return resistance_shock
+	return 1.0
 
 
 func apply_slow(duration: float, factor: float) -> void:

@@ -16,3 +16,5 @@ attack_cooldown_time = 0.7
 potion_drop_chance = 0.06
 tint = Color(0.35, 0.8, 0.4)
 sprite_scale = Vector2(1.1, 1.1)
+gold_drop_chance = 0.29
+gold_drop_amount = 7
