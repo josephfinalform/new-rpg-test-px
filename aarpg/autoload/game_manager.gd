@@ -27,6 +27,14 @@ const DROP_LUCK_MAX := 2.5
 	"res://aarpg/Levels/level_13_crystal_grind.tscn",
 	"res://aarpg/Levels/level_14_abyssal_forge.tscn",
 	"res://aarpg/Levels/level_15_sunken_abyss.tscn",
+	"res://aarpg/Levels/level_16_goblin_grind.tscn",
+	"res://aarpg/Levels/level_17_bone_grind.tscn",
+	"res://aarpg/Levels/level_18_ember_grind.tscn",
+	"res://aarpg/Levels/level_19_venom_grind.tscn",
+	"res://aarpg/Levels/level_20_abyss_grind.tscn",
+	"res://aarpg/Levels/level_21_ice_grind.tscn",
+	"res://aarpg/Levels/level_22_shadow_grind.tscn",
+	"res://aarpg/Levels/level_23_arcane_grind.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
@@ -44,6 +52,14 @@ const DROP_LUCK_MAX := 2.5
 	"Crystal Grind Pit",
 	"Abyssal Forge",
 	"Sunken Abyss",
+	"Goblin Grind",
+	"Bone Grind",
+	"Ember Grind",
+	"Venom Grind",
+	"Abyss Grind",
+	"Ice Grind",
+	"Shadow Grind",
+	"Arcane Grind",
 ]
 
 var current_level_index: int = 0

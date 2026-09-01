@@ -1,0 +1,441 @@
+[gd_scene load_steps=46 format=3]
+
+[ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/bat.tscn" id="4_bat"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/slime.tscn" id="5_slime"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/skeleton.tscn" id="6_skel"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/zombie.tscn" id="7_zombie"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin.tscn" id="8_goblin"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_archer.tscn" id="9_archer"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_elite.tscn" id="10_elite"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/fire_imp.tscn" id="11_imp"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/orc_brute.tscn" id="12_orc"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/crystal_wisp.tscn" id="13_wisp"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/shadow_knight.tscn" id="14_boss"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="15_portal"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="16_chest"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_gem.tscn" id="17_gem"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/potion_pickup.tscn" id="18_potion"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/scroll_pickup.tscn" id="19_scroll"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/gear_up_pickup.tscn" id="20_gearup"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/weapon_pickup.tscn" id="21_weapon"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/armor_pickup.tscn" id="22_armor"]
+[ext_resource type="PackedScene" path="res://aarpg/Levels/torch.tscn" id="23_torch"]
+[ext_resource type="PackedScene" path="res://aarpg/UI/health_bar.tscn" id="24_hud"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/xp_up.tres" id="25_xp"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/magnet_up.tres" id="26_magnet"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/regen_up.tres" id="27_regen"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/lifesteal_up.tres" id="28_lifesteal"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/thorns_up.tres" id="29_thorns"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="30_crit"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/fury_up.tres" id="31_fury"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/knockback_up.tres" id="32_knockback"]
+[ext_resource type="Resource" path="res://aarpg/config/weapons/cyan_stormblade.tres" id="33_blade"]
+[ext_resource type="Resource" path="res://aarpg/config/armors/stormlord_plate.tres" id="34_plate"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_slime.tscn" id="35_vslime"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/stone_brute.tscn" id="36_sbrute"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/shadow_spider.tscn" id="37_spider"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_archer.tscn" id="38_varcher"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_king.tscn" id="39_vking"]
+[ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="40_npc"]
+[ext_resource type="Resource" path="res://aarpg/config/dialogues/grind_master_dialogue.tres" id="41_dlg"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="42_xpscroll"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/level_tome.tres" id="43_tome"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/great_parchment.tres" id="44_great"]
+[ext_resource type="Resource" path="res://aarpg/config/scrolls/wisdom_tome.tres" id="45_wisdom"]
+
+[node name="Level16" type="Node2D"]
+script = ExtResource("1_level")
+player_spawn = Vector2(64, 128)
+boss = NodePath("GrindBoss")
+is_grind_level = true
+grind_xp_multiplier = 2.0
+enemy_respawn_delay = 6.0
+boss_respawn_delay = 25.0
+
+[node name="DungeonMap" parent="." instance=ExtResource("2_map")]
+paint_size = Vector2i(50, 26)
+decoration_density = 0.04
+tint = Color(0.5, 0.65, 0.3, 1)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(64, 128)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Bat1" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(260, 200)
+
+[node name="Bat2" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(340, 480)
+
+[node name="Bat3" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(480, 260)
+
+[node name="Bat4" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(760, 160)
+
+[node name="Bat5" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(920, 500)
+
+[node name="Bat6" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(1280, 180)
+
+[node name="Bat7" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(1450, 300)
+
+[node name="Bat8" parent="Enemies" instance=ExtResource("4_bat")]
+position = Vector2(980, 720)
+
+[node name="Slime1" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(180, 320)
+
+[node name="Slime2" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(300, 560)
+
+[node name="Slime3" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(430, 160)
+
+[node name="Slime4" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(560, 640)
+
+[node name="Slime5" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(680, 300)
+
+[node name="Slime6" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(820, 560)
+
+[node name="Slime7" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(1400, 620)
+
+[node name="Slime8" parent="Enemies" instance=ExtResource("5_slime")]
+position = Vector2(1560, 380)
+
+[node name="Skeleton1" parent="Enemies" instance=ExtResource("6_skel")]
+position = Vector2(620, 220)
+
+[node name="Skeleton2" parent="Enemies" instance=ExtResource("6_skel")]
+position = Vector2(720, 420)
+
+[node name="Skeleton3" parent="Enemies" instance=ExtResource("6_skel")]
+position = Vector2(860, 180)
+
+[node name="Skeleton4" parent="Enemies" instance=ExtResource("6_skel")]
+position = Vector2(1020, 360)
+
+[node name="Skeleton5" parent="Enemies" instance=ExtResource("6_skel")]
+position = Vector2(1180, 560)
+
+[node name="Skeleton6" parent="Enemies" instance=ExtResource("6_skel")]
+position = Vector2(1350, 480)
+
+[node name="Zombie1" parent="Enemies" instance=ExtResource("7_zombie")]
+position = Vector2(900, 300)
+
+[node name="Zombie2" parent="Enemies" instance=ExtResource("7_zombie")]
+position = Vector2(1050, 520)
+
+[node name="Zombie3" parent="Enemies" instance=ExtResource("7_zombie")]
+position = Vector2(760, 700)
+
+[node name="Zombie4" parent="Enemies" instance=ExtResource("7_zombie")]
+position = Vector2(1240, 240)
+
+[node name="Zombie5" parent="Enemies" instance=ExtResource("7_zombie")]
+position = Vector2(1500, 700)
+
+[node name="Goblin1" parent="Enemies" instance=ExtResource("8_goblin")]
+position = Vector2(220, 440)
+
+[node name="Goblin2" parent="Enemies" instance=ExtResource("8_goblin")]
+position = Vector2(380, 240)
+
+[node name="Goblin3" parent="Enemies" instance=ExtResource("8_goblin")]
+position = Vector2(520, 400)
+
+[node name="Goblin4" parent="Enemies" instance=ExtResource("8_goblin")]
+position = Vector2(640, 520)
+
+[node name="Goblin5" parent="Enemies" instance=ExtResource("8_goblin")]
+position = Vector2(980, 260)
+
+[node name="Goblin6" parent="Enemies" instance=ExtResource("8_goblin")]
+position = Vector2(1160, 160)
+
+[node name="Archer1" parent="Enemies" instance=ExtResource("9_archer")]
+position = Vector2(480, 560)
+
+[node name="Archer2" parent="Enemies" instance=ExtResource("9_archer")]
+position = Vector2(700, 180)
+
+[node name="Archer3" parent="Enemies" instance=ExtResource("9_archer")]
+position = Vector2(1100, 680)
+
+[node name="Archer4" parent="Enemies" instance=ExtResource("9_archer")]
+position = Vector2(1420, 220)
+
+[node name="Elite1" parent="Enemies" instance=ExtResource("10_elite")]
+position = Vector2(560, 300)
+
+[node name="Elite2" parent="Enemies" instance=ExtResource("10_elite")]
+position = Vector2(840, 440)
+
+[node name="Elite3" parent="Enemies" instance=ExtResource("10_elite")]
+position = Vector2(1320, 360)
+
+[node name="Elite4" parent="Enemies" instance=ExtResource("10_elite")]
+position = Vector2(880, 640)
+
+[node name="Imp1" parent="Enemies" instance=ExtResource("11_imp")]
+position = Vector2(200, 180)
+
+[node name="Imp2" parent="Enemies" instance=ExtResource("11_imp")]
+position = Vector2(350, 360)
+
+[node name="Imp3" parent="Enemies" instance=ExtResource("11_imp")]
+position = Vector2(480, 480)
+
+[node name="Imp4" parent="Enemies" instance=ExtResource("11_imp")]
+position = Vector2(620, 380)
+
+[node name="Imp5" parent="Enemies" instance=ExtResource("11_imp")]
+position = Vector2(1000, 620)
+
+[node name="Imp6" parent="Enemies" instance=ExtResource("11_imp")]
+position = Vector2(1200, 700)
+
+[node name="Orc1" parent="Enemies" instance=ExtResource("12_orc")]
+position = Vector2(1040, 200)
+
+[node name="Orc2" parent="Enemies" instance=ExtResource("12_orc")]
+position = Vector2(1280, 500)
+
+[node name="Orc3" parent="Enemies" instance=ExtResource("12_orc")]
+position = Vector2(1500, 120)
+
+[node name="Orc4" parent="Enemies" instance=ExtResource("12_orc")]
+position = Vector2(1360, 640)
+
+[node name="Wisp1" parent="Enemies" instance=ExtResource("13_wisp")]
+position = Vector2(260, 620)
+
+[node name="Wisp2" parent="Enemies" instance=ExtResource("13_wisp")]
+position = Vector2(420, 320)
+
+[node name="Wisp3" parent="Enemies" instance=ExtResource("13_wisp")]
+position = Vector2(600, 120)
+
+[node name="Wisp4" parent="Enemies" instance=ExtResource("13_wisp")]
+position = Vector2(1000, 420)
+
+[node name="Wisp5" parent="Enemies" instance=ExtResource("13_wisp")]
+position = Vector2(1440, 560)
+
+[node name="Wisp6" parent="Enemies" instance=ExtResource("13_wisp")]
+position = Vector2(1540, 200)
+
+[node name="VenomSlime1" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(240, 240)
+
+[node name="VenomSlime2" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(460, 620)
+
+[node name="VenomSlime3" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(620, 80)
+
+[node name="VenomSlime4" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(1120, 80)
+
+[node name="VenomSlime5" parent="Enemies" instance=ExtResource("35_vslime")]
+position = Vector2(1520, 120)
+
+[node name="StoneBrute1" parent="Enemies" instance=ExtResource("36_sbrute")]
+position = Vector2(320, 520)
+
+[node name="StoneBrute2" parent="Enemies" instance=ExtResource("36_sbrute")]
+position = Vector2(1080, 180)
+
+[node name="StoneBrute3" parent="Enemies" instance=ExtResource("36_sbrute")]
+position = Vector2(1400, 80)
+
+[node name="Spider1" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(220, 120)
+
+[node name="Spider2" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(520, 200)
+
+[node name="Spider3" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(740, 620)
+
+[node name="Spider4" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(1120, 460)
+
+[node name="Spider5" parent="Enemies" instance=ExtResource("37_spider")]
+position = Vector2(1400, 480)
+
+[node name="VenomArcher1" parent="Enemies" instance=ExtResource("38_varcher")]
+position = Vector2(400, 80)
+
+[node name="VenomArcher2" parent="Enemies" instance=ExtResource("38_varcher")]
+position = Vector2(900, 600)
+
+[node name="VenomArcher3" parent="Enemies" instance=ExtResource("38_varcher")]
+position = Vector2(1500, 220)
+
+[node name="VenomKing" parent="Enemies" instance=ExtResource("39_vking")]
+position = Vector2(860, 80)
+
+[node name="GrindBoss" parent="." instance=ExtResource("14_boss")]
+position = Vector2(1150, 400)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Chest1" parent="Pickups" instance=ExtResource("16_chest")]
+position = Vector2(180, 220)
+
+[node name="Chest2" parent="Pickups" instance=ExtResource("16_chest")]
+position = Vector2(760, 340)
+
+[node name="Chest3" parent="Pickups" instance=ExtResource("16_chest")]
+position = Vector2(1560, 500)
+
+[node name="Gem1" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(300, 120)
+
+[node name="Gem2" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(560, 140)
+
+[node name="Gem3" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(840, 140)
+
+[node name="Gem4" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(1120, 140)
+
+[node name="Gem5" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(1480, 160)
+
+[node name="Gem6" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(360, 700)
+
+[node name="Gem7" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(640, 700)
+
+[node name="Gem8" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(1080, 700)
+
+[node name="Gem9" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(1480, 760)
+
+[node name="Gem10" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(500, 460)
+xp_amount = 10
+
+[node name="Gem11" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(1400, 320)
+xp_amount = 10
+
+[node name="Gem12" parent="Pickups" instance=ExtResource("17_gem")]
+position = Vector2(980, 480)
+xp_amount = 10
+
+[node name="Potion1" parent="Pickups" instance=ExtResource("18_potion")]
+position = Vector2(480, 220)
+
+[node name="Potion2" parent="Pickups" instance=ExtResource("18_potion")]
+position = Vector2(880, 720)
+
+[node name="Potion3" parent="Pickups" instance=ExtResource("18_potion")]
+position = Vector2(1180, 300)
+
+[node name="Potion4" parent="Pickups" instance=ExtResource("18_potion")]
+position = Vector2(1460, 440)
+
+[node name="XpScroll1" parent="Pickups" instance=ExtResource("19_scroll")]
+position = Vector2(660, 460)
+scroll = ExtResource("42_xpscroll")
+
+[node name="XpScroll2" parent="Pickups" instance=ExtResource("19_scroll")]
+position = Vector2(1320, 300)
+scroll = ExtResource("44_great")
+
+[node name="Tome1" parent="Pickups" instance=ExtResource("19_scroll")]
+position = Vector2(940, 220)
+scroll = ExtResource("43_tome")
+
+[node name="Tome2" parent="Pickups" instance=ExtResource("19_scroll")]
+position = Vector2(1500, 300)
+scroll = ExtResource("43_tome")
+
+[node name="WisdomTome" parent="Pickups" instance=ExtResource("19_scroll")]
+position = Vector2(740, 240)
+scroll = ExtResource("45_wisdom")
+
+[node name="CyanStormblade" parent="Pickups" instance=ExtResource("21_weapon")]
+position = Vector2(1240, 560)
+weapon = ExtResource("33_blade")
+
+[node name="StormlordPlate" parent="Pickups" instance=ExtResource("22_armor")]
+position = Vector2(860, 380)
+armor = ExtResource("34_plate")
+
+[node name="XpUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(220, 360)
+gear_up = ExtResource("25_xp")
+
+[node name="MagnetUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(380, 500)
+gear_up = ExtResource("26_magnet")
+
+[node name="RegenUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(580, 180)
+gear_up = ExtResource("27_regen")
+
+[node name="LifestealUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(780, 520)
+gear_up = ExtResource("28_lifesteal")
+
+[node name="ThornsUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(1080, 260)
+gear_up = ExtResource("29_thorns")
+
+[node name="CritUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(1220, 480)
+gear_up = ExtResource("30_crit")
+
+[node name="FuryUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(1360, 200)
+gear_up = ExtResource("31_fury")
+
+[node name="KnockbackUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(1520, 620)
+gear_up = ExtResource("32_knockback")
+
+[node name="Torches" type="Node2D" parent="."]
+
+[node name="Torch1" parent="Torches" instance=ExtResource("23_torch")]
+position = Vector2(160, 120)
+
+[node name="Torch2" parent="Torches" instance=ExtResource("23_torch")]
+position = Vector2(1460, 120)
+
+[node name="Torch3" parent="Torches" instance=ExtResource("23_torch")]
+position = Vector2(600, 700)
+
+[node name="Torch4" parent="Torches" instance=ExtResource("23_torch")]
+position = Vector2(1560, 700)
+
+[node name="Portal" parent="." instance=ExtResource("15_portal")]
+position = Vector2(1560, 300)
+target_level_index = 16
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="GrindMaster" parent="NPCs" instance=ExtResource("40_npc")]
+position = Vector2(200, 420)
+npc_name = "Grind Master"
+dialogue = ExtResource("41_dlg")
+npc_color = Color(1, 0.7, 0.3, 1)
+
+[node name="HealthBar" parent="." instance=ExtResource("24_hud")]
