@@ -1,0 +1,13 @@
+[gd_resource type=Resource script=load("res://aarpg/config/armor.gd")]
+
+display_name = "Vampire Shroud"
+rarity = 3
+damage_reduction = 4
+damage_reduction_ratio = 0.18
+speed_multiplier = 1.1
+armor_color = Color(0.5, 0.05, 0.12, 1)
+description = "Woven from vampire blood. Fast and life-draining."
+armor_tier = 7
+xp_multiplier = 1.4
+dash_cooldown_multiplier = 0.8
+move_speed_multiplier = 1.15

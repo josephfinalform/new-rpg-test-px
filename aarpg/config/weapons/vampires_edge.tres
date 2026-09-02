@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Vampire's Edge"
+rarity = 4
+damage_bonus = 10
+cooldown_multiplier = 0.78
+effect = 1
+trail_color = Color(0.8, 0.05, 0.15, 1)
+description = "Legendary blood-forged blade. Burns enemies and heals the wielder."

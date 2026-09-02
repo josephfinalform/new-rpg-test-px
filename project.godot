@@ -22,6 +22,8 @@ GoldManager="*res://aarpg/autoload/gold_manager.gd"
 SeasonManager="*res://aarpg/autoload/season_manager.gd"
 PauseMenu="*res://aarpg/UI/pause_menu.tscn"
 DialogueManager="*res://aarpg/UI/dialogue_box.tscn"
+AchievementManager="*res://aarpg/autoload/achievement_manager.gd"
+ChallengeManager="*res://aarpg/autoload/challenge_manager.gd"
 
 [display]
 

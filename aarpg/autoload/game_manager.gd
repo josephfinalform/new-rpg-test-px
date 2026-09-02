@@ -44,6 +44,9 @@ const DROP_LUCK_MAX := 2.5
 	"res://aarpg/Levels/level_30_frostpeak_grind.tscn",
 	"res://aarpg/Levels/level_31_poison_bastion_grind.tscn",
 	"res://aarpg/Levels/level_32_void_nexus_grind.tscn",
+	"res://aarpg/Levels/level_33_bloodwave_grind.tscn",
+	"res://aarpg/Levels/level_34_stormwave_grind.tscn",
+	"res://aarpg/Levels/level_35_final_wave_grind.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
@@ -78,6 +81,9 @@ const DROP_LUCK_MAX := 2.5
 	"Frostpeak",
 	"Poison Bastion",
 	"Void Nexus",
+	"Bloodwave Arena",
+	"Stormwave Arena",
+	"Final Wave",
 ]
 
 var current_level_index: int = 0

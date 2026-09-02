@@ -1,0 +1,9 @@
+[gd_resource type="Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Stormcleaver"
+rarity = 4
+damage_bonus = 12
+cooldown_multiplier = 0.75
+effect = 3
+trail_color = Color(0.2, 0.9, 1.0, 1)
+description = "Legendary blade forged from storm elemental core. Devastating shock damage."

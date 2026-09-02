@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Obsidian Reaper"
+rarity = 2
+damage_bonus = 5
+cooldown_multiplier = 0.85
+effect = 1
+trail_color = Color(0.9, 0.2, 0.1, 1)
+description = "Forged in the Abyss Maw. Burns enemies on contact."

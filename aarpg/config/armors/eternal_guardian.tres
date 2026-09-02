@@ -1,0 +1,13 @@
+[gd_resource type=Resource script=load("res://aarpg/config/armor.gd")]
+
+display_name = "Eternal Guardian"
+rarity = 4
+damage_reduction = 10
+damage_reduction_ratio = 0.35
+speed_multiplier = 1.05
+armor_color = Color(1.0, 0.85, 0.3, 1)
+description = "The ultimate armor. Forged from crystallized eternity itself."
+armor_tier = 9
+xp_multiplier = 1.8
+dash_cooldown_multiplier = 0.7
+move_speed_multiplier = 1.2

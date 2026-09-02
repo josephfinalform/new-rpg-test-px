@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Lich"
+max_health = 12
+move_speed = 40.0
+damage = 2
+xp_reward = 22
+knockback_resistance = 0.6
+knockback_force = 120.0
+attack_range = 25.0
+attack_cooldown_time = 0.6
+heart_drop_chance = 0.15
+xp_gem_drop_chance = 0.3
+potion_drop_chance = 0.1
+tint = Color(0.5, 0.15, 0.8)
+sprite_scale = Vector2(0.9, 0.9)
+gold_drop_chance = 0.35
+gold_drop_amount = 8
+resistance_fire = 0.8
+resistance_frost = 1.2
+resistance_shock = 0.6

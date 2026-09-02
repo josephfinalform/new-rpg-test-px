@@ -12,10 +12,18 @@ extends Node2D
 @export var enemy_respawn_delay: float = 6.0
 @export var boss_respawn_delay: float = 25.0
 
+@export_group("Wave Mode")
+@export var is_wave_level: bool = false
+@export var total_waves: int = 5
+@export var enemies_per_wave_base: int = 8
+@export var boss_wave_interval: int = 5
+
 var _respawn_queue: Array[Dictionary] = []
 var _scene_cache: Dictionary = {}
 var _boss_respawn_banner: CanvasLayer = null
 var _player: Player = null
+var _wave_manager: ArenaWaveManager = null
+var _level_start_time: float = 0.0
 
 const BOSS_BANNER_COLOR := Color(1, 0.3, 0.3)
 const BOSS_BANNER_FONT_SIZE := 28
@@ -28,18 +36,23 @@ func _ready() -> void:
 	if _player:
 		_player.died.connect(_on_player_died)
 		_player.global_position = player_spawn
+	_level_start_time = Time.get_ticks_msec() / 1000.0
 	if not boss.is_empty():
 		var boss_node := _get_boss_node()
 		if boss_node:
 			boss_node.died.connect(_on_boss_died)
 	if is_grind_level:
 		_setup_grind_level()
+	if is_wave_level:
+		_setup_wave_level()
 	_apply_difficulty_scaling()
 	if is_final_level:
 		_show_banner("BOSS", BOSS_BANNER_COLOR, BOSS_BANNER_FONT_SIZE, BOSS_BANNER_HOLD_TIME, BOSS_BANNER_FADE_TIME)
 		_show_boss_banner_text()
 	elif is_grind_level:
 		_show_banner("EXP GRIND ARENA", Color(0.6, 0.9, 1.0), 26, 1.2, 0.5)
+	elif is_wave_level:
+		_show_banner("WAVE ARENA", Color(1.0, 0.6, 0.2), 26, 1.2, 0.5)
 
 
 func _process(delta: float) -> void:
@@ -200,3 +213,44 @@ func _on_boss_died() -> void:
 		if portal_node and portal_node.has_method("unlock"):
 			portal_node.unlock()
 			_show_gate_opened_banner()
+
+
+func _setup_wave_level() -> void:
+	_wave_manager = ArenaWaveManager.new()
+	_wave_manager.total_waves = total_waves
+	_wave_manager.enemies_per_wave_base = enemies_per_wave_base
+	_wave_manager.boss_wave_interval = boss_wave_interval
+	_wave_manager.wave_started.connect(_on_wave_started)
+	_wave_manager.wave_cleared.connect(_on_wave_cleared)
+	_wave_manager.all_waves_cleared.connect(_on_all_waves_cleared)
+	add_child(_wave_manager)
+	var enemy_scenes: Array[PackedScene] = []
+	var boss_scene: PackedScene = null
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if enemy.scene_file_path and not enemy.scene_file_path.is_empty():
+			var sc = load(enemy.scene_file_path) as PackedScene
+			if sc and enemy is BossEnemy:
+				boss_scene = sc
+			elif sc:
+				enemy_scenes.append(sc)
+	_wave_manager.setup(self, enemy_scenes, boss_scene)
+	_wave_manager.start_waves()
+
+
+func _on_wave_started(wave_number: int) -> void:
+	_show_banner("WAVE %d" % wave_number, Color(1.0, 0.8, 0.2), 24, 0.8, 0.3)
+
+
+func _on_wave_cleared(wave_number: int) -> void:
+	_show_banner("WAVE %d CLEARED!" % wave_number, Color(0.3, 1.0, 0.5), 22, 1.0, 0.4)
+
+
+func _on_all_waves_cleared() -> void:
+	_show_banner("ALL WAVES CLEARED!", Color(1.0, 0.84, 0.0), 30, 2.0, 0.5)
+	if is_final_level:
+		await get_tree().create_timer(2.0).timeout
+		_show_victory()
+
+
+func get_level_elapsed_time() -> float:
+	return (Time.get_ticks_msec() / 1000.0) - _level_start_time
