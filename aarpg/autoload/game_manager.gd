@@ -35,6 +35,15 @@ const DROP_LUCK_MAX := 2.5
 	"res://aarpg/Levels/level_21_ice_grind.tscn",
 	"res://aarpg/Levels/level_22_shadow_grind.tscn",
 	"res://aarpg/Levels/level_23_arcane_grind.tscn",
+	"res://aarpg/Levels/level_24_wolf_den_grind.tscn",
+	"res://aarpg/Levels/level_25_crystal_pit_grind.tscn",
+	"res://aarpg/Levels/level_26_inferno_fortress_grind.tscn",
+	"res://aarpg/Levels/level_27_shadow_nexus_grind.tscn",
+	"res://aarpg/Levels/level_28_verdant_wilds_grind.tscn",
+	"res://aarpg/Levels/level_29_abyss_maw_grind.tscn",
+	"res://aarpg/Levels/level_30_frostpeak_grind.tscn",
+	"res://aarpg/Levels/level_31_poison_bastion_grind.tscn",
+	"res://aarpg/Levels/level_32_void_nexus_grind.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
@@ -60,6 +69,15 @@ const DROP_LUCK_MAX := 2.5
 	"Ice Grind",
 	"Shadow Grind",
 	"Arcane Grind",
+	"Wolf Den",
+	"Crystal Pit",
+	"Inferno Fortress",
+	"Shadow Nexus",
+	"Verdant Wilds",
+	"Abyss Maw",
+	"Frostpeak",
+	"Poison Bastion",
+	"Void Nexus",
 ]
 
 var current_level_index: int = 0
