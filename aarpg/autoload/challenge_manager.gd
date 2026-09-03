@@ -15,7 +15,7 @@ var _wave_count: int = 0
 var _kills: int = 0
 var _wave_manager: Node = null
 
-const TIME_ATTACK_LIMIT := 120.0
+const TIME_ATTACK_LIMIT := 900.0
 const TIME_ATTACK_BONUS_PER_KILL := 0.5
 const ENDLESS_WAVE_BASE_INTERVAL := 15.0
 
