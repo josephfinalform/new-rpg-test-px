@@ -47,6 +47,7 @@ const DROP_LUCK_MAX := 2.5
 	"res://aarpg/Levels/level_33_bloodwave_grind.tscn",
 	"res://aarpg/Levels/level_34_stormwave_grind.tscn",
 	"res://aarpg/Levels/level_35_final_wave_grind.tscn",
+	"res://aarpg/Levels/level_36_guardian_sentinel_grind.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
@@ -84,6 +85,7 @@ const DROP_LUCK_MAX := 2.5
 	"Bloodwave Arena",
 	"Stormwave Arena",
 	"Final Wave",
+	"Guardian Sentinel",
 ]
 
 var current_level_index: int = 0
