@@ -51,6 +51,7 @@ const DROP_LUCK_MAX := 2.5
 	"res://aarpg/Levels/level_37_lich_court_grind.tscn",
 	"res://aarpg/Levels/level_38_orc_warfront_grind.tscn",
 	"res://aarpg/Levels/level_39_goblin_warzone_grind.tscn",
+	"res://aarpg/Levels/level_40_frost_legion_grind.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
@@ -92,6 +93,7 @@ const DROP_LUCK_MAX := 2.5
 	"Lich Court",
 	"Orc Warfront",
 	"Goblin Warzone",
+	"Frost Legion",
 ]
 
 var current_level_index: int = 0
