@@ -54,6 +54,8 @@ const DROP_LUCK_MAX := 2.5
 	"res://aarpg/Levels/level_40_frost_legion_grind.tscn",
 	"res://aarpg/Levels/level_41_shadow_vortex_grind.tscn",
 	"res://aarpg/Levels/level_42_dragons_roost_grind.tscn",
+	"res://aarpg/Levels/level_43_vampire_crypt_grind.tscn",
+	"res://aarpg/Levels/level_44_storm_sanctum_grind.tscn",
 ]
 @export var level_names: Array[String] = [
 	"Meadow",
@@ -98,6 +100,8 @@ const DROP_LUCK_MAX := 2.5
 	"Frost Legion",
 	"Shadow Vortex",
 	"Dragon's Roost",
+	"Vampire Crypt",
+	"Storm Sanctum",
 ]
 
 var current_level_index: int = 0
