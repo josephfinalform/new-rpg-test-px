@@ -11,97 +11,55 @@ const LEVEL_CONFIG = preload("res://aarpg/config/level_config.tres")
 const DROP_LUCK_PER_STEP := 0.05
 const DROP_LUCK_MAX := 2.5
 
-@export var levels: Array[String] = [
-	"res://aarpg/Levels/level_1_meadow.tscn",
-	"res://aarpg/Levels/level_2_dungeon.tscn",
-	"res://aarpg/Levels/level_3_boss.tscn",
-	"res://aarpg/Levels/level_4_forest.tscn",
-	"res://aarpg/Levels/level_5_graveyard.tscn",
-	"res://aarpg/Levels/level_6_ice_arena.tscn",
-	"res://aarpg/Levels/level_7_shadow_arena.tscn",
-	"res://aarpg/Levels/level_8_ember_canyon.tscn",
-	"res://aarpg/Levels/level_9_mystic_grove.tscn",
-	"res://aarpg/Levels/level_10_exp_grind.tscn",
-	"res://aarpg/Levels/level_11_venom_cavern.tscn",
-	"res://aarpg/Levels/level_12_crystal_cavern.tscn",
-	"res://aarpg/Levels/level_13_crystal_grind.tscn",
-	"res://aarpg/Levels/level_14_abyssal_forge.tscn",
-	"res://aarpg/Levels/level_15_sunken_abyss.tscn",
-	"res://aarpg/Levels/level_16_goblin_grind.tscn",
-	"res://aarpg/Levels/level_17_bone_grind.tscn",
-	"res://aarpg/Levels/level_18_ember_grind.tscn",
-	"res://aarpg/Levels/level_19_venom_grind.tscn",
-	"res://aarpg/Levels/level_20_abyss_grind.tscn",
-	"res://aarpg/Levels/level_21_ice_grind.tscn",
-	"res://aarpg/Levels/level_22_shadow_grind.tscn",
-	"res://aarpg/Levels/level_23_arcane_grind.tscn",
-	"res://aarpg/Levels/level_24_wolf_den_grind.tscn",
-	"res://aarpg/Levels/level_25_crystal_pit_grind.tscn",
-	"res://aarpg/Levels/level_26_inferno_fortress_grind.tscn",
-	"res://aarpg/Levels/level_27_shadow_nexus_grind.tscn",
-	"res://aarpg/Levels/level_28_verdant_wilds_grind.tscn",
-	"res://aarpg/Levels/level_29_abyss_maw_grind.tscn",
-	"res://aarpg/Levels/level_30_frostpeak_grind.tscn",
-	"res://aarpg/Levels/level_31_poison_bastion_grind.tscn",
-	"res://aarpg/Levels/level_32_void_nexus_grind.tscn",
-	"res://aarpg/Levels/level_33_bloodwave_grind.tscn",
-	"res://aarpg/Levels/level_34_stormwave_grind.tscn",
-	"res://aarpg/Levels/level_35_final_wave_grind.tscn",
-	"res://aarpg/Levels/level_36_guardian_sentinel_grind.tscn",
-	"res://aarpg/Levels/level_37_lich_court_grind.tscn",
-	"res://aarpg/Levels/level_38_orc_warfront_grind.tscn",
-	"res://aarpg/Levels/level_39_goblin_warzone_grind.tscn",
-	"res://aarpg/Levels/level_40_frost_legion_grind.tscn",
-	"res://aarpg/Levels/level_41_shadow_vortex_grind.tscn",
-	"res://aarpg/Levels/level_42_dragons_roost_grind.tscn",
-	"res://aarpg/Levels/level_43_vampire_crypt_grind.tscn",
-	"res://aarpg/Levels/level_44_storm_sanctum_grind.tscn",
-]
-@export var level_names: Array[String] = [
-	"Meadow",
-	"Dungeon",
-	"Boss Arena",
-	"Forest",
-	"Graveyard",
-	"Ice Cavern",
-	"Shadow Keep",
-	"Ember Canyon",
-	"Mystic Grove",
-	"EXP Grind Arena",
-	"Venom Cavern",
-	"Crystal Cavern",
-	"Crystal Grind Pit",
-	"Abyssal Forge",
-	"Sunken Abyss",
-	"Goblin Grind",
-	"Bone Grind",
-	"Ember Grind",
-	"Venom Grind",
-	"Abyss Grind",
-	"Ice Grind",
-	"Shadow Grind",
-	"Arcane Grind",
-	"Wolf Den",
-	"Crystal Pit",
-	"Inferno Fortress",
-	"Shadow Nexus",
-	"Verdant Wilds",
-	"Abyss Maw",
-	"Frostpeak",
-	"Poison Bastion",
-	"Void Nexus",
-	"Bloodwave Arena",
-	"Stormwave Arena",
-	"Final Wave",
-	"Guardian Sentinel",
-	"Lich Court",
-	"Orc Warfront",
-	"Goblin Warzone",
-	"Frost Legion",
-	"Shadow Vortex",
-	"Dragon's Roost",
-	"Vampire Crypt",
-	"Storm Sanctum",
+@export var level_records: Array[Dictionary] = [
+	{"path": "res://aarpg/Levels/level_1_meadow.tscn", "name": "Meadow"},
+	{"path": "res://aarpg/Levels/level_2_dungeon.tscn", "name": "Dungeon"},
+	{"path": "res://aarpg/Levels/level_3_boss.tscn", "name": "Boss Arena"},
+	{"path": "res://aarpg/Levels/level_4_forest.tscn", "name": "Forest"},
+	{"path": "res://aarpg/Levels/level_5_graveyard.tscn", "name": "Graveyard"},
+	{"path": "res://aarpg/Levels/level_6_ice_arena.tscn", "name": "Ice Cavern"},
+	{"path": "res://aarpg/Levels/level_7_shadow_arena.tscn", "name": "Shadow Keep"},
+	{"path": "res://aarpg/Levels/level_8_ember_canyon.tscn", "name": "Ember Canyon"},
+	{"path": "res://aarpg/Levels/level_9_mystic_grove.tscn", "name": "Mystic Grove"},
+	{"path": "res://aarpg/Levels/level_10_exp_grind.tscn", "name": "EXP Grind Arena"},
+	{"path": "res://aarpg/Levels/level_11_venom_cavern.tscn", "name": "Venom Cavern"},
+	{"path": "res://aarpg/Levels/level_12_crystal_cavern.tscn", "name": "Crystal Cavern"},
+	{"path": "res://aarpg/Levels/level_13_crystal_grind.tscn", "name": "Crystal Grind Pit"},
+	{"path": "res://aarpg/Levels/level_14_abyssal_forge.tscn", "name": "Abyssal Forge"},
+	{"path": "res://aarpg/Levels/level_15_sunken_abyss.tscn", "name": "Sunken Abyss"},
+	{"path": "res://aarpg/Levels/level_16_goblin_grind.tscn", "name": "Goblin Grind"},
+	{"path": "res://aarpg/Levels/level_17_bone_grind.tscn", "name": "Bone Grind"},
+	{"path": "res://aarpg/Levels/level_18_ember_grind.tscn", "name": "Ember Grind"},
+	{"path": "res://aarpg/Levels/level_19_venom_grind.tscn", "name": "Venom Grind"},
+	{"path": "res://aarpg/Levels/level_20_abyss_grind.tscn", "name": "Abyss Grind"},
+	{"path": "res://aarpg/Levels/level_21_ice_grind.tscn", "name": "Ice Grind"},
+	{"path": "res://aarpg/Levels/level_22_shadow_grind.tscn", "name": "Shadow Grind"},
+	{"path": "res://aarpg/Levels/level_23_arcane_grind.tscn", "name": "Arcane Grind"},
+	{"path": "res://aarpg/Levels/level_24_wolf_den_grind.tscn", "name": "Wolf Den"},
+	{"path": "res://aarpg/Levels/level_25_crystal_pit_grind.tscn", "name": "Crystal Pit"},
+	{"path": "res://aarpg/Levels/level_26_inferno_fortress_grind.tscn", "name": "Inferno Fortress"},
+	{"path": "res://aarpg/Levels/level_27_shadow_nexus_grind.tscn", "name": "Shadow Nexus"},
+	{"path": "res://aarpg/Levels/level_28_verdant_wilds_grind.tscn", "name": "Verdant Wilds"},
+	{"path": "res://aarpg/Levels/level_29_abyss_maw_grind.tscn", "name": "Abyss Maw"},
+	{"path": "res://aarpg/Levels/level_30_frostpeak_grind.tscn", "name": "Frostpeak"},
+	{"path": "res://aarpg/Levels/level_31_poison_bastion_grind.tscn", "name": "Poison Bastion"},
+	{"path": "res://aarpg/Levels/level_32_void_nexus_grind.tscn", "name": "Void Nexus"},
+	{"path": "res://aarpg/Levels/level_33_bloodwave_grind.tscn", "name": "Bloodwave Arena"},
+	{"path": "res://aarpg/Levels/level_34_stormwave_grind.tscn", "name": "Stormwave Arena"},
+	{"path": "res://aarpg/Levels/level_35_final_wave_grind.tscn", "name": "Final Wave"},
+	{"path": "res://aarpg/Levels/level_36_guardian_sentinel_grind.tscn", "name": "Guardian Sentinel"},
+	{"path": "res://aarpg/Levels/level_37_lich_court_grind.tscn", "name": "Lich Court"},
+	{"path": "res://aarpg/Levels/level_38_orc_warfront_grind.tscn", "name": "Orc Warfront"},
+	{"path": "res://aarpg/Levels/level_39_goblin_warzone_grind.tscn", "name": "Goblin Warzone"},
+	{"path": "res://aarpg/Levels/level_40_frost_legion_grind.tscn", "name": "Frost Legion"},
+	{"path": "res://aarpg/Levels/level_41_shadow_vortex_grind.tscn", "name": "Shadow Vortex"},
+	{"path": "res://aarpg/Levels/level_42_dragons_roost_grind.tscn", "name": "Dragon's Roost"},
+	{"path": "res://aarpg/Levels/level_43_vampire_crypt_grind.tscn", "name": "Vampire Crypt"},
+	{"path": "res://aarpg/Levels/level_44_storm_sanctum_grind.tscn", "name": "Storm Sanctum"},
+	{"path": "res://aarpg/Levels/level_45_venom_citadel_grind.tscn", "name": "Venom Citadel"},
+	{"path": "res://aarpg/Levels/level_46_crystal_anomaly_grind.tscn", "name": "Crystal Anomaly"},
+	{"path": "res://aarpg/Levels/level_47_infernal_gate_grind.tscn", "name": "Infernal Gate"},
+	{"path": "res://aarpg/Levels/level_48_abyssal_depths_grind.tscn", "name": "Abyssal Depths"},
 ]
 
 var current_level_index: int = 0
@@ -134,7 +92,7 @@ func start_game() -> void:
 
 
 func load_level(index: int) -> void:
-	current_level_index = clampi(index, 0, levels.size() - 1)
+	current_level_index = clampi(index, 0, level_records.size() - 1)
 	_load_level(current_level_index)
 
 
@@ -147,10 +105,20 @@ func restart_current_level() -> void:
 	_load_level(current_level_index)
 
 
-func get_level_name(index: int) -> String:
-	if index < 0 or index >= level_names.size():
+func get_level_count() -> int:
+	return level_records.size()
+
+
+func get_level_path(index: int) -> String:
+	if index < 0 or index >= level_records.size():
 		return ""
-	return level_names[index]
+	return str(level_records[index]["path"])
+
+
+func get_level_name(index: int) -> String:
+	if index < 0 or index >= level_records.size():
+		return ""
+	return str(level_records[index]["name"])
 
 
 func enemy_killed() -> void:
@@ -181,4 +149,4 @@ func reset_combo() -> void:
 
 func _load_level(index: int) -> void:
 	level_changed.emit(index)
-	get_tree().change_scene_to_file(levels[index])
+	get_tree().change_scene_to_file(get_level_path(index))
