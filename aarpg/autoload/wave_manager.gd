@@ -95,6 +95,8 @@ func _spawn_enemy(scene: PackedScene, pos: Vector2) -> void:
 	container.add_child(enemy)
 	enemy.add_to_group("enemies")
 	enemy.global_position = pos
+	if enemy.has_method("apply_level_scaling"):
+		enemy.apply_level_scaling(GameManager.current_level_index)
 	_enemies_alive += 1
 	if enemy.has_signal("died"):
 		enemy.died.connect(_on_enemy_died)

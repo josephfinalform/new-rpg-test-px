@@ -300,6 +300,6 @@ position = Vector2(1720, 100)
 
 [node name="Portal" parent="." instance=ExtResource("10_portal")]
 position = Vector2(1560, 340)
-target_level_index = 14
+target_level_index = 15
 
 [node name="HealthBar" parent="." instance=ExtResource("19_hud")]

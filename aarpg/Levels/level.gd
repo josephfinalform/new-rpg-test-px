@@ -37,7 +37,7 @@ func _ready() -> void:
 		_player.died.connect(_on_player_died)
 		_player.global_position = player_spawn
 	_level_start_time = Time.get_ticks_msec() / 1000.0
-	if not boss.is_empty():
+	if not is_wave_level and not boss.is_empty():
 		var boss_node := _get_boss_node()
 		if boss_node:
 			boss_node.died.connect(_on_boss_died)
@@ -45,7 +45,8 @@ func _ready() -> void:
 		_setup_grind_level()
 	if is_wave_level:
 		_setup_wave_level()
-	_apply_difficulty_scaling()
+	if not is_wave_level:
+		_apply_difficulty_scaling()
 	if is_final_level:
 		_show_banner("BOSS", BOSS_BANNER_COLOR, BOSS_BANNER_FONT_SIZE, BOSS_BANNER_HOLD_TIME, BOSS_BANNER_FADE_TIME)
 		_show_boss_banner_text()
@@ -226,13 +227,24 @@ func _setup_wave_level() -> void:
 	add_child(_wave_manager)
 	var enemy_scenes: Array[PackedScene] = []
 	var boss_scene: PackedScene = null
+	var declared_boss: Node = _get_boss_node()
+	if declared_boss and declared_boss.scene_file_path and not declared_boss.scene_file_path.is_empty():
+		boss_scene = load(declared_boss.scene_file_path) as PackedScene
+	var placed_enemies: Array[Node] = []
 	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if not enemy is Enemy:
+			continue
+		if enemy == declared_boss:
+			placed_enemies.append(enemy)
+			continue
 		if enemy.scene_file_path and not enemy.scene_file_path.is_empty():
 			var sc = load(enemy.scene_file_path) as PackedScene
-			if sc and enemy is BossEnemy:
-				boss_scene = sc
-			elif sc:
+			if sc:
 				enemy_scenes.append(sc)
+		placed_enemies.append(enemy)
+	for placed in placed_enemies:
+		if is_instance_valid(placed):
+			placed.queue_free()
 	_wave_manager.setup(self, enemy_scenes, boss_scene)
 	_wave_manager.start_waves()
 

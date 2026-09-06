@@ -202,7 +202,7 @@ position = Vector2(1500, 700)
 
 [node name="Portal" parent="." instance=ExtResource("9_portal")]
 position = Vector2(1480, 320)
-target_level_index = 11
+target_level_index = 12
 locked = true
 
 [node name="HealthBar" parent="." instance=ExtResource("18_hud")]

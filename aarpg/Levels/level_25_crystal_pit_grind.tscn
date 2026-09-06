@@ -282,7 +282,7 @@ position = Vector2(1560, 700)
 
 [node name="Portal" parent="." instance=ExtResource("15_portal")]
 position = Vector2(1560, 300)
-target_level_index = 14
+target_level_index = 25
 
 [node name="NPCs" type="Node2D" parent="."]
 

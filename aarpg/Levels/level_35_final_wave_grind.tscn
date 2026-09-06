@@ -39,8 +39,8 @@ script = ExtResource("1_level")
 player_spawn = Vector2(64, 128)
 boss = NodePath("GrindBoss")
 is_wave_level = true
-total_waves = 10
-enemies_per_wave_base = 15
+total_waves = 9
+enemies_per_wave_base = 13
 boss_wave_interval = 5
 
 [node name="DungeonMap" parent="." instance=ExtResource("2_map")]
@@ -156,7 +156,7 @@ position = Vector2(1460, 700)
 
 [node name="Portal" parent="." instance=ExtResource("15_portal")]
 position = Vector2(1560, 300)
-target_level_index = 14
+target_level_index = 35
 
 [node name="NPCs" type="Node2D" parent="."]
 
