@@ -60,6 +60,7 @@ const DROP_LUCK_MAX := 2.5
 	{"path": "res://aarpg/Levels/level_46_crystal_anomaly_grind.tscn", "name": "Crystal Anomaly"},
 	{"path": "res://aarpg/Levels/level_47_infernal_gate_grind.tscn", "name": "Infernal Gate"},
 	{"path": "res://aarpg/Levels/level_48_abyssal_depths_grind.tscn", "name": "Abyssal Depths"},
+	{"path": "res://aarpg/Levels/level_49_titans_crucible_grind.tscn", "name": "Titan's Crucible"},
 ]
 
 var current_level_index: int = 0
