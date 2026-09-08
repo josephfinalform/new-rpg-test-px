@@ -1,0 +1,8 @@
+[gd_resource type=Resource script=load("res://aarpg/config/gear_up.gd")]
+
+display_name = "Bounty"
+rarity = 2
+stat = 14
+amount = 1
+stat_color = Color(1.0, 0.82, 0.3, 1)
+description = "Every enemy you slay drops 1 bonus gold."

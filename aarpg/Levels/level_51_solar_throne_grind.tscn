@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3]
+[gd_scene load_steps=33 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -24,6 +24,7 @@
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/lifesteal_up.tres" id="28_lifesteal"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="30_crit"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/fury_up.tres" id="31_fury"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/bounty_up.tres" id="32_bounty"]
 [ext_resource type="Resource" path="res://aarpg/config/weapons/sunsteel_blade.tres" id="33_weapon"]
 [ext_resource type="Resource" path="res://aarpg/config/armors/solar_mantle.tres" id="34_armor"]
 [ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="40_npc"]
@@ -202,6 +203,10 @@ gear_up = ExtResource("30_crit")
 [node name="FuryUp" parent="Pickups" instance=ExtResource("20_gearup")]
 position = Vector2(1400, 200)
 gear_up = ExtResource("31_fury")
+
+[node name="BountyUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(680, 240)
+gear_up = ExtResource("32_bounty")
 
 [node name="Torches" type="Node2D" parent="."]
 

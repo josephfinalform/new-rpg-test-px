@@ -103,6 +103,11 @@ func _draw() -> void:
 				var a := -PI / 2.0 + TAU / 3.0 * float(i)
 				draw_line(Vector2.from_angle(a) * 2.0, Vector2.from_angle(a) * 6.0, Color.WHITE, 1.5)
 			draw_circle(Vector2.ZERO, 1.4, Color.WHITE)
+		GearUp.Stat.BOUNTY:
+			draw_circle(Vector2.ZERO, 5.0, Color(0.95, 0.8, 0.3).darkened(0.1))
+			draw_circle(Vector2.ZERO, 3.0, Color(1.0, 0.9, 0.5))
+			draw_line(Vector2(0, -5), Vector2(0, 5), Color.WHITE, 1.5)
+			draw_line(Vector2(-4, 0), Vector2(4, 0), Color.WHITE, 1.5)
 
 
 func _apply_effect(player: Player) -> void:

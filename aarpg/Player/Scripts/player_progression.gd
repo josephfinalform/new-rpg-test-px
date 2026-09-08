@@ -23,6 +23,7 @@ var gear_speed_bonus: float = 0.0
 var gear_dash_reduction: float = 0.0
 var magnet_radius_bonus: float = 0.0
 var regen_per_second: float = 0.0
+var bounty_gold_per_kill: int = 0
 
 var prestige_hp_bonus: int = 0
 var prestige_atk_bonus: int = 0
@@ -182,4 +183,6 @@ func apply_gear_up(gear_up: GearUp) -> void:
 			player.combat.knockback_multiplier += float(gear_up.amount) * GEAR_MULT_KNOCKBACK
 		GearUp.Stat.CRIT_DAMAGE:
 			player.combat.crit_damage_multiplier = minf(player.combat.crit_damage_multiplier + float(gear_up.amount) * GEAR_MULT_CRIT_DAMAGE, STAT_CAP_CRIT_DAMAGE)
+		GearUp.Stat.BOUNTY:
+			bounty_gold_per_kill += gear_up.amount
 	player.gear_up_applied.emit(gear_up)
