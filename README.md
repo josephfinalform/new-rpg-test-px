@@ -50,7 +50,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
-- **55 playable wave-arena levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → … → Titan's Crucible → Reaper's Hollow → Solar Throne → Eldritch Shrine → Chrono Breach → Gale Bastion → Tomb of Kings → loops)
+- **56 playable wave-arena levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → … → Titan's Crucible → Reaper's Hollow → Solar Throne → Eldritch Shrine → Chrono Breach → Gale Bastion → Tomb of Kings → Stormwrought Vault → loops)
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
@@ -274,6 +274,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-09-08 | Bounty gear-up — yeni gear_up stat (kill başına gold), progression handler + ölümde GoldManager grant, coin ikonu; Solar Throne, Gale Bastion ve Stormwrought Vault'a yerleştirildi |
+| 2026-09-08 | Thunder Colossus boss (slam AoE + shock bolt) + Stormwrought Vault seviyesi 56 — vault smith NPC, Stormwrought Ranseur & Bulwark ödülleri, 24 wave × 26 düşman |
+| 2026-09-08 | Endgame NPC dialogue'ları — Temporal Watcher, Skyward Marshal, Reaper Warden, Eldritch Oracle, Solar Custodian, Keeper of Tombs, Vault Smith seviyelere bağlandı |
 | 2026-09-08 | Endgame seviyeler 50-55 — Reaper's Hollow (Lich), Solar Throne (Fire Dragon), Eldritch Shrine (Abyss Lord), Chrono Breach (Shadow Knight), Gale Bastion (Crystal Behemoth) ve Tomb of Kings (Vampire Lord) wave arenaları; Mournblade/Pale Aegis, Sunsteel/Solar Mantle, Voidreaver/Eldritch Robes, Temporal Edge/Chrono Ward, Zephyr Spire/Mantle ve Khopesh/Regal Burial Garb legendary ödülleri |
 | 2026-09-08 | 3 yeni düşman — Ash Shade (hızlı hayalet), Solar Guardian (zırhlı), Eldritch Horror (iri void) — yeni `data.res` + scene'ler, Chrono Breach'te kullanıldı |
 | 2026-09-08 | Achievement sistemi fiilen çalışır hale getirildi — kill/combo/gold/seviye/arena ilerlemesi signal'larla otomatik unlock, boss kill sayacı (kalıcı), speed_demon & untouchable seviye-temizleme başarımları, yeni arena_50 endgame başarımı |
