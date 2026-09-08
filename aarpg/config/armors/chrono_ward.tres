@@ -1,0 +1,13 @@
+[gd_resource type=Resource script=load("res://aarpg/config/armor.gd")]
+
+display_name = "Chrono Ward"
+rarity = 4
+damage_reduction = 8
+damage_reduction_ratio = 0.35
+speed_multiplier = 0.85
+armor_color = Color(0.3, 0.9, 0.85, 1)
+description = "Armor out of sync with the present. Blows land a breath too late to hurt."
+armor_tier = 10
+xp_multiplier = 1.35
+dash_cooldown_multiplier = 0.78
+move_speed_multiplier = 1.0
