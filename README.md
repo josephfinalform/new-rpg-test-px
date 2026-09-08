@@ -50,7 +50,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
-- **13 playable levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → venom cavern → EXP grind arena → crystal cavern → crystal grind pit → shadow keep)
+- **55 playable wave-arena levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → … → Titan's Crucible → Reaper's Hollow → Solar Throne → Eldritch Shrine → Chrono Breach → Gale Bastion → Tomb of Kings → loops)
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
@@ -274,6 +274,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-09-08 | Endgame seviyeler 50-55 — Reaper's Hollow (Lich), Solar Throne (Fire Dragon), Eldritch Shrine (Abyss Lord), Chrono Breach (Shadow Knight), Gale Bastion (Crystal Behemoth) ve Tomb of Kings (Vampire Lord) wave arenaları; Mournblade/Pale Aegis, Sunsteel/Solar Mantle, Voidreaver/Eldritch Robes, Temporal Edge/Chrono Ward, Zephyr Spire/Mantle ve Khopesh/Regal Burial Garb legendary ödülleri |
+| 2026-09-08 | 3 yeni düşman — Ash Shade (hızlı hayalet), Solar Guardian (zırhlı), Eldritch Horror (iri void) — yeni `data.res` + scene'ler, Chrono Breach'te kullanıldı |
+| 2026-09-08 | Achievement sistemi fiilen çalışır hale getirildi — kill/combo/gold/seviye/arena ilerlemesi signal'larla otomatik unlock, boss kill sayacı (kalıcı), speed_demon & untouchable seviye-temizleme başarımları, yeni arena_50 endgame başarımı |
 | 2026-08-15 | Scroll sistemi refactor — `Scroll` Resource (`aarpg/config/scroll.gd` + `scrolls/` klasörü) data-driven yapıya geçirildi; `ScrollPickup` artık `kind` enum yerine `scroll` resource kullanıyor. 5 scroll tipi: XP Scroll, Great Parchment (60 XP), Ancient Scroll (200 XP), Level Tome, Wisdom Tome (+2 seviye). `respects_xp_multiplier` + `Player.gain_xp_flat()` ile çarpanı yok sayan scroll desteği. Yeni parşömenler seviyelere yerleştirildi (lvl 9/10/11/12/13). |
 | 2026-08-14 | NPC & Dialogue sistemi — Dialogue resource + npc.tscn (Area2D + `[E]` prompt) + DialogueManager autoload (pause'lı typewriter kutu, E/ESC ile ilerletme, pause durumunu geri yükleme), 4 NPC (Old Sage, Grind Master, Crystal Sage, Grind Herald) seviyelere yerleştirildi |
 | 2026-08-14 | Crystal Cavern seviyesi — Crystal Guardian boss-gate arenası (locked portal + faz saldırıları: shard fan/charge/summon), Crystal Slime düşmanı, cyan Stormblade & Mystic Aegis ödülleri, kampanya zincirine index 10 olarak eklendi (EXP Grind Arena → Crystal Cavern → Crystal Grind Pit → Shadow Keep) |
