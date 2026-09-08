@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Mournblade"
+rarity = 4
+damage_bonus = 8
+cooldown_multiplier = 0.8
+effect = 2
+trail_color = Color(0.45, 0.55, 0.45, 1)
+description = "Forged from the bones of Reaper's Hollow. Each swing whispers of winter."

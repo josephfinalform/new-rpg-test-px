@@ -1,0 +1,13 @@
+[gd_resource type=Resource script=load("res://aarpg/config/armor.gd")]
+
+display_name = "Pale Aegis"
+rarity = 4
+damage_reduction = 5
+damage_reduction_ratio = 0.25
+speed_multiplier = 0.9
+armor_color = Color(0.85, 0.85, 0.75, 1)
+description = "The last armor standing in the bone wastes. Unyielding as the dead."
+armor_tier = 7
+xp_multiplier = 1.2
+dash_cooldown_multiplier = 0.85
+move_speed_multiplier = 1.0

@@ -61,6 +61,9 @@ const DROP_LUCK_MAX := 2.5
 	{"path": "res://aarpg/Levels/level_47_infernal_gate_grind.tscn", "name": "Infernal Gate"},
 	{"path": "res://aarpg/Levels/level_48_abyssal_depths_grind.tscn", "name": "Abyssal Depths"},
 	{"path": "res://aarpg/Levels/level_49_titans_crucible_grind.tscn", "name": "Titan's Crucible"},
+	{"path": "res://aarpg/Levels/level_50_reapers_hollow_grind.tscn", "name": "Reaper's Hollow"},
+	{"path": "res://aarpg/Levels/level_51_solar_throne_grind.tscn", "name": "Solar Throne"},
+	{"path": "res://aarpg/Levels/level_52_eldritch_shrine_grind.tscn", "name": "Eldritch Shrine"},
 ]
 
 var current_level_index: int = 0

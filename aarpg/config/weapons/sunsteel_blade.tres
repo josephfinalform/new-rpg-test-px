@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Sunsteel Blade"
+rarity = 4
+damage_bonus = 9
+cooldown_multiplier = 0.75
+effect = 1
+trail_color = Color(1.0, 0.75, 0.2, 1)
+description = "Tempered in the heart of the Solar Throne. Burns all it touches."
