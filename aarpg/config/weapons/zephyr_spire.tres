@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Zephyr Spire"
+rarity = 4
+damage_bonus = 10
+cooldown_multiplier = 0.72
+effect = 3
+trail_color = Color(0.5, 0.85, 1.0, 1)
+description = "A lance carved from a thunderhead. Strikes crackle with static wind."

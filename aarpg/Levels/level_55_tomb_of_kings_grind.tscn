@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
 [ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/ash_shade.tscn" id="id_4_ashshade"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/solar_guardian.tscn" id="id_5_solarguardian"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/eldritch_horror.tscn" id="id_6_eldritchhorror"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/bat.tscn" id="id_7_bat"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/shadow_knight.tscn" id="id_8_boss"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/skeleton.tscn" id="id_4_skeleton"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/stone_brute.tscn" id="id_5_stonebrute"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_archer.tscn" id="id_6_goblinarcher"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/orc_brute.tscn" id="id_7_orcbrute"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/vampire_lord.tscn" id="id_8_boss"]
 [ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="15_portal"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="16_chest"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_gem.tscn" id="17_gem"]
@@ -24,103 +24,103 @@
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/lifesteal_up.tres" id="28_lifesteal"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="30_crit"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/fury_up.tres" id="31_fury"]
-[ext_resource type="Resource" path="res://aarpg/config/weapons/temporal_edge.tres" id="33_weapon"]
-[ext_resource type="Resource" path="res://aarpg/config/armors/chrono_ward.tres" id="34_armor"]
+[ext_resource type="Resource" path="res://aarpg/config/weapons/khopesh_of_kings.tres" id="33_weapon"]
+[ext_resource type="Resource" path="res://aarpg/config/armors/regal_burial_garb.tres" id="34_armor"]
 [ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="40_npc"]
 [ext_resource type="Resource" path="res://aarpg/config/dialogues/grind_master_dialogue.tres" id="41_dlg"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="42_xpscroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/eternal_tome.tres" id="48_eternal"]
 
 
-[node name="ChronoBreach" type="Node2D"]
+[node name="TombOfKings" type="Node2D"]
 script = ExtResource("1_level")
 player_spawn = Vector2(64, 128)
 boss = NodePath("GrindBoss")
 is_wave_level = true
-total_waves = 22
-enemies_per_wave_base = 24
-boss_wave_interval = 5
+total_waves = 24
+enemies_per_wave_base = 26
+boss_wave_interval = 6
 
 [node name="DungeonMap" parent="." instance=ExtResource("2_map")]
 paint_size = Vector2i(50, 26)
 decoration_density = 0.02
-tint = Color(0.1, 0.22, 0.25, 1)
+tint = Color(0.55, 0.42, 0.18, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
 position = Vector2(64, 128)
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="AshShade1" parent="Enemies" instance=ExtResource("id_4_ashshade")]
+[node name="Skeleton1" parent="Enemies" instance=ExtResource("id_4_skeleton")]
 position = Vector2(260, 200)
 
-[node name="SolarGuardian1" parent="Enemies" instance=ExtResource("id_5_solarguardian")]
+[node name="StoneBrute1" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
 position = Vector2(420, 340)
 
-[node name="EldritchHorror1" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="GoblinArcher1" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
 position = Vector2(580, 180)
 
-[node name="Bat1" parent="Enemies" instance=ExtResource("id_7_bat")]
+[node name="OrcBrute1" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
 position = Vector2(760, 440)
 
-[node name="AshShade2" parent="Enemies" instance=ExtResource("id_4_ashshade")]
+[node name="Skeleton2" parent="Enemies" instance=ExtResource("id_4_skeleton")]
 position = Vector2(920, 260)
 
-[node name="SolarGuardian2" parent="Enemies" instance=ExtResource("id_5_solarguardian")]
+[node name="StoneBrute2" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
 position = Vector2(1100, 380)
 
-[node name="EldritchHorror2" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="GoblinArcher2" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
 position = Vector2(1300, 200)
 
-[node name="Bat2" parent="Enemies" instance=ExtResource("id_7_bat")]
+[node name="OrcBrute2" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
 position = Vector2(1500, 500)
 
-[node name="AshShade3" parent="Enemies" instance=ExtResource("id_4_ashshade")]
+[node name="Skeleton3" parent="Enemies" instance=ExtResource("id_4_skeleton")]
 position = Vector2(340, 600)
 
-[node name="SolarGuardian3" parent="Enemies" instance=ExtResource("id_5_solarguardian")]
+[node name="StoneBrute3" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
 position = Vector2(1420, 680)
 
-[node name="EldritchHorror3" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="GoblinArcher3" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
 position = Vector2(200, 400)
 
-[node name="Bat3" parent="Enemies" instance=ExtResource("id_7_bat")]
+[node name="OrcBrute3" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
 position = Vector2(500, 520)
 
-[node name="AshShade4" parent="Enemies" instance=ExtResource("id_4_ashshade")]
+[node name="Skeleton4" parent="Enemies" instance=ExtResource("id_4_skeleton")]
 position = Vector2(700, 160)
 
-[node name="SolarGuardian4" parent="Enemies" instance=ExtResource("id_5_solarguardian")]
+[node name="StoneBrute4" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
 position = Vector2(1000, 560)
 
-[node name="EldritchHorror4" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="GoblinArcher4" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
 position = Vector2(1260, 440)
 
-[node name="Bat4" parent="Enemies" instance=ExtResource("id_7_bat")]
+[node name="OrcBrute4" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
 position = Vector2(1480, 340)
 
-[node name="AshShade5" parent="Enemies" instance=ExtResource("id_4_ashshade")]
+[node name="Skeleton5" parent="Enemies" instance=ExtResource("id_4_skeleton")]
 position = Vector2(380, 260)
 
-[node name="SolarGuardian5" parent="Enemies" instance=ExtResource("id_5_solarguardian")]
+[node name="StoneBrute5" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
 position = Vector2(640, 600)
 
-[node name="EldritchHorror5" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="GoblinArcher5" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
 position = Vector2(860, 340)
 
-[node name="Bat5" parent="Enemies" instance=ExtResource("id_7_bat")]
+[node name="OrcBrute5" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
 position = Vector2(1180, 600)
 
-[node name="AshShade6" parent="Enemies" instance=ExtResource("id_4_ashshade")]
+[node name="Skeleton6" parent="Enemies" instance=ExtResource("id_4_skeleton")]
 position = Vector2(1380, 120)
 
-[node name="SolarGuardian6" parent="Enemies" instance=ExtResource("id_5_solarguardian")]
+[node name="StoneBrute6" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
 position = Vector2(300, 140)
 
-[node name="EldritchHorror6" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="GoblinArcher6" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
 position = Vector2(560, 420)
 
-[node name="Bat6" parent="Enemies" instance=ExtResource("id_7_bat")]
+[node name="OrcBrute6" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
 position = Vector2(800, 620)
 
 [node name="GrindBoss" parent="." instance=ExtResource("id_8_boss")]
@@ -171,11 +171,11 @@ scroll = ExtResource("48_eternal")
 position = Vector2(600, 460)
 scroll = ExtResource("42_xpscroll")
 
-[node name="TemporalEdge" parent="Pickups" instance=ExtResource("21_weapon")]
+[node name="KhopeshOfKings" parent="Pickups" instance=ExtResource("21_weapon")]
 position = Vector2(800, 160)
 weapon = ExtResource("33_weapon")
 
-[node name="ChronoWard" parent="Pickups" instance=ExtResource("22_armor")]
+[node name="RegalBurialGarb" parent="Pickups" instance=ExtResource("22_armor")]
 position = Vector2(1100, 500)
 armor = ExtResource("34_armor")
 
@@ -219,14 +219,14 @@ position = Vector2(1560, 700)
 
 [node name="Portal" parent="." instance=ExtResource("15_portal")]
 position = Vector2(1560, 300)
-target_level_index = 53
+target_level_index = 0
 
 [node name="NPCs" type="Node2D" parent="."]
 
 [node name="Master" parent="NPCs" instance=ExtResource("40_npc")]
 position = Vector2(200, 420)
-npc_name = "Temporal Watcher"
+npc_name = "Keeper of Tombs"
 dialogue = ExtResource("41_dlg")
-npc_color = Color(0.3, 0.9, 0.85, 1)
+npc_color = Color(1.0, 0.8, 0.45, 1)
 
 [node name="HealthBar" parent="." instance=ExtResource("24_hud")]

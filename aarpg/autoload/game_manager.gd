@@ -65,6 +65,8 @@ const DROP_LUCK_MAX := 2.5
 	{"path": "res://aarpg/Levels/level_51_solar_throne_grind.tscn", "name": "Solar Throne"},
 	{"path": "res://aarpg/Levels/level_52_eldritch_shrine_grind.tscn", "name": "Eldritch Shrine"},
 	{"path": "res://aarpg/Levels/level_53_chrono_breach_grind.tscn", "name": "Chrono Breach"},
+	{"path": "res://aarpg/Levels/level_54_gale_bastion_grind.tscn", "name": "Gale Bastion"},
+	{"path": "res://aarpg/Levels/level_55_tomb_of_kings_grind.tscn", "name": "Tomb of Kings"},
 ]
 
 var current_level_index: int = 0
