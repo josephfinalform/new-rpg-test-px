@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Eldritch Oracle"
+npc_color = Color(0.6, 0.25, 0.95, 1)
+lines = PackedStringArray("Behold the Eldritch Shrine, where the void drips like rain.", "Shadow spiders weave in darkness. Venom slimes slide through cracks.", "The Abyss Lord is patient. It will wait for you to slip.", "Take the Voidreaver — the edge between reality and nothing.")

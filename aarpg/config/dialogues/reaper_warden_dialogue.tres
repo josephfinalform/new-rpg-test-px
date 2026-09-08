@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Reaper Warden"
+npc_color = Color(0.85, 0.82, 0.6, 1)
+lines = PackedStringArray("Welcome to the bone wastes of Reaper's Hollow, wanderer.", "Skeletons shamble, zombies shamble faster. The ash coats everything.", "The Lich watches from the crypt's heart. Its frost is unrelenting.", "Slay the dead, take your Mournblade, and walk to the Solar Throne.")

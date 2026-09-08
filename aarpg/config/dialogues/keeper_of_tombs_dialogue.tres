@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Keeper of Tombs"
+npc_color = Color(1.0, 0.8, 0.45, 1)
+lines = PackedStringArray("The Tomb of Kings welcomes you to its halls of gold and bone.", "Archers guard the stairs. Brutes guard the doors. Orcs guard the vault.", "The Vampire Lord drinks the light of this cursed place.", "Take the Khopesh and the burial garb of old queens, then ride the loop anew.")

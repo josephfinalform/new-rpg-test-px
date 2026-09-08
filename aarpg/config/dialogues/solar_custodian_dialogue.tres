@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Solar Custodian"
+npc_color = Color(1.0, 0.75, 0.2, 1)
+lines = PackedStringArray("The Solar Throne burns forever at noon.", "Fire imps dance in embers, wisps blaze like candles.", "A Fire Dragon slumbers on the golden dais. Wake it and pray.", "Claim the Sunsteel Blade and ascend to the shrine.")

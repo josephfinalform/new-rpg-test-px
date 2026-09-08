@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Skyward Marshal"
+npc_color = Color(0.5, 0.85, 1.0, 1)
+lines = PackedStringArray("The Gale Bastion whips with living storms. Crystal wisps ride the wind.", "Storm elementals strike with static. Keep moving, never stand still.", "A Crystal Behemoth guards the updraft portal. Its shards shatter floors.", "Catch the wind and leap through when the sky is clear.")

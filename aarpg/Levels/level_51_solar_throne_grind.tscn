@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3]
+[gd_scene load_steps=32 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -27,7 +27,7 @@
 [ext_resource type="Resource" path="res://aarpg/config/weapons/sunsteel_blade.tres" id="33_weapon"]
 [ext_resource type="Resource" path="res://aarpg/config/armors/solar_mantle.tres" id="34_armor"]
 [ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="40_npc"]
-[ext_resource type="Resource" path="res://aarpg/config/dialogues/grind_master_dialogue.tres" id="41_dlg"]
+[ext_resource type="Resource" path="res://aarpg/config/dialogues/solar_custodian_dialogue.tres" id="41_dlg"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="42_xpscroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/eternal_tome.tres" id="48_eternal"]
 

@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Temporal Watcher"
+npc_color = Color(0.3, 0.9, 0.85, 1)
+lines = PackedStringArray("You crossed the rift of the Chrono Breach. Time bends strangely here.", "Ash shades blur past faster than the eye. Solar guards hit like noon.", "Eldritch horrors are slow but nearly unkillable — bring your strongest blade.", "Defeat the Shadow Knight and the loop begins anew, stronger than before.")
