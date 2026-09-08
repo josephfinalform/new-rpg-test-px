@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Vault Smith"
+npc_color = Color(0.6, 0.85, 1.0, 1)
+lines = PackedStringArray("The Stormwrought Vault hums with the anvil's last strike.", "Wisps feed the forge. Storms rage in the bellows.", "Thunder Colossus guards the core — dodge its slam, punish its cast.", "Forge your Ranseur and Bulwark, then walk the loop again.")

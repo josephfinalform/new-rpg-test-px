@@ -1,13 +1,13 @@
-[gd_scene load_steps=32 format=3]
+[gd_scene load_steps=33 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
 [ext_resource type="PackedScene" uid="uid://c5yawo6ekq6s2" path="res://aarpg/Player/player.tscn" id="3_player"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/skeleton.tscn" id="id_4_skeleton"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/stone_brute.tscn" id="id_5_stonebrute"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/goblin_archer.tscn" id="id_6_goblinarcher"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/orc_brute.tscn" id="id_7_orcbrute"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/vampire_lord.tscn" id="id_8_boss"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/crystal_wisp.tscn" id="id_4_crystalwisp"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/storm_elemental.tscn" id="id_5_stormelemental"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/ice_golem.tscn" id="id_6_icegolem"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/venom_slime.tscn" id="id_7_venomslime"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/thunder_colossus.tscn" id="id_8_boss"]
 [ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="15_portal"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="16_chest"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_gem.tscn" id="17_gem"]
@@ -24,15 +24,16 @@
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/lifesteal_up.tres" id="28_lifesteal"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/crit_up.tres" id="30_crit"]
 [ext_resource type="Resource" path="res://aarpg/config/gear_ups/fury_up.tres" id="31_fury"]
-[ext_resource type="Resource" path="res://aarpg/config/weapons/khopesh_of_kings.tres" id="33_weapon"]
-[ext_resource type="Resource" path="res://aarpg/config/armors/regal_burial_garb.tres" id="34_armor"]
+[ext_resource type="Resource" path="res://aarpg/config/gear_ups/bounty_up.tres" id="32_bounty"]
+[ext_resource type="Resource" path="res://aarpg/config/weapons/stormwrought_ranseur.tres" id="33_weapon"]
+[ext_resource type="Resource" path="res://aarpg/config/armors/stormwrought_bulwark.tres" id="34_armor"]
 [ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="40_npc"]
-[ext_resource type="Resource" path="res://aarpg/config/dialogues/keeper_of_tombs_dialogue.tres" id="41_dlg"]
+[ext_resource type="Resource" path="res://aarpg/config/dialogues/vault_smith_dialogue.tres" id="41_dlg"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="42_xpscroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/eternal_tome.tres" id="48_eternal"]
 
 
-[node name="TombOfKings" type="Node2D"]
+[node name="StormwroughtVault" type="Node2D"]
 script = ExtResource("1_level")
 player_spawn = Vector2(64, 128)
 boss = NodePath("GrindBoss")
@@ -44,83 +45,83 @@ boss_wave_interval = 6
 [node name="DungeonMap" parent="." instance=ExtResource("2_map")]
 paint_size = Vector2i(50, 26)
 decoration_density = 0.02
-tint = Color(0.55, 0.42, 0.18, 1)
+tint = Color(0.12, 0.22, 0.4, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
 position = Vector2(64, 128)
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Skeleton1" parent="Enemies" instance=ExtResource("id_4_skeleton")]
+[node name="CrystalWisp1" parent="Enemies" instance=ExtResource("id_4_crystalwisp")]
 position = Vector2(260, 200)
 
-[node name="StoneBrute1" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
+[node name="StormElemental1" parent="Enemies" instance=ExtResource("id_5_stormelemental")]
 position = Vector2(420, 340)
 
-[node name="GoblinArcher1" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
+[node name="IceGolem1" parent="Enemies" instance=ExtResource("id_6_icegolem")]
 position = Vector2(580, 180)
 
-[node name="OrcBrute1" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
+[node name="VenomSlime1" parent="Enemies" instance=ExtResource("id_7_venomslime")]
 position = Vector2(760, 440)
 
-[node name="Skeleton2" parent="Enemies" instance=ExtResource("id_4_skeleton")]
+[node name="CrystalWisp2" parent="Enemies" instance=ExtResource("id_4_crystalwisp")]
 position = Vector2(920, 260)
 
-[node name="StoneBrute2" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
+[node name="StormElemental2" parent="Enemies" instance=ExtResource("id_5_stormelemental")]
 position = Vector2(1100, 380)
 
-[node name="GoblinArcher2" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
+[node name="IceGolem2" parent="Enemies" instance=ExtResource("id_6_icegolem")]
 position = Vector2(1300, 200)
 
-[node name="OrcBrute2" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
+[node name="VenomSlime2" parent="Enemies" instance=ExtResource("id_7_venomslime")]
 position = Vector2(1500, 500)
 
-[node name="Skeleton3" parent="Enemies" instance=ExtResource("id_4_skeleton")]
+[node name="CrystalWisp3" parent="Enemies" instance=ExtResource("id_4_crystalwisp")]
 position = Vector2(340, 600)
 
-[node name="StoneBrute3" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
+[node name="StormElemental3" parent="Enemies" instance=ExtResource("id_5_stormelemental")]
 position = Vector2(1420, 680)
 
-[node name="GoblinArcher3" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
+[node name="IceGolem3" parent="Enemies" instance=ExtResource("id_6_icegolem")]
 position = Vector2(200, 400)
 
-[node name="OrcBrute3" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
+[node name="VenomSlime3" parent="Enemies" instance=ExtResource("id_7_venomslime")]
 position = Vector2(500, 520)
 
-[node name="Skeleton4" parent="Enemies" instance=ExtResource("id_4_skeleton")]
+[node name="CrystalWisp4" parent="Enemies" instance=ExtResource("id_4_crystalwisp")]
 position = Vector2(700, 160)
 
-[node name="StoneBrute4" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
+[node name="StormElemental4" parent="Enemies" instance=ExtResource("id_5_stormelemental")]
 position = Vector2(1000, 560)
 
-[node name="GoblinArcher4" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
+[node name="IceGolem4" parent="Enemies" instance=ExtResource("id_6_icegolem")]
 position = Vector2(1260, 440)
 
-[node name="OrcBrute4" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
+[node name="VenomSlime4" parent="Enemies" instance=ExtResource("id_7_venomslime")]
 position = Vector2(1480, 340)
 
-[node name="Skeleton5" parent="Enemies" instance=ExtResource("id_4_skeleton")]
+[node name="CrystalWisp5" parent="Enemies" instance=ExtResource("id_4_crystalwisp")]
 position = Vector2(380, 260)
 
-[node name="StoneBrute5" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
+[node name="StormElemental5" parent="Enemies" instance=ExtResource("id_5_stormelemental")]
 position = Vector2(640, 600)
 
-[node name="GoblinArcher5" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
+[node name="IceGolem5" parent="Enemies" instance=ExtResource("id_6_icegolem")]
 position = Vector2(860, 340)
 
-[node name="OrcBrute5" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
+[node name="VenomSlime5" parent="Enemies" instance=ExtResource("id_7_venomslime")]
 position = Vector2(1180, 600)
 
-[node name="Skeleton6" parent="Enemies" instance=ExtResource("id_4_skeleton")]
+[node name="CrystalWisp6" parent="Enemies" instance=ExtResource("id_4_crystalwisp")]
 position = Vector2(1380, 120)
 
-[node name="StoneBrute6" parent="Enemies" instance=ExtResource("id_5_stonebrute")]
+[node name="StormElemental6" parent="Enemies" instance=ExtResource("id_5_stormelemental")]
 position = Vector2(300, 140)
 
-[node name="GoblinArcher6" parent="Enemies" instance=ExtResource("id_6_goblinarcher")]
+[node name="IceGolem6" parent="Enemies" instance=ExtResource("id_6_icegolem")]
 position = Vector2(560, 420)
 
-[node name="OrcBrute6" parent="Enemies" instance=ExtResource("id_7_orcbrute")]
+[node name="VenomSlime6" parent="Enemies" instance=ExtResource("id_7_venomslime")]
 position = Vector2(800, 620)
 
 [node name="GrindBoss" parent="." instance=ExtResource("id_8_boss")]
@@ -171,11 +172,11 @@ scroll = ExtResource("48_eternal")
 position = Vector2(600, 460)
 scroll = ExtResource("42_xpscroll")
 
-[node name="KhopeshOfKings" parent="Pickups" instance=ExtResource("21_weapon")]
+[node name="StormwroughtRanseur" parent="Pickups" instance=ExtResource("21_weapon")]
 position = Vector2(800, 160)
 weapon = ExtResource("33_weapon")
 
-[node name="RegalBurialGarb" parent="Pickups" instance=ExtResource("22_armor")]
+[node name="StormwroughtBulwark" parent="Pickups" instance=ExtResource("22_armor")]
 position = Vector2(1100, 500)
 armor = ExtResource("34_armor")
 
@@ -203,6 +204,10 @@ gear_up = ExtResource("30_crit")
 position = Vector2(1400, 200)
 gear_up = ExtResource("31_fury")
 
+[node name="BountyUp" parent="Pickups" instance=ExtResource("20_gearup")]
+position = Vector2(680, 240)
+gear_up = ExtResource("32_bounty")
+
 [node name="Torches" type="Node2D" parent="."]
 
 [node name="Torch1" parent="Torches" instance=ExtResource("23_torch")]
@@ -219,14 +224,14 @@ position = Vector2(1560, 700)
 
 [node name="Portal" parent="." instance=ExtResource("15_portal")]
 position = Vector2(1560, 300)
-target_level_index = 55
+target_level_index = 0
 
 [node name="NPCs" type="Node2D" parent="."]
 
 [node name="Master" parent="NPCs" instance=ExtResource("40_npc")]
 position = Vector2(200, 420)
-npc_name = "Keeper of Tombs"
+npc_name = "Vault Smith"
 dialogue = ExtResource("41_dlg")
-npc_color = Color(1.0, 0.8, 0.45, 1)
+npc_color = Color(0.6, 0.85, 1.0, 1)
 
 [node name="HealthBar" parent="." instance=ExtResource("24_hud")]

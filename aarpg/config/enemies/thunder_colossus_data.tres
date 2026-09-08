@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Thunder Colossus"
+max_health = 34
+move_speed = 28.0
+damage = 4
+xp_reward = 34
+knockback_resistance = 0.85
+knockback_force = 80.0
+idle_speed_ratio = 0.2
+idle_duration_min = 1.0
+idle_duration_max = 2.0
+attack_range = 30.0
+attack_cooldown_time = 1.2
+heart_drop_chance = 0.2
+xp_gem_drop_chance = 0.4
+tint = Color(0.55, 0.8, 1.0)
+sprite_scale = Vector2(1.6, 1.6)
+gold_drop_chance = 0.6
+gold_drop_amount = 12
+resistance_fire = 0.8
+resistance_frost = 0.9
+resistance_shock = 0.6

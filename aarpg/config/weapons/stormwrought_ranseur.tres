@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Stormwrought Ranseur"
+rarity = 4
+damage_bonus = 12
+cooldown_multiplier = 0.68
+effect = 3
+trail_color = Color(0.6, 0.85, 1.0, 1)
+description = "A forge-strike lance that never cools. Every hit deafens with thunder."
