@@ -197,6 +197,7 @@ func _show_gate_opened_banner() -> void:
 
 func _show_victory() -> void:
 	_create_overlay_label("VICTORY!", Color(1.0, 0.84, 0.0), 36)
+	_check_clear_feats()
 	await get_tree().create_timer(3.0).timeout
 	GameManager.start_game()
 
@@ -259,9 +260,17 @@ func _on_wave_cleared(wave_number: int) -> void:
 
 func _on_all_waves_cleared() -> void:
 	_show_banner("ALL WAVES CLEARED!", Color(1.0, 0.84, 0.0), 30, 2.0, 0.5)
+	_check_clear_feats()
 	if is_final_level:
 		await get_tree().create_timer(2.0).timeout
 		_show_victory()
+
+
+func _check_clear_feats() -> void:
+	if get_level_elapsed_time() < 60.0:
+		AchievementManager.unlock("speed_demon")
+	if _player and _player.health >= _player.max_health:
+		AchievementManager.unlock("untouchable")
 
 
 func get_level_elapsed_time() -> float:
