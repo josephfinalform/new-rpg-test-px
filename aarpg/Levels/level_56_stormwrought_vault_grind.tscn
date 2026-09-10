@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3]
+[gd_scene load_steps=34 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -31,6 +31,7 @@
 [ext_resource type="Resource" path="res://aarpg/config/dialogues/vault_smith_dialogue.tres" id="41_dlg"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="42_xpscroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/eternal_tome.tres" id="48_eternal"]
+[ext_resource type="Resource" path="res://aarpg/config/weapons/ragnaroks_edge.tres" id="49_ragnarok"]
 
 
 [node name="StormwroughtVault" type="Node2D"]
@@ -175,6 +176,10 @@ scroll = ExtResource("42_xpscroll")
 [node name="StormwroughtRanseur" parent="Pickups" instance=ExtResource("21_weapon")]
 position = Vector2(800, 160)
 weapon = ExtResource("33_weapon")
+
+[node name="RagnaroksEdge" parent="Pickups" instance=ExtResource("21_weapon")]
+position = Vector2(840, 200)
+weapon = ExtResource("49_ragnarok")
 
 [node name="StormwroughtBulwark" parent="Pickups" instance=ExtResource("22_armor")]
 position = Vector2(1100, 500)

@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Ragnarok's Edge"
+rarity = 4
+damage_bonus = 15
+cooldown_multiplier = 0.85
+effect = 1
+trail_color = Color(1.0, 0.25, 0.1, 1)
+description = "The blade that ends worlds. Each swing drags embers from Hel's vault."
