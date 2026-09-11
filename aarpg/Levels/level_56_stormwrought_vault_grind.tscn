@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3]
+[gd_scene load_steps=36 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -32,6 +32,8 @@
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/xp_scroll.tres" id="42_xpscroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/eternal_tome.tres" id="48_eternal"]
 [ext_resource type="Resource" path="res://aarpg/config/weapons/ragnaroks_edge.tres" id="49_ragnarok"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/elixir_pickup.tscn" id="50_elixir"]
+[ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_crystal.tscn" id="51_crystal"]
 
 
 [node name="StormwroughtVault" type="Node2D"]
@@ -212,6 +214,24 @@ gear_up = ExtResource("31_fury")
 [node name="BountyUp" parent="Pickups" instance=ExtResource("20_gearup")]
 position = Vector2(680, 240)
 gear_up = ExtResource("32_bounty")
+
+[node name="Elixir1" parent="Pickups" instance=ExtResource("50_elixir")]
+position = Vector2(220, 500)
+
+[node name="Elixir2" parent="Pickups" instance=ExtResource("50_elixir")]
+position = Vector2(1240, 560)
+
+[node name="Elixir3" parent="Pickups" instance=ExtResource("50_elixir")]
+position = Vector2(1520, 600)
+
+[node name="Crystal1" parent="Pickups" instance=ExtResource("51_crystal")]
+position = Vector2(380, 460)
+
+[node name="Crystal2" parent="Pickups" instance=ExtResource("51_crystal")]
+position = Vector2(700, 600)
+
+[node name="Crystal3" parent="Pickups" instance=ExtResource("51_crystal")]
+position = Vector2(1060, 200)
 
 [node name="Torches" type="Node2D" parent="."]
 

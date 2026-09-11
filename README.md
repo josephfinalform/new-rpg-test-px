@@ -126,6 +126,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **Combo (kill streak)**: every kill without taking damage bumps the combo counter in `GameManager`; XP gains are multiplied by `1 + combo × combo_xp_per_step` (capped at `combo_max_multiplier`, 3.0). The streak decays after `combo_window_time` (3 s) of no kills and resets on taking damage or restarting a level. Tuning lives in `level_config.tres`.
 - **UI**: Current level & XP shown in the health bar overlay with level-up feedback.
 - **XP gems**: Orc Brutes (35%) and Skeletons (20%) drop blue XP crystals worth 5 XP.
+- **Elixir & XP Crystal**: new endgame pickups — golden Elixir vials heal +10 HP, deep-blue XP Crystals grant +25 magnetized XP (dropped in Stormwrought Vault).
 - **Difficulty scaling**: Each campaign level past the first scales enemy HP (`+35%/level`), damage (`+20%/level`) and XP reward (`+25%/level`).
 - **Armor v2**: 5 armors across tiers — each grants flat + percentage damage reduction, a speed multiplier and a cyan halo, plus (new) an XP multiplier, dash cooldown multiplier and move speed multiplier. Legendary drops: Mystic Aegis (Ember Canyon) and Stormlord Plate (Mystic Grove).
 - **Gear up v2**: 8 permanent upgrades — ATK, HP, SPD, Dash cooldown, CRIT (2× damage chance), Lifesteal, XP boost and flat Armor reduction — dropped in levels 1–9 and shown on the HUD.
@@ -274,6 +275,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-09-11 | Elixir (yeni büyük can potu, +10 HP, altın sürahi) ve XP Crystal (yeni büyük XP kristali, +25 XP, mıknatıslı) pickup'ları — yeni görseller, Stormwrought Vault'a yerleştirildi |
 | 2026-09-08 | Bounty gear-up — yeni gear_up stat (kill başına gold), progression handler + ölümde GoldManager grant, coin ikonu; Solar Throne, Gale Bastion ve Stormwrought Vault'a yerleştirildi |
 | 2026-09-08 | Thunder Colossus boss (slam AoE + shock bolt) + Stormwrought Vault seviyesi 56 — vault smith NPC, Stormwrought Ranseur & Bulwark ödülleri, 24 wave × 26 düşman |
 | 2026-09-08 | Endgame NPC dialogue'ları — Temporal Watcher, Skyward Marshal, Reaper Warden, Eldritch Oracle, Solar Custodian, Keeper of Tombs, Vault Smith seviyelere bağlandı |
