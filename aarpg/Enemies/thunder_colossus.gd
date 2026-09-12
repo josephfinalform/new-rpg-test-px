@@ -9,6 +9,10 @@ extends Enemy
 @export var shock_bolt_cooldown: float = 4.0
 @export var shock_bolt_speed: float = 120.0
 @export var shock_bolt_scale: Vector2 = Vector2(1.2, 1.2)
+@export var slam_flash: Color = Color(0.7, 0.9, 1.0)
+@export var bolt_flash: Color = Color(0.6, 0.85, 1.0)
+@export var bolt_tint: Color = Color(0.5, 0.85, 1.0)
+@export var flash_restore: Color = Color.WHITE
 
 var slam_timer: float = 0.0
 var shock_timer: float = 0.0
@@ -50,8 +54,8 @@ func _start_slam() -> void:
 	velocity = Vector2.ZERO
 	base_velocity = Vector2.ZERO
 	var tween = create_tween()
-	tween.tween_property(sprite, "self_modulate", Color(0.7, 0.9, 1.0), 0.2)
-	tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.15)
+	tween.tween_property(sprite, "self_modulate", slam_flash, 0.2)
+	tween.tween_property(sprite, "self_modulate", flash_restore, 0.15)
 	await tween.finished
 	if is_dead:
 		is_casting = false
@@ -80,15 +84,15 @@ func _cast_shock_bolt() -> void:
 	is_casting = true
 	shock_timer = 0.0
 	var tween = create_tween()
-	tween.tween_property(sprite, "self_modulate", Color(0.6, 0.85, 1.0), 0.15)
-	tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.1)
+	tween.tween_property(sprite, "self_modulate", bolt_flash, 0.15)
+	tween.tween_property(sprite, "self_modulate", flash_restore, 0.1)
 	await tween.finished
 	if is_dead:
 		is_casting = false
 		return
 	if has_valid_target():
 		var dir = (chase_target.global_position - global_position).normalized()
-		spawn_projectile(dir, shock_bolt_speed, Color(0.5, 0.85, 1.0), shock_bolt_scale)
+		spawn_projectile(dir, shock_bolt_speed, bolt_tint, shock_bolt_scale)
 	is_casting = false
 	_resume_chase_or_idle()
 

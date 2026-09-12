@@ -68,6 +68,7 @@ const DROP_LUCK_MAX := 2.5
 	{"path": "res://aarpg/Levels/level_54_gale_bastion_grind.tscn", "name": "Gale Bastion"},
 	{"path": "res://aarpg/Levels/level_55_tomb_of_kings_grind.tscn", "name": "Tomb of Kings"},
 	{"path": "res://aarpg/Levels/level_56_stormwrought_vault_grind.tscn", "name": "Stormwrought Vault"},
+	{"path": "res://aarpg/Levels/level_57_prismatic_core_grind.tscn", "name": "Prismatic Core"},
 ]
 
 var current_level_index: int = 0

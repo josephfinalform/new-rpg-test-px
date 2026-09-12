@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Prism Weaver"
+npc_color = Color(1.0, 0.65, 0.9, 1)
+lines = PackedStringArray("The Prismatic Core hums in every color at once.", "Ash shades drift where fractured light bled into shadow.", "Prism Warden bends the spectrum to crush intruders — break its casts, dodge its slam.", "Claim the Prism Staff and Aegis, then ride the light loop again.")

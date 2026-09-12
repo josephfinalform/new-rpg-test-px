@@ -1,0 +1,13 @@
+[gd_resource type=Resource script=load("res://aarpg/config/armor.gd")]
+
+display_name = "Prism Aegis"
+rarity = 4
+damage_reduction = 9
+damage_reduction_ratio = 0.38
+speed_multiplier = 0.85
+armor_color = Color(1.0, 0.65, 0.9, 1)
+description = "A hardened lens of pure light. It scatters any blow into a harmless spectrum."
+armor_tier = 10
+xp_multiplier = 1.4
+dash_cooldown_multiplier = 0.75
+move_speed_multiplier = 1.0

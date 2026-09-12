@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Prism Staff"
+rarity = 4
+damage_bonus = 14
+cooldown_multiplier = 0.75
+effect = 3
+trail_color = Color(1.0, 0.65, 0.9, 1)
+description = "A staff cut from a shattered star. Every strike refracts a rainbow that short-circuits foes."
