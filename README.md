@@ -50,7 +50,7 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - Pixel-art viewport (480x270 stretched to 1600x900)
 - 15+ sound effects
 - Level & XP progression system (see below)
-- **57 playable wave-arena levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → … → Titan's Crucible → Reaper's Hollow → Solar Throne → Eldritch Shrine → Chrono Breach → Gale Bastion → Tomb of Kings → Stormwrought Vault → Prismatic Core → loops)
+- **58 playable wave-arena levels** with portal-based progression (meadow → dungeon → wizard arena → forest → graveyard → ice cavern → ember canyon → mystic grove → … → Titan's Crucible → Reaper's Hollow → Solar Throne → Eldritch Shrine → Chrono Breach → Gale Bastion → Tomb of Kings → Stormwrought Vault → Prismatic Core → Abyssal Arena → loops)
 - GameManager autoload: level flow, restart-on-death, victory screen
 - Runtime tile painting (grass meadow & dungeon floor/decorations) with arena bounds
 - Treasure chest pickups (heal + XP) and torch lights in the dungeon
@@ -128,6 +128,13 @@ Open the project in **Godot 4.4+** and run the main scene: `aarpg/Levels/level_1
 - **XP gems**: Orc Brutes (35%) and Skeletons (20%) drop blue XP crystals worth 5 XP.
 - **Elixir & XP Crystal**: new endgame pickups — golden Elixir vials heal +10 HP, deep-blue XP Crystals grant +25 magnetized XP (dropped in Stormwrought Vault).
 - **Prismatic Core (57)**: final wave arena — Prism Warden boss (slam + prismatic bolt), Ash Shade / Solar Guardian / Eldritch Horror / Crystal Wisp waves, Prism Weaver NPC, Prism Staff & Prism Aegis legendary drops.
+- **Abyssal Arena (58)**: post-endgame wave arena — Void Phantom horde (fast spectral striker, purple void light, 35% XP gem drop) mixed with Ash Shade / Eldritch Horror / Crystal Wisp waves, Prism Warden grind boss, Void Oracle NPC, Abyssal Scythe (highest-damage legendary, shock effect) & Abyssal Mantle (tier-10 legendary, strongest flat reduction) drops, Void Parchment (hybrid scroll: 80 XP + 1 level) & Mythic Scroll placeholders; 28 waves of 30, portal loops back to start.
+- **New enemy**: Void Phantom — a fast spectral striker from the Abyssal Arena (move speed 140, high damage, low knockback resistance, void-purple glow, 35% XP gem drop, 20 XP reward).
+- **New weapon**: Abyssal Scythe — the new highest-damage legendary (dmg+16, cd 0.68, SHOCK effect, violet trail).
+- **New armor**: Abyssal Mantle — tier-10 legendary with the strongest flat reduction so far (10 flat + 40% ratio), 1.45× XP, 0.7 dash cooldown, 1.05 move speed.
+- **New scroll**: Void Parchment (hybrid) — grants 80 XP (respects multiplier) and +1 level in one pickup.
+- **New NPC**: Void Oracle — Abyssal Arena guide with lore about the end-of-loop and farming tips.
+- **GameManager refactor**: level navigation now uses `load_index()` + `_clamp_index()` helpers, and `get_next_level_index()` wraps the last arena back to the Meadow so the campaign loops cleanly (renamed from `load_level()`).
 - **Difficulty scaling**: Each campaign level past the first scales enemy HP (`+35%/level`), damage (`+20%/level`) and XP reward (`+25%/level`).
 - **Armor v2**: 5 armors across tiers — each grants flat + percentage damage reduction, a speed multiplier and a cyan halo, plus (new) an XP multiplier, dash cooldown multiplier and move speed multiplier. Legendary drops: Mystic Aegis (Ember Canyon) and Stormlord Plate (Mystic Grove).
 - **Gear up v2**: 8 permanent upgrades — ATK, HP, SPD, Dash cooldown, CRIT (2× damage chance), Lifesteal, XP boost and flat Armor reduction — dropped in levels 1–9 and shown on the HUD.
@@ -215,6 +222,7 @@ new-rpg-test-px/
 │   │   ├── level_11_venom_cavern.tscn # Venom King boss-gate arena
 │   │   ├── level_12_crystal_cavern.tscn # Crystal Guardian boss-gate arena
 │   │   └── level_13_crystal_grind.tscn # Crystal Grind Pit: double XP grind arena
+│   │   └── level_58_abyssal_arena_grind.tscn # Abyssal Arena: Void Phantom horde wave arena
 │   ├── Maps/
 │   │   ├── map_painter.gd         # Runtime tile painting + bounds
 │   │   ├── Scenes/                # grass_map.tscn, dungeon_map.tscn
@@ -276,6 +284,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-09-13 | Abyssal Arena seviyesi 58 — Void Phantom horde düşmanı (hızlı spektral, mor ışık, %35 XP kristali), Ash Shade/Eldritch Horror/Crystal Wisp wave'leri, Prism Warden grind boss, Void Oracle NPC, Abyssal Scythe (en yüksek hasar legendary, şok etkisi) & Abyssal Mantle (tier-10 en güçlü flat azaltma) ödülleri, Void Parchment (80 XP + 1 seviye hybrid scroll); Prismatic Core sonrası döngüye bağlandı |
+| 2026-09-13 | GameManager refactor — seviye gezinmesi `load_index()` + `_clamp_index()` yardımcılarına ayrıldı, `get_next_level_index()` son arenadan Meadow'a bağlanıp döngüyü temizce kapatıyor (eski `load_level()` kaldırıldı) |
 | 2026-09-12 | Prismatic Core seviyesi 57 — Prism Warden boss (slam + prismatik shock bolt), Ash Shade/Solar Guardian/Eldritch Horror/Crystal Wisp wave'leri, Prism Weaver NPC, Prism Staff & Prism Aegis legendary ödülleri; Stormwrought Vault'un portal'ı artık buraya açılıyor, son seviye başa döngü |
 | 2026-09-11 | Elixir (yeni büyük can potu, +10 HP, altın sürahi) ve XP Crystal (yeni büyük XP kristali, +25 XP, mıknatıslı) pickup'ları — yeni görseller, Stormwrought Vault'a yerleştirildi |
 | 2026-09-08 | Bounty gear-up — yeni gear_up stat (kill başına gold), progression handler + ölümde GoldManager grant, coin ikonu; Solar Throne, Gale Bastion ve Stormwrought Vault'a yerleştirildi |
@@ -314,4 +324,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-08-15*
+*Last updated: 2026-09-13*

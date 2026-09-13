@@ -1,0 +1,9 @@
+[gd_resource type=Resource script=load("res://aarpg/config/weapons/weapon.gd")]
+
+display_name = "Abyssal Scythe"
+rarity = 4
+damage_bonus = 16
+cooldown_multiplier = 0.68
+effect = 3
+trail_color = Color(0.55, 0.2, 1.0, 1)
+description = "A reaper's blade pulled from the Void Nexus. Each swing tears light into the dark and short-circuits foes."

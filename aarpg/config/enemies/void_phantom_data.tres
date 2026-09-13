@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://aarpg/config/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "Void Phantom"
+max_health = 5
+move_speed = 140.0
+damage = 2
+xp_reward = 20
+knockback_resistance = 0.25
+knockback_force = 160.0
+idle_speed_ratio = 0.4
+idle_duration_min = 0.2
+idle_duration_max = 0.8
+attack_range = 20.0
+attack_cooldown_time = 0.35
+heart_drop_chance = 0.08
+xp_gem_drop_chance = 0.35
+potion_drop_chance = 0.05
+gold_drop_chance = 0.35
+gold_drop_amount = 6
+resistance_fire = 0.7
+resistance_frost = 0.7
+resistance_shock = 0.5
+tint = Color(0.65, 0.25, 1.0)
+sprite_scale = Vector2(0.9, 0.9)

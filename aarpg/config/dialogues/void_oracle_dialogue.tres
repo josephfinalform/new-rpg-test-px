@@ -1,0 +1,5 @@
+[gd_resource type=Resource script=load("res://aarpg/config/dialogue.gd")]
+
+npc_name = "Void Oracle"
+npc_color = Color(0.55, 0.2, 1.0, 1)
+lines = PackedStringArray("The Nexus is where the loop exhales — every run ends here, and begins again.", "Void Phantoms flicker between heartbeats. Strike where they land, not where they blink.", "The Abyssal Scythe cuts the dark itself. Grip it, and the slaughter becomes a harvest.", "The Abyssal Mantle drinks blows silently. Walk through the storm unpressed.", "Finish the run, claim the bounties, and ride the loop back to the Meadow.")
