@@ -69,6 +69,7 @@ const DROP_LUCK_MAX := 2.5
 	{"path": "res://aarpg/Levels/level_55_tomb_of_kings_grind.tscn", "name": "Tomb of Kings"},
 	{"path": "res://aarpg/Levels/level_56_stormwrought_vault_grind.tscn", "name": "Stormwrought Vault"},
 	{"path": "res://aarpg/Levels/level_57_prismatic_core_grind.tscn", "name": "Prismatic Core"},
+	{"path": "res://aarpg/Levels/level_58_abyssal_arena_grind.tscn", "name": "Abyssal Arena"},
 ]
 
 var current_level_index: int = 0
@@ -100,13 +101,23 @@ func start_game() -> void:
 	_load_level(current_level_index)
 
 
-func load_level(index: int) -> void:
-	current_level_index = clampi(index, 0, level_records.size() - 1)
+func load_index(index: int) -> void:
+	current_level_index = _clamp_index(index)
 	_load_level(current_level_index)
 
 
 func load_next_level() -> void:
-	load_level(current_level_index + 1)
+	load_index(get_next_level_index())
+
+
+func get_next_level_index() -> int:
+	if current_level_index >= level_records.size() - 1:
+		return 0
+	return current_level_index + 1
+
+
+func _clamp_index(index: int) -> int:
+	return clampi(index, 0, level_records.size() - 1)
 
 
 func restart_current_level() -> void:

@@ -41,4 +41,4 @@ func _on_body_entered(body: Node2D) -> void:
 		AudioManager.play_sfx(SFX_LOCKED)
 		return
 	AudioManager.play_sfx(SFX_UNLOCK)
-	GameManager.load_level(target_level_index)
+	GameManager.load_index(target_level_index)
