@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3]
+[gd_scene load_steps=36 format=3]
 
 [ext_resource type="Script" path="res://aarpg/Levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://aarpg/Maps/Scenes/dungeon_map.tscn" id="2_map"]
@@ -6,8 +6,9 @@
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/void_phantom.tscn" id="id_4_phantom"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/ash_shade.tscn" id="id_5_ashshade"]
 [ext_resource type="PackedScene" path="res://aarpg/Enemies/eldritch_horror.tscn" id="id_6_eldritchhorror"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/crystal_wisp.tscn" id="id_7_crystalwisp"]
-[ext_resource type="PackedScene" path="res://aarpg/Enemies/prism_warden.tscn" id="id_8_boss"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/abyssal_wraith.tscn" id="id_7_wraith"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/crystal_wisp.tscn" id="id_8_crystalwisp"]
+[ext_resource type="PackedScene" path="res://aarpg/Enemies/abyss_lord.tscn" id="id_9_boss"]
 [ext_resource type="PackedScene" path="res://aarpg/Levels/portal.tscn" id="15_portal"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/treasure_chest.tscn" id="16_chest"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_gem.tscn" id="17_gem"]
@@ -28,26 +29,26 @@
 [ext_resource type="Resource" path="res://aarpg/config/weapons/abyssal_scythe.tres" id="33_weapon"]
 [ext_resource type="Resource" path="res://aarpg/config/armors/abyssal_mantle.tres" id="34_armor"]
 [ext_resource type="PackedScene" path="res://aarpg/NPC/npc.tscn" id="40_npc"]
-[ext_resource type="Resource" path="res://aarpg/config/dialogues/void_oracle_dialogue.tres" id="41_dlg"]
+[ext_resource type="Resource" path="res://aarpg/config/dialogues/eldritch_oracle_dialogue.tres" id="41_dlg"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/void_parchment.tres" id="42_voidscroll"]
 [ext_resource type="Resource" path="res://aarpg/config/scrolls/mythic_scroll.tres" id="48_mythic"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/elixir_pickup.tscn" id="50_elixir"]
 [ext_resource type="PackedScene" path="res://aarpg/Pickups/xp_crystal.tscn" id="51_crystal"]
 
 
-[node name="AbyssalArena" type="Node2D"]
+[node name="EternalNexus" type="Node2D"]
 script = ExtResource("1_level")
 player_spawn = Vector2(64, 128)
-boss = NodePath("GrindBoss")
+boss = NodePath("EternalBoss")
 is_wave_level = true
-total_waves = 28
-enemies_per_wave_base = 30
-boss_wave_interval = 7
+total_waves = 30
+enemies_per_wave_base = 32
+boss_wave_interval = 6
 
 [node name="DungeonMap" parent="." instance=ExtResource("2_map")]
 paint_size = Vector2i(52, 28)
-decoration_density = 0.025
-tint = Color(0.3, 0.1, 0.5, 1)
+decoration_density = 0.03
+tint = Color(0.55, 0.45, 0.15, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
 position = Vector2(64, 128)
@@ -63,71 +64,59 @@ position = Vector2(420, 340)
 [node name="EldritchHorror1" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
 position = Vector2(580, 180)
 
-[node name="CrystalWisp1" parent="Enemies" instance=ExtResource("id_7_crystalwisp")]
+[node name="AbyssalWraith1" parent="Enemies" instance=ExtResource("id_7_wraith")]
 position = Vector2(760, 440)
 
-[node name="VoidPhantom2" parent="Enemies" instance=ExtResource("id_4_phantom")]
+[node name="CrystalWisp1" parent="Enemies" instance=ExtResource("id_8_crystalwisp")]
 position = Vector2(920, 260)
 
-[node name="AshShade2" parent="Enemies" instance=ExtResource("id_5_ashshade")]
+[node name="VoidPhantom2" parent="Enemies" instance=ExtResource("id_4_phantom")]
 position = Vector2(1100, 380)
 
-[node name="EldritchHorror2" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="AshShade2" parent="Enemies" instance=ExtResource("id_5_ashshade")]
 position = Vector2(1300, 200)
 
-[node name="CrystalWisp2" parent="Enemies" instance=ExtResource("id_7_crystalwisp")]
+[node name="EldritchHorror2" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
 position = Vector2(1500, 500)
 
-[node name="VoidPhantom3" parent="Enemies" instance=ExtResource("id_4_phantom")]
+[node name="AbyssalWraith2" parent="Enemies" instance=ExtResource("id_7_wraith")]
 position = Vector2(340, 600)
 
-[node name="AshShade3" parent="Enemies" instance=ExtResource("id_5_ashshade")]
+[node name="CrystalWisp2" parent="Enemies" instance=ExtResource("id_8_crystalwisp")]
 position = Vector2(1420, 680)
 
-[node name="EldritchHorror3" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="VoidPhantom3" parent="Enemies" instance=ExtResource("id_4_phantom")]
 position = Vector2(200, 400)
 
-[node name="CrystalWisp3" parent="Enemies" instance=ExtResource("id_7_crystalwisp")]
+[node name="AshShade3" parent="Enemies" instance=ExtResource("id_5_ashshade")]
 position = Vector2(500, 520)
 
-[node name="VoidPhantom4" parent="Enemies" instance=ExtResource("id_4_phantom")]
+[node name="EldritchHorror3" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
 position = Vector2(700, 160)
 
-[node name="AshShade4" parent="Enemies" instance=ExtResource("id_5_ashshade")]
+[node name="AbyssalWraith3" parent="Enemies" instance=ExtResource("id_7_wraith")]
 position = Vector2(1000, 560)
 
-[node name="EldritchHorror4" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="CrystalWisp3" parent="Enemies" instance=ExtResource("id_8_crystalwisp")]
 position = Vector2(1260, 440)
 
-[node name="CrystalWisp4" parent="Enemies" instance=ExtResource("id_7_crystalwisp")]
+[node name="VoidPhantom4" parent="Enemies" instance=ExtResource("id_4_phantom")]
 position = Vector2(1480, 340)
 
-[node name="VoidPhantom5" parent="Enemies" instance=ExtResource("id_4_phantom")]
+[node name="AshShade4" parent="Enemies" instance=ExtResource("id_5_ashshade")]
 position = Vector2(380, 260)
 
-[node name="AshShade5" parent="Enemies" instance=ExtResource("id_5_ashshade")]
+[node name="EldritchHorror4" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
 position = Vector2(640, 600)
 
-[node name="EldritchHorror5" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
+[node name="AbyssalWraith4" parent="Enemies" instance=ExtResource("id_7_wraith")]
 position = Vector2(860, 340)
 
-[node name="CrystalWisp5" parent="Enemies" instance=ExtResource("id_7_crystalwisp")]
+[node name="CrystalWisp4" parent="Enemies" instance=ExtResource("id_8_crystalwisp")]
 position = Vector2(1180, 600)
 
-[node name="VoidPhantom6" parent="Enemies" instance=ExtResource("id_4_phantom")]
-position = Vector2(1380, 120)
-
-[node name="AshShade6" parent="Enemies" instance=ExtResource("id_5_ashshade")]
-position = Vector2(300, 140)
-
-[node name="EldritchHorror6" parent="Enemies" instance=ExtResource("id_6_eldritchhorror")]
-position = Vector2(560, 420)
-
-[node name="CrystalWisp6" parent="Enemies" instance=ExtResource("id_7_crystalwisp")]
-position = Vector2(800, 620)
-
-[node name="GrindBoss" parent="." instance=ExtResource("id_8_boss")]
-position = Vector2(1000, 400)
+[node name="EternalBoss" parent="." instance=ExtResource("id_9_boss")]
+position = Vector2(980, 380)
 
 [node name="Pickups" type="Node2D" parent="."]
 
@@ -135,10 +124,10 @@ position = Vector2(1000, 400)
 position = Vector2(180, 220)
 
 [node name="Chest2" parent="Pickups" instance=ExtResource("16_chest")]
-position = Vector2(760, 340)
+position = Vector2(750, 340)
 
 [node name="Chest3" parent="Pickups" instance=ExtResource("16_chest")]
-position = Vector2(1560, 500)
+position = Vector2(1540, 500)
 
 [node name="Gem1" parent="Pickups" instance=ExtResource("17_gem")]
 position = Vector2(300, 120)
@@ -245,14 +234,14 @@ position = Vector2(1560, 700)
 
 [node name="Portal" parent="." instance=ExtResource("15_portal")]
 position = Vector2(1560, 300)
-target_level_index = 58
+target_level_index = 0
 
 [node name="NPCs" type="Node2D" parent="."]
 
-[node name="Oracle" parent="NPCs" instance=ExtResource("40_npc")]
+[node name="NexusOracle" parent="NPCs" instance=ExtResource("40_npc")]
 position = Vector2(200, 420)
-npc_name = "Void Oracle"
+npc_name = "Nexus Oracle"
 dialogue = ExtResource("41_dlg")
-npc_color = Color(0.55, 0.2, 1.0, 1)
+npc_color = Color(0.95, 0.75, 0.3, 1)
 
 [node name="HealthBar" parent="." instance=ExtResource("24_hud")]

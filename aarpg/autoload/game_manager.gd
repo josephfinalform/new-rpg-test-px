@@ -69,7 +69,8 @@ const DROP_LUCK_MAX := 2.5
 	{"path": "res://aarpg/Levels/level_55_tomb_of_kings_grind.tscn", "name": "Tomb of Kings"},
 	{"path": "res://aarpg/Levels/level_56_stormwrought_vault_grind.tscn", "name": "Stormwrought Vault"},
 	{"path": "res://aarpg/Levels/level_57_prismatic_core_grind.tscn", "name": "Prismatic Core"},
-	{"path": "res://aarpg/Levels/level_58_abyssal_arena_grind.tscn", "name": "Abyssal Arena"},
+	{"path": "res://aarpg/Levels/level_58_abyssal_arena_grind.tscn", "name": "Abyssal Arena", "subtitle": "The dark eye at the bottom of the world"},
+	{"path": "res://aarpg/Levels/level_59_eternal_nexus.tscn", "name": "Eternal Nexus", "subtitle": "Beyond the loop — where all timelines converge"},
 ]
 
 var current_level_index: int = 0
@@ -139,6 +140,16 @@ func get_level_name(index: int) -> String:
 	if index < 0 or index >= level_records.size():
 		return ""
 	return str(level_records[index]["name"])
+
+
+func get_level_subtitle(index: int) -> String:
+	if index < 0 or index >= level_records.size():
+		return ""
+	return str(level_records[index].get("subtitle", ""))
+
+
+func get_map_indicator_text() -> String:
+	return "MAP %d / %d" % [current_level_index + 1, level_records.size()]
 
 
 func enemy_killed() -> void:

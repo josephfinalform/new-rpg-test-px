@@ -7,6 +7,8 @@ extends CanvasLayer
 @onready var level_label: Label = $MarginContainer/VBoxContainer/LevelLabel
 @onready var rank_label: Label = get_node_or_null("MarginContainer/VBoxContainer/RankLabel")
 @onready var level_name_label: Label = get_node_or_null("MarginContainer/VBoxContainer/LevelNameLabel")
+@onready var subtitle_label: Label = get_node_or_null("MarginContainer/VBoxContainer/SubtitleLabel")
+@onready var map_indicator_label: Label = get_node_or_null("MarginContainer/VBoxContainer/MapIndicatorLabel")
 @onready var weapon_label: Label = get_node_or_null("MarginContainer/VBoxContainer/WeaponLabel")
 @onready var armor_label: Label = get_node_or_null("MarginContainer/VBoxContainer/ArmorLabel")
 @onready var gear_up_label: Label = get_node_or_null("MarginContainer/VBoxContainer/GearUpLabel")
@@ -63,6 +65,10 @@ func _on_gold_changed(amount: int) -> void:
 func _on_level_changed(index: int) -> void:
 	if level_name_label:
 		level_name_label.text = GameManager.get_level_name(index)
+	if subtitle_label:
+		subtitle_label.text = GameManager.get_level_subtitle(index)
+	if map_indicator_label:
+		map_indicator_label.text = GameManager.get_map_indicator_text()
 
 func _on_kills_changed(total: int) -> void:
 	if kills_label:

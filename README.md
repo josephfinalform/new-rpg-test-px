@@ -284,6 +284,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-09-14 | Eternal Nexus seviyesi 59 — Abyssal Arena sonrası yeni wave arena (Abyss Lord grind boss, Void Phantom/Ash Shade/Eldritch Horror/Abyssal Wraith/Crystal Wisp dalgaları, Nexus Oracle NPC, Altın tint, pickups & legendaries); yeni başlık+alt yazı intro banner'ı ve HUD harita göstergesi (MAP 59/59), Abyssal Arena portal'ı Nexus'a bağlandı |
 | 2026-09-13 | Abyssal Arena seviyesi 58 — Void Phantom horde düşmanı (hızlı spektral, mor ışık, %35 XP kristali), Ash Shade/Eldritch Horror/Crystal Wisp wave'leri, Prism Warden grind boss, Void Oracle NPC, Abyssal Scythe (en yüksek hasar legendary, şok etkisi) & Abyssal Mantle (tier-10 en güçlü flat azaltma) ödülleri, Void Parchment (80 XP + 1 seviye hybrid scroll); Prismatic Core sonrası döngüye bağlandı |
 | 2026-09-13 | GameManager refactor — seviye gezinmesi `load_index()` + `_clamp_index()` yardımcılarına ayrıldı, `get_next_level_index()` son arenadan Meadow'a bağlanıp döngüyü temizce kapatıyor (eski `load_level()` kaldırıldı) |
 | 2026-09-12 | Prismatic Core seviyesi 57 — Prism Warden boss (slam + prismatik shock bolt), Ash Shade/Solar Guardian/Eldritch Horror/Crystal Wisp wave'leri, Prism Weaver NPC, Prism Staff & Prism Aegis legendary ödülleri; Stormwrought Vault'un portal'ı artık buraya açılıyor, son seviye başa döngü |

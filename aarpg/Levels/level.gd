@@ -54,6 +54,8 @@ func _ready() -> void:
 		_show_banner("EXP GRIND ARENA", Color(0.6, 0.9, 1.0), 26, 1.2, 0.5)
 	elif is_wave_level:
 		_show_banner("WAVE ARENA", Color(1.0, 0.6, 0.2), 26, 1.2, 0.5)
+	if not is_final_level:
+		_show_level_intro_banner()
 
 
 func _process(delta: float) -> void:
@@ -150,6 +152,22 @@ func _create_overlay_label(text: String, color: Color, font_size: int, v_align: 
 		label.offset_bottom = bottom_offset
 	overlay.add_child(label)
 	return label
+
+
+func _show_level_intro_banner() -> void:
+	var index := GameManager.current_level_index
+	var intro := GameManager.get_level_name(index)
+	var subtitle := GameManager.get_level_subtitle(index)
+	if not subtitle.is_empty():
+		intro += "\n" + subtitle
+	var label := _create_overlay_label(intro, Color(1.0, 0.85, 0.35), 22, VERTICAL_ALIGNMENT_BOTTOM, -60.0)
+	label.modulate.a = 0.0
+	var tween := label.create_tween()
+	tween.tween_property(label, "modulate:a", 1.0, 0.5)
+	tween.tween_interval(1.8)
+	tween.tween_property(label, "modulate:a", 0.0, 0.5)
+	await tween.finished
+	label.get_parent().queue_free()
 
 
 func _show_banner(text: String, color: Color, font_size: int = 28, hold_time: float = 1.2, fade_in: float = 0.5) -> void:
