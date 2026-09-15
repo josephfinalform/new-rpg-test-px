@@ -195,10 +195,12 @@ new-rpg-test-px/
 │   │   ├── crystal_slime.gd / crystal_slime.tscn # Ice-crystal tank slime
 │   │   ├── crystal_guardian.gd / crystal_guardian.tscn # Crystal Cavern boss: shard fan, charge, summons
 │   │   ├── boss_projectile.gd
-│   │   └── boss_projectile.tscn
+│   │   ├── boss_projectile.tscn
+│   │   └── enemy_loot.gd        # Loot/drop pipeline (rolls + spawns) for enemies
 │   ├── config/
 │   │   ├── level_config.gd
 │   │   ├── level_config.tres
+│   │   ├── level_registry.gd        # Level table: 59 level records + lookup getters
 │   │   ├── dialogue.gd               # Dialogue resource (name, color, lines)
 │   │   ├── dialogues/                # Dialogue .tres files (4 NPCs)
 │   │   ├── scroll.gd                 # Scroll resource (name, kind, XP/levels, color)
@@ -284,6 +286,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 | Date | Changes |
 |---|---|
+| 2026-09-15 | Mimari refactor — `LevelRegistry` (level tablosu: 59 seviye verisi + lookup getter'ları `config/level_registry.gd`'ye taşındı, GameManager artık delegasyon yapıyor) ve `EnemyLoot` (düşman ölümünde heart/xp gem/potion/gold/xp popup drop pipeline'ı `Enemies/enemy_loot.gd` bağımsız bileşenine ayrıldı, davranış ve drop oranları birebir korundu) |
 | 2026-09-14 | Eternal Nexus seviyesi 59 — Abyssal Arena sonrası yeni wave arena (Abyss Lord grind boss, Void Phantom/Ash Shade/Eldritch Horror/Abyssal Wraith/Crystal Wisp dalgaları, Nexus Oracle NPC, Altın tint, pickups & legendaries); yeni başlık+alt yazı intro banner'ı ve HUD harita göstergesi (MAP 59/59), Abyssal Arena portal'ı Nexus'a bağlandı |
 | 2026-09-13 | Abyssal Arena seviyesi 58 — Void Phantom horde düşmanı (hızlı spektral, mor ışık, %35 XP kristali), Ash Shade/Eldritch Horror/Crystal Wisp wave'leri, Prism Warden grind boss, Void Oracle NPC, Abyssal Scythe (en yüksek hasar legendary, şok etkisi) & Abyssal Mantle (tier-10 en güçlü flat azaltma) ödülleri, Void Parchment (80 XP + 1 seviye hybrid scroll); Prismatic Core sonrası döngüye bağlandı |
 | 2026-09-13 | GameManager refactor — seviye gezinmesi `load_index()` + `_clamp_index()` yardımcılarına ayrıldı, `get_next_level_index()` son arenadan Meadow'a bağlanıp döngüyü temizce kapatıyor (eski `load_level()` kaldırıldı) |
@@ -325,4 +328,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for fork / clone / PR workflow.
 
 ---
 
-*Last updated: 2026-09-13*
+*Last updated: 2026-09-15*
