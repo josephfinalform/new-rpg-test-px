@@ -5,13 +5,9 @@ signal died
 
 enum State { IDLE, CHASE, HURT, ATTACK }
 
-const HEART_SCENE = preload("res://aarpg/Pickups/heart_pickup.tscn")
-const XP_POPUP = preload("res://aarpg/Effects/floating_text.tscn")
-const XP_GEM_SCENE = preload("res://aarpg/Pickups/xp_gem.tscn")
-const POTION_SCENE = preload("res://aarpg/Pickups/potion_pickup.tscn")
-const GOLD_SCENE = preload("res://aarpg/Pickups/gold_pickup.tscn")
 const DAMAGE_NUMBER = preload("res://aarpg/Effects/damage_number.tscn")
 const PROJECTILE_SCENE = preload("res://aarpg/Enemies/boss_projectile.tscn")
+const ENEMY_LOOT_SCRIPT = preload("res://aarpg/Enemies/enemy_loot.gd")
 const BURN_TICK_INTERVAL := 0.5
 const HURT_TIME := 0.3
 const INVINCIBILITY_TIME := 0.5
@@ -61,6 +57,7 @@ var knockback_multiplier: float = 1.0
 var current_state: int = State.IDLE
 var chase_target: Player = null
 var _cached_player: Player = null
+var _loot: RefCounted = null
 var idle_timer: float = 0.0
 var idle_duration: float = 2.0
 var idle_direction: Vector2 = Vector2.ZERO
@@ -133,6 +130,7 @@ func _ready() -> void:
 	hitbox_area.body_entered.connect(_on_hitbox_body_entered)
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
+	_loot = ENEMY_LOOT_SCRIPT.new()
 	_cache_player()
 
 func _physics_process(delta: float) -> void:
@@ -248,14 +246,8 @@ func _die() -> void:
 	_grant_player_xp(xp_reward)
 	GameManager.enemy_killed()
 	_grant_bounty_gold()
-	var drop_luck := GameManager.get_drop_luck()
-	_roll_drop(heart_drop_chance, HEART_SCENE, drop_luck)
-	_roll_drop(xp_gem_drop_chance, XP_GEM_SCENE, drop_luck)
-	_roll_drop(potion_drop_chance, POTION_SCENE, drop_luck)
-	if gold_drop_chance > 0.0 and randf() < minf(gold_drop_chance * drop_luck, 1.0):
-		_spawn_gold_drop()
-	if xp_popup_enabled:
-		_spawn_xp_popup()
+	if _loot:
+		_loot.spawn_kill_rolls(self)
 	if death_sfx:
 		AudioManager.play_sfx(death_sfx)
 	_play_death_effect()
@@ -272,31 +264,11 @@ func _grant_bounty_gold() -> void:
 	if bounty > 0:
 		GoldManager.grant(bounty)
 
-func _roll_drop(chance: float, scene: PackedScene, luck: float = 1.0) -> void:
-	if chance > 0.0 and randf() < minf(chance * luck, 1.0):
-		_spawn_drop(scene)
-
 func _spawn_scene(scene: PackedScene, offset: Vector2) -> Node2D:
 	var node := scene.instantiate()
 	get_parent().add_child(node)
 	node.global_position = global_position + offset
 	return node
-
-
-func _spawn_drop(scene: PackedScene, offset_y: float = -4.0) -> Node2D:
-	return _spawn_scene(scene, Vector2(randf_range(-8, 8), offset_y))
-
-
-func _spawn_gold_drop() -> void:
-	var gold := GOLD_SCENE.instantiate() as GoldPickup
-	get_parent().add_child(gold)
-	gold.global_position = global_position + Vector2(randf_range(-8, 8), -4.0)
-	gold.gold_amount = maxi(roundi(float(gold_drop_amount) * GameManager.get_drop_luck()), 1)
-
-
-func _spawn_xp_popup() -> void:
-	var popup := _spawn_scene(XP_POPUP, Vector2(0, -14)) as Label
-	popup.text = "+" + str(xp_reward)
 
 
 func _spawn_damage_number(amount: int) -> void:
